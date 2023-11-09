@@ -1,15 +1,19 @@
 import json
-import pathlib
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
 dataset_name = "unidet"
+matrix_path = f"{dataset_name}-matrix"
 
-for csv in pathlib.Path(f"{dataset_name}-matrix").iterdir():
+assert matrix_path.exists(), "Matrix path not found."
+assert matrix_path.is_dir(), "Matrix path must be a directory."
+
+for csv in Path(matrix_path).iterdir():
     df = pd.read_csv(csv, index_col=0, engine="pyarrow").astype(float)
-    names_output_dir = pathlib.Path(f"{dataset_name}-relevant-names") / csv.stem
-    ids_output_dir = pathlib.Path(f"{dataset_name}-relevant-ids") / csv.stem
+    names_output_dir = Path(f"{dataset_name}-relevant-names") / csv.stem
+    ids_output_dir = Path(f"{dataset_name}-relevant-ids") / csv.stem
 
     names_output_dir.mkdir(parents=True, exist_ok=True)
     ids_output_dir.mkdir(parents=True, exist_ok=True)
