@@ -1,0 +1,12 @@
+{
+  "ucf101": {
+    "path": "/nas.dbms/randy/datasets/ucf101",
+    "ext": ".avi"
+  },
+  "unidet": {
+    "confidence_threshold": 0.5,
+    "config_file": "configs/Unified_learned_OCIM_RS200_6x+2x.yaml",
+    "checkpoint": "models/Unified_learned_OCIM_R50_6x+2x.pth",
+    "output_path": "/nas.dbms/randy/datasets/ucf101-UniDet-COBA"
+  }
+}
