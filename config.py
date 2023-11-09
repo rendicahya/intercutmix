@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 
 
 class Dict(dict):
@@ -18,7 +19,11 @@ class Config(object):
             return data
 
     @staticmethod
-    def load_json(path: str):
+    def load_json(path: Path):
+        assert path.exists(), "Config file not found."
+        assert path.is_file(), "Config file must be a file."
+        assert path.suffix == ".json", "Config file must be a JSON file."
+
         with open(path, "r") as f:
             result = Config.__load__(json.loads(f.read()))
 
