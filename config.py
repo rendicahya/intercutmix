@@ -1,6 +1,14 @@
 import json
 from pathlib import Path
 
+'''
+Usage:
+
+from config import Config
+conf = Config('config.json')
+print(conf.some.value)
+'''
+
 
 class Dict(dict):
     __getattr__ = dict.__getitem__
