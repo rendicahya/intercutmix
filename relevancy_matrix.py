@@ -23,8 +23,7 @@ def calc_similarity(phrase1, phrase2, model, embed_bank):
     return float(util.cos_sim(emb1, emb2))
 
 
-config_file = Path("config.json")
-conf = Config.load_json(config_file)
+conf = Config("config.json")
 dataset_name = "unidet"
 dataset_path = Path(conf.ucf101.path)
 classnames_path = Path(f"relevancy/{dataset_name}-classnames.json")
