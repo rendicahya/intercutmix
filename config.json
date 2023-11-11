@@ -3,10 +3,24 @@
     "path": "/nas.dbms/randy/datasets/ucf101",
     "ext": ".avi"
   },
+  "relevancy": {
+    "json": "/nas.dbms/randy/projects/intercutmix/relevancy/unidet-relevant-ids/all-mpnet-base-v2/0.5.json"
+  },
   "unidet": {
-    "confidence_threshold": 0.5,
-    "config_file": "configs/Unified_learned_OCIM_RS200_6x+2x.yaml",
-    "checkpoint": "models/Unified_learned_OCIM_R50_6x+2x.pth",
-    "output_path": "/nas.dbms/randy/datasets/ucf101-UniDet-COBA"
+    "confidence": 0.5,
+    "input": {
+      "config": "configs/Unified_learned_OCIM_RS200_6x+2x.yaml",
+      "checkpoint": "models/Unified_learned_OCIM_R50_6x+2x.pth",
+      "json": "/nas.dbms/randy/datasets/ucf101-UniDet-json-all"
+    },
+    "output": {
+      "video": {
+        "generate": false,
+        "path": "/nas.dbms/randy/datasets/ucf101-UniDet-relev"
+      },
+      "mask": {
+        "path": "/nas.dbms/randy/datasets/ucf101-UniDet-mask-relev"
+      }
+    }
   }
 }
