@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 from config import Config
 from tqdm import tqdm
-from utils import *
+from utils.utils import *
 
 conf = Config("config.json")
 dataset_path = Path(conf.ucf101.path)
@@ -17,6 +17,7 @@ unified_label = Path("learned_mAP.json")
 output_video_path = Path(conf.unidet.output.video.path)
 output_mask_dir = Path(conf.unidet.output.mask.path)
 
+assert_file("config.json", "Configuration")
 assert_dir(dataset_path, "Dataset path")
 assert_dir(unidet_json_path, "UniDet JSON path")
 assert_file(relevant_object_json, "Relevant object JSON", ".json")
