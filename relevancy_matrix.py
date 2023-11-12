@@ -6,7 +6,7 @@ import pandas as pd
 from sentence_transformers import SentenceTransformer, util
 from tqdm import tqdm
 from utils.config import Config
-from utils.utils import *
+from utils.file_utils import *
 
 
 def encode_cached(phrase, model, embed_bank):
