@@ -22,5 +22,19 @@
         "path": "/nas.dbms/randy/datasets/ucf101-UniDet-mask-relev"
       }
     }
+  },
+  "e2fgvi": {
+    "model": "model.e2fgvi_hq",
+    "input": {
+      "mask": {
+        "path": "/nas.dbms/randy/datasets/ucf101-UniDet-mask-relev"
+      },
+      "checkpoint": {
+        "path": "/nas.dbms/randy/projects/E2FGVI/release_model/E2FGVI-HQ-CVPR22.pth"
+      }
+    },
+    "output": {
+      "path": "/nas.dbms/randy/datasets/ucf101-scenes-all"
+    }
   }
 }
