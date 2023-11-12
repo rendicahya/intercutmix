@@ -3,9 +3,10 @@ import re
 from pathlib import Path
 
 import pandas as pd
-from config import Config
 from sentence_transformers import SentenceTransformer, util
 from tqdm import tqdm
+from utils.config import Config
+from utils.utils import *
 
 
 def encode_cached(phrase, model, embed_bank):
@@ -28,10 +29,9 @@ dataset_name = "unidet"
 dataset_path = Path(conf.ucf101.path)
 classnames_path = Path(f"relevancy/{dataset_name}-classnames.json")
 
-assert dataset_path.exists(), "Dataset path not found."
-assert dataset_path.is_dir(), "Dataset path must be a directory."
-assert classnames_path.exists(), "Classname not found."
-assert classnames_path.is_file(), "Classname must be a file."
+assert_file("config.json", "Configuration", ".json")
+assert_dir(dataset_path, "Dataset path")
+assert_file(classnames_path, "Classname")
 
 camelcase_tokenizer = re.compile(r"(?<!^)(?=[A-Z])")
 n_subdir = sum([1 for f in dataset_path.iterdir() if f.is_dir()])

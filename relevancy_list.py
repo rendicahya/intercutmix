@@ -3,12 +3,12 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from utils.utils import *
 
 dataset_name = "unidet"
 matrix_path = f"{dataset_name}-matrix"
 
-assert matrix_path.exists(), "Matrix path not found."
-assert matrix_path.is_dir(), "Matrix path must be a directory."
+assert_dir(matrix_path, "Matrix path")
 
 for csv in Path(matrix_path).iterdir():
     df = pd.read_csv(csv, index_col=0, engine="pyarrow").astype(float)
