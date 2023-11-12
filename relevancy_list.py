@@ -3,17 +3,17 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from utils.utils import *
+from utils.file_utils import *
 
 dataset_name = "unidet"
-matrix_path = f"{dataset_name}-matrix"
+matrix_path = Path(f"relevancy/{dataset_name}-matrix")
 
 assert_dir(matrix_path, "Matrix path")
 
-for csv in Path(matrix_path).iterdir():
+for csv in matrix_path.iterdir():
     df = pd.read_csv(csv, index_col=0, engine="pyarrow").astype(float)
-    names_output_dir = Path(f"{dataset_name}-relevant-names") / csv.stem
-    ids_output_dir = Path(f"{dataset_name}-relevant-ids") / csv.stem
+    names_output_dir = Path(f"relevancy/{dataset_name}-relevant-names") / csv.stem
+    ids_output_dir = Path(f"relevancy/{dataset_name}-relevant-ids") / csv.stem
 
     names_output_dir.mkdir(parents=True, exist_ok=True)
     ids_output_dir.mkdir(parents=True, exist_ok=True)
