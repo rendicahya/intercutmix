@@ -1,32 +1,32 @@
 {
   "ucf101": {
-    "path": "/nas.dbms/randy/datasets/ucf101",
+    "path": "~/datasets/ucf101",
     "ext": ".avi"
   },
   "relevancy": {
-    "json": "/nas.dbms/randy/projects/intercutmix/relevancy/unidet-relevant-ids/all-mpnet-base-v2/0.5.json"
+    "json": "relevancy/unidet-relevant-ids/all-mpnet-base-v2/0.5.json"
   },
   "unidet": {
     "detect": {
       "config": "configs/Unified_learned_OCIM_RS200_6x+2x.yaml",
       "checkpoint": "models/Unified_learned_OCIM_RS200_6x+2x.pth",
       "output": {
-        "video": "/nas.dbms/randy/datasets/ucf101-UniDet-all-X",
-        "json": "/nas.dbms/randy/datasets/ucf101-UniDet-json-all-X"
+        "video": "~/datasets/ucf101-UniDet-all-X",
+        "json": "~/datasets/ucf101-UniDet-json-all-X"
       },
       "confidence": 0.5,
       "parallel": false
     },
     "input": {
-      "json": "/nas.dbms/randy/datasets/ucf101-UniDet-json-all"
+      "json": "~/datasets/ucf101-UniDet-json-all"
     },
     "output": {
       "video": {
         "generate": false,
-        "path": "/nas.dbms/randy/datasets/ucf101-UniDet-relev"
+        "path": "~/datasets/ucf101-UniDet-relev"
       },
       "mask": {
-        "path": "/nas.dbms/randy/datasets/ucf101-UniDet-mask-relev"
+        "path": "~/datasets/ucf101-UniDet-mask-relev"
       }
     }
   },
@@ -34,14 +34,14 @@
     "model": "model.e2fgvi_hq",
     "input": {
       "mask": {
-        "path": "/nas.dbms/randy/datasets/ucf101-UniDet-mask-relev"
+        "path": "~/datasets/ucf101-UniDet-mask-relev"
       },
       "checkpoint": {
-        "path": "/nas.dbms/randy/projects/E2FGVI/release_model/E2FGVI-HQ-CVPR22.pth"
+        "path": "~/projects/E2FGVI/release_model/E2FGVI-HQ-CVPR22.pth"
       }
     },
     "output": {
-      "path": "/nas.dbms/randy/datasets/ucf101-scenes-all"
+      "path": "~/datasets/ucf101-scenes-all"
     }
   }
 }
