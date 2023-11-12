@@ -7,10 +7,17 @@
     "json": "/nas.dbms/randy/projects/intercutmix/relevancy/unidet-relevant-ids/all-mpnet-base-v2/0.5.json"
   },
   "unidet": {
-    "confidence": 0.5,
-    "input": {
+    "detect": {
       "config": "configs/Unified_learned_OCIM_RS200_6x+2x.yaml",
-      "checkpoint": "models/Unified_learned_OCIM_R50_6x+2x.pth",
+      "checkpoint": "models/Unified_learned_OCIM_RS200_6x+2x.pth",
+      "output": {
+        "video": "/nas.dbms/randy/datasets/ucf101-UniDet-all-X",
+        "json": "/nas.dbms/randy/datasets/ucf101-UniDet-json-all-X"
+      },
+      "confidence": 0.5,
+      "parallel": false
+    },
+    "input": {
       "json": "/nas.dbms/randy/datasets/ucf101-UniDet-json-all"
     },
     "output": {
