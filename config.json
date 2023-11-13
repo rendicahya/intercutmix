@@ -20,16 +20,16 @@
       "paraphrase-albert-small-v2",
       "paraphrase-multilingual-MiniLM-L12-v2"
     ],
-    "json": "relevancy/unidet-relevant-ids/all-mpnet-base-v2/0.5.json"
+    "json": "/nas.dbms/randy/projects/intercutmix/relevancy/unidet-ids/all-mpnet-base-v2/0.5.json"
   },
   "unidet": {
     "detect": {
       "config": "configs/Unified_learned_OCIM_RS200_6x+2x.yaml",
       "checkpoint": "models/Unified_learned_OCIM_RS200_6x+2x.pth",
       "output": {
-        "json": "/nas.dbms/randy/datasets/ucf101-UniDet-json-X-all",
+        "json": "/nas.dbms/randy/datasets/ucf101-UniDet-all-json",
         "video": {
-          "path": "/nas.dbms/randy/datasets/ucf101-UniDet-X-all",
+          "path": "/nas.dbms/randy/datasets/ucf101-UniDet-all",
           "generate": false
         }
       },
@@ -40,11 +40,11 @@
       "json": "/nas.dbms/randy/datasets/ucf101-UniDet-json-all",
       "output": {
         "video": {
-          "generate": false,
-          "path": "/nas.dbms/randy/datasets/ucf101-UniDet-relev"
+          "generate": true,
+          "path": "/nas.dbms/randy/datasets/ucf101-UniDet-relev-X"
         },
         "mask": {
-          "path": "/nas.dbms/randy/datasets/ucf101-UniDet-mask-relev"
+          "path": "/nas.dbms/randy/datasets/ucf101-UniDet-relev-mask-X"
         }
       }
     }
