@@ -37,22 +37,22 @@
       "parallel": false
     },
     "select": {
+      "mode": "actorcutmix",
       "json": "/nas.dbms/randy/datasets/ucf101-UniDet-json-all",
       "output": {
         "video": {
           "generate": true,
-          "path": "/nas.dbms/randy/datasets/ucf101-UniDet-relev"
+          "path": "/nas.dbms/randy/datasets/ucf101-UniDet-actor"
         },
-        "mask": {
-          "path": "/nas.dbms/randy/datasets/ucf101-UniDet-relev-mask"
-        }
+        "mask": "/nas.dbms/randy/datasets/ucf101-UniDet-actor-mask"
       }
     }
   },
   "e2fgvi": {
     "model": "model.e2fgvi_hq",
+    "mask": "/nas.dbms/randy/datasets/ucf101-UniDet-inter-mask",
     "checkpoint": "release_model/E2FGVI-HQ-CVPR22.pth",
-    "mask": "/nas.dbms/randy/datasets/ucf101-UniDet-relev-mask",
-    "output": "/nas.dbms/randy/datasets/ucf101-scenes-all"
+    "output": "/nas.dbms/randy/datasets/ucf101-scenes-all",
+    "max_video_len": 400
   }
 }
