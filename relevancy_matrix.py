@@ -1,3 +1,8 @@
+"""
+This script generates the relevancy matrix between the class names (actions) and the object names covered in the UniDet object detector.
+The resulting matrices are put in relevancy/unidet-matrix. This should be the first script to run before any other Python scripts.
+"""
+
 import json
 import re
 from pathlib import Path
@@ -31,32 +36,20 @@ classnames_path = Path(f"relevancy/{dataset_name}-classnames.json")
 
 assert_file("config.json", "Configuration", ".json")
 assert_dir(dataset_path, "Dataset path")
-assert_file(classnames_path, "Classname")
+assert_file(classnames_path, "Classname", ".json")
 
 camelcase_tokenizer = re.compile(r"(?<!^)(?=[A-Z])")
 n_subdir = sum([1 for f in dataset_path.iterdir() if f.is_dir()])
 actions = [action.name for action in dataset_path.iterdir()]
 output_dir = Path(f"relevancy/{dataset_name}-matrix")
+avail_methods = conf.relevancy.avail_methods
 
 output_dir.mkdir(exist_ok=True)
 
 with open(classnames_path, "r") as file:
     classnames = json.load(file)
 
-model_names = (
-    "all-mpnet-base-v2",
-    "multi-qa-mpnet-base-dot-v1",
-    "all-distilroberta-v1",
-    "all-MiniLM-L12-v2",
-    "multi-qa-distilbert-cos-v1",
-    "all-MiniLM-L6-v2",
-    "multi-qa-MiniLM-L6-cos-v1",
-    "paraphrase-multilingual-mpnet-base-v2",
-    "paraphrase-albert-small-v2",
-    "paraphrase-multilingual-MiniLM-L12-v2",
-)
-
-for model_name in model_names:
+for model_name in avail_methods:
     print("Running model:", model_name)
 
     model = SentenceTransformer(model_name)

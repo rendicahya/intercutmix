@@ -1,9 +1,21 @@
 {
   "ucf101": {
-    "path": "~/datasets/ucf101",
+    "path": "/nas.dbms/randy/datasets/ucf101",
     "ext": ".avi"
   },
   "relevancy": {
+    "avail_methods": [
+      "all-mpnet-base-v2",
+      "multi-qa-mpnet-base-dot-v1",
+      "all-distilroberta-v1",
+      "all-MiniLM-L12-v2",
+      "multi-qa-distilbert-cos-v1",
+      "all-MiniLM-L6-v2",
+      "multi-qa-MiniLM-L6-cos-v1",
+      "paraphrase-multilingual-mpnet-base-v2",
+      "paraphrase-albert-small-v2",
+      "paraphrase-multilingual-MiniLM-L12-v2"
+    ],
     "json": "relevancy/unidet-relevant-ids/all-mpnet-base-v2/0.5.json"
   },
   "unidet": {
@@ -11,22 +23,22 @@
       "config": "configs/Unified_learned_OCIM_RS200_6x+2x.yaml",
       "checkpoint": "models/Unified_learned_OCIM_RS200_6x+2x.pth",
       "output": {
-        "video": "~/datasets/ucf101-UniDet-all-X",
-        "json": "~/datasets/ucf101-UniDet-json-all-X"
+        "video": "~/datasets/ucf101-UniDet-all",
+        "json": "~/datasets/ucf101-UniDet-json-all"
       },
       "confidence": 0.5,
       "parallel": false
     },
-    "input": {
-      "json": "~/datasets/ucf101-UniDet-json-all"
-    },
-    "output": {
-      "video": {
-        "generate": false,
-        "path": "~/datasets/ucf101-UniDet-relev"
-      },
-      "mask": {
-        "path": "~/datasets/ucf101-UniDet-mask-relev"
+    "select": {
+      "json": "~/datasets/ucf101-UniDet-json-all",
+      "output": {
+        "video": {
+          "generate": false,
+          "path": "~/datasets/ucf101-UniDet-relev"
+        },
+        "mask": {
+          "path": "~/datasets/ucf101-UniDet-mask-relev"
+        }
       }
     }
   },
