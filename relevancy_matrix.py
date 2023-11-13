@@ -30,9 +30,11 @@ def calc_similarity(phrase1, phrase2, model, embed_bank):
 
 
 conf = Config("config.json")
-dataset_name = "unidet"
+assert_file('config.json', 'Configuration','.json')
+
+detector = "unidet"
 dataset_path = Path(conf.ucf101.path)
-classnames_path = Path(f"relevancy/{dataset_name}-classnames.json")
+classnames_path = Path(f"relevancy/{detector}-classnames.json")
 
 assert_file("config.json", "Configuration", ".json")
 assert_dir(dataset_path, "Dataset path")
@@ -41,7 +43,7 @@ assert_file(classnames_path, "Classname", ".json")
 camelcase_tokenizer = re.compile(r"(?<!^)(?=[A-Z])")
 n_subdir = sum([1 for f in dataset_path.iterdir() if f.is_dir()])
 actions = [action.name for action in dataset_path.iterdir()]
-output_dir = Path(f"relevancy/{dataset_name}-matrix")
+output_dir = Path(f"relevancy/{detector}-matrix")
 avail_methods = conf.relevancy.avail_methods
 
 output_dir.mkdir(exist_ok=True)
