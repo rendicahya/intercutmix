@@ -31,15 +31,14 @@ def calc_similarity(phrase1, phrase2, model):
 
 
 conf = Config("config.json")
-assert_file("config.json", "Configuration", ".json")
+assert_file("config.json", ".json")
 
 detector = conf.relevancy.detector.name
 dataset_path = Path(conf.ucf101.path)
 classnames_path = Path(conf.relevancy.detector.classnames)
 
-assert_file("config.json", "Configuration", ".json")
-assert_dir(dataset_path, "Dataset path")
-assert_file(classnames_path, "Classname", ".json")
+assert_dir(dataset_path)
+assert_file(classnames_path, ".json")
 
 camelcase_tokenizer = re.compile(r"(?<!^)(?=[A-Z])")
 n_subdir = sum([1 for f in dataset_path.iterdir() if f.is_dir()])
@@ -60,8 +59,7 @@ for model_name in avail_methods:
     for subdir in tqdm(dataset_path.iterdir(), total=n_subdir):
         action = camelcase_tokenizer.sub(" ", subdir.name)
         row = [
-            calc_similarity(action.lower(), obj.lower(), model)
-            for obj in classnames
+            calc_similarity(action.lower(), obj.lower(), model) for obj in classnames
         ]
 
         df_data.append(row)
