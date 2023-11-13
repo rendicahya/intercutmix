@@ -27,21 +27,24 @@
       "config": "configs/Unified_learned_OCIM_RS200_6x+2x.yaml",
       "checkpoint": "models/Unified_learned_OCIM_RS200_6x+2x.pth",
       "output": {
-        "video": "~/datasets/ucf101-UniDet-all",
-        "json": "~/datasets/ucf101-UniDet-json-all"
+        "json": "/nas.dbms/randy/datasets/ucf101-UniDet-json-X-all",
+        "video": {
+          "path": "/nas.dbms/randy/datasets/ucf101-UniDet-X-all",
+          "generate": false
+        }
       },
       "confidence": 0.5,
       "parallel": false
     },
     "select": {
-      "json": "~/datasets/ucf101-UniDet-json-all",
+      "json": "/nas.dbms/randy/datasets/ucf101-UniDet-json-all",
       "output": {
         "video": {
           "generate": false,
-          "path": "~/datasets/ucf101-UniDet-relev"
+          "path": "/nas.dbms/randy/datasets/ucf101-UniDet-relev"
         },
         "mask": {
-          "path": "~/datasets/ucf101-UniDet-mask-relev"
+          "path": "/nas.dbms/randy/datasets/ucf101-UniDet-mask-relev"
         }
       }
     }
@@ -50,14 +53,14 @@
     "model": "model.e2fgvi_hq",
     "input": {
       "mask": {
-        "path": "~/datasets/ucf101-UniDet-mask-relev"
+        "path": "/nas.dbms/randy/datasets/ucf101-UniDet-mask-relev"
       },
       "checkpoint": {
-        "path": "~/projects/E2FGVI/release_model/E2FGVI-HQ-CVPR22.pth"
+        "path": "/nas.dbms/randy/projects/E2FGVI/release_model/E2FGVI-HQ-CVPR22.pth"
       }
     },
     "output": {
-      "path": "~/datasets/ucf101-scenes-all"
+      "path": "/nas.dbms/randy/datasets/ucf101-scenes-all"
     }
   }
 }
