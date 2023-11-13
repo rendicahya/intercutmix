@@ -41,26 +41,18 @@
       "output": {
         "video": {
           "generate": true,
-          "path": "/nas.dbms/randy/datasets/ucf101-UniDet-relev-X"
+          "path": "/nas.dbms/randy/datasets/ucf101-UniDet-relev"
         },
         "mask": {
-          "path": "/nas.dbms/randy/datasets/ucf101-UniDet-relev-mask-X"
+          "path": "/nas.dbms/randy/datasets/ucf101-UniDet-relev-mask"
         }
       }
     }
   },
   "e2fgvi": {
     "model": "model.e2fgvi_hq",
-    "input": {
-      "mask": {
-        "path": "/nas.dbms/randy/datasets/ucf101-UniDet-mask-relev"
-      },
-      "checkpoint": {
-        "path": "/nas.dbms/randy/projects/E2FGVI/release_model/E2FGVI-HQ-CVPR22.pth"
-      }
-    },
-    "output": {
-      "path": "/nas.dbms/randy/datasets/ucf101-scenes-all"
-    }
+    "checkpoint": "release_model/E2FGVI-HQ-CVPR22.pth",
+    "mask": "/nas.dbms/randy/datasets/ucf101-UniDet-relev-mask",
+    "output": "/nas.dbms/randy/datasets/ucf101-scenes-all"
   }
 }
