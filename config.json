@@ -38,7 +38,7 @@
     },
     "select": {
       "mode": "actorcutmix",
-      "json": "/nas.dbms/randy/datasets/ucf101-UniDet-json-all",
+      "json": "/nas.dbms/randy/datasets/ucf101-UniDet-json",
       "output": {
         "video": {
           "generate": true,
@@ -52,7 +52,7 @@
     "model": "model.e2fgvi_hq",
     "mask": "/nas.dbms/randy/datasets/ucf101-UniDet-inter-mask",
     "checkpoint": "release_model/E2FGVI-HQ-CVPR22.pth",
-    "output": "/nas.dbms/randy/datasets/ucf101-scenes-all",
+    "output": "/nas.dbms/randy/datasets/ucf101-scenes-moviepy",
     "max_video_len": 400
   }
 }
