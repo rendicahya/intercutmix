@@ -1,7 +1,9 @@
 {
   "ucf101": {
     "path": "/nas.dbms/randy/datasets/ucf101",
-    "ext": ".avi"
+    "ext": ".avi",
+    "class_index": "ucf101-classInd.txt",
+    "n_videos": 13320
   },
   "relevancy": {
     "detector": {
@@ -54,5 +56,14 @@
     "checkpoint": "release_model/E2FGVI-HQ-CVPR22.pth",
     "output": "/nas.dbms/randy/datasets/ucf101-scenes-moviepy",
     "max_video_len": 400
+  },
+  "mix": {
+    "n_mix_per_video": 3,
+    "scene": {
+      "list": "ucf101-scene.json",
+      "path": "/nas.dbms/randy/datasets/ucf101-scenes-moviepy",
+      "ext": ".mp4"
+    },
+    "mask": ""
   }
 }
