@@ -3,7 +3,8 @@
     "path": "/nas.dbms/randy/datasets/ucf101",
     "ext": ".avi",
     "class_index": "ucf101-classInd.txt",
-    "n_videos": 13320
+    "n_videos": 13320,
+    "n_classes": 101
   },
   "relevancy": {
     "detector": {
@@ -29,9 +30,9 @@
       "config": "configs/Unified_learned_OCIM_RS200_6x+2x.yaml",
       "checkpoint": "models/Unified_learned_OCIM_RS200_6x+2x.pth",
       "output": {
-        "json": "/nas.dbms/randy/datasets/ucf101-UniDet-all-json",
+        "json": "/nas.dbms/randy/datasets/ucf101-UniDet-json",
         "video": {
-          "path": "/nas.dbms/randy/datasets/ucf101-UniDet-all",
+          "path": "/nas.dbms/randy/datasets/ucf101-UniDet",
           "generate": false
         }
       },
@@ -43,7 +44,7 @@
       "json": "/nas.dbms/randy/datasets/ucf101-UniDet-json",
       "output": {
         "video": {
-          "generate": true,
+          "generate": false,
           "path": "/nas.dbms/randy/datasets/ucf101-UniDet-actor"
         },
         "mask": "/nas.dbms/randy/datasets/ucf101-UniDet-actor-mask"
@@ -58,12 +59,13 @@
     "max_video_len": 400
   },
   "mix": {
-    "n_mix_per_video": 3,
+    "n_mix_per_video": 1,
     "scene": {
-      "list": "ucf101-scene.json",
-      "path": "/nas.dbms/randy/datasets/ucf101-scenes-moviepy",
-      "ext": ".mp4"
+      "list": "ucf101.json",
+      "path": "/nas.dbms/randy/datasets/ucf101",
+      "ext": ".avi"
     },
-    "mask": ""
+    "mask": "/nas.dbms/randy/datasets/ucf101-UniDet-actor-mask",
+    "output": "/nas.dbms/randy/datasets/ucf101-mix-2"
   }
 }
