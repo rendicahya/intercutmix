@@ -7,3 +7,9 @@
 [submodule "python_utils"]
 	path = python_utils
 	url = https://github.com/rendicahya/python_utils.git
+[submodule "python_config"]
+	path = python_config
+	url = https://github.com/rendicahya/python_config.git
+[submodule "python_assert"]
+	path = python_assert
+	url = https://github.com/rendicahya/python_assert.git
