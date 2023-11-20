@@ -1,7 +1,7 @@
 #!/bin/bash
 
 project_dir=$(pwd)
-sub_dirs=("assert_utils" "python_utils")
+sub_dirs=("assert_utils" "python_utils" "python_config")
 
 for dir in "${sub_dirs[@]}"; do
     if [ -d "$dir" ]; then
