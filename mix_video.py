@@ -49,7 +49,7 @@ def actorcutmix(
         yield mix
 
 
-def actorcutmix_process(
+def actorcutmix_job(
     file: PosixPath,
     scene_path: PosixPath,
     mask_path: PosixPath,
@@ -57,19 +57,24 @@ def actorcutmix_process(
     fps: float,
     bar,
 ):
-    output_frames = actorcutmix(file, scene_path, mask_path)
-
     bar.set_description(file.stem)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    frames_to_video(
-        output_frames,
-        output_path,
-        writer="opencv",
-        fps=fps,
-        codec="mp4v",
-    )
+
+    if not output_path.exists():
+        output_frames = actorcutmix(file, scene_path, mask_path)
+
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        frames_to_video(
+            output_frames,
+            output_path,
+            writer="opencv",
+            fps=fps,
+            codec="mp4v",
+        )
+
     bar.update(1)
 
+
+print("Performing checks...")
 
 conf = Config("config.json")
 assert_file("config.json", ".json")
@@ -128,7 +133,7 @@ with ThreadPoolExecutor(max_workers=n_cores) as executor:
                     futures.append(
                         executor.submit(
                             partial(
-                                actorcutmix_process,
+                                actorcutmix_job,
                                 file,
                                 scene_path,
                                 mask_path,
