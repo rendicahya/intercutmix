@@ -9,8 +9,8 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from assert_utils import assert_dir, assert_file
-from python_utils import Config
+from python_assert import assert_dir, assert_file
+from python_config import Config
 from sentence_transformers import SentenceTransformer, util
 from tqdm import tqdm
 
