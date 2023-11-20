@@ -9,10 +9,10 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from assert_utils import assert_dir, assert_file
+from python_utils import Config
 from sentence_transformers import SentenceTransformer, util
 from tqdm import tqdm
-from utils.config import Config
-from utils.file_utils import *
 
 
 def encode_cached(phrase, model):
