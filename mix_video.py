@@ -7,7 +7,7 @@ from pathlib import Path, PosixPath
 from typing import Union
 
 import cv2
-from python_assert import assert_dir, assert_file
+from assertpy.assertpy import assert_that
 from python_config import Config
 from python_file import count_files
 from python_image import load_image_dir
@@ -20,17 +20,17 @@ def actorcutmix(
     scene_path: Union[Path, str],
     mask_path: Union[Path, str],
 ):
-    assert_file(actor_path)
-    assert_dir(mask_path)
+    assert_that(actor_path).is_file().is_readable()
+    assert_that(mask_path).is_directory().is_readable()
 
-    actor_frames = get_frames(actor_path)
-    scene_frames = get_frames(scene_path)
+    actor_frames = video_frames(actor_path)
+    scene_frames = video_frames(scene_path)
     mask_frames = load_image_dir(mask_path, flag=cv2.IMREAD_GRAYSCALE)
     scene_frame = None
 
     for actor_frame in actor_frames:
         if scene_frame is None:
-            scene_frames = get_frames(scene_path)
+            scene_frames = video_frames(scene_path)
             scene_frame = next(scene_frames)
 
         actor_mask = next(mask_frames)
@@ -73,16 +73,16 @@ def actorcutmix_job(
 print("Performing checks...")
 
 conf = Config("config.json")
-assert_file("config.json", ".json")
+assert_that("config.json").is_file().is_readable()
 
 dataset_dir = Path(conf.ucf101.path)
 scene_dir = Path(conf.mix.scene.path)
 mask_dir = Path(conf.mix.mask)
 output_dir = Path(conf.mix.output)
 
-assert_dir(dataset_dir)
-assert_dir(scene_dir)
-assert_file(conf.mix.scene.list, ".json")
+assert_that(dataset_dir).is_directory().is_readable()
+assert_that(scene_dir).is_directory().is_readable()
+assert_that(conf.mix.scene.list).is_file().is_readable()
 
 n_videos = count_files(dataset_dir)
 
@@ -97,7 +97,7 @@ with open(conf.mix.scene.list) as f:
 
 for action, files in scene_json.items():
     for file in files:
-        assert_file(scene_dir / file)
+        assert_that(scene_dir / file).is_file().is_readable()
 
 print("All checks passed.")
 
