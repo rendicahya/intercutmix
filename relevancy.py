@@ -9,7 +9,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from python_assert import assert_dir, assert_file
+from assertpy.assertpy import assert_that
 from python_config import Config
 from sentence_transformers import SentenceTransformer, util
 from tqdm import tqdm
@@ -31,14 +31,14 @@ def calc_similarity(phrase1, phrase2, model):
 
 
 conf = Config("config.json")
-assert_file("config.json", ".json")
+assert_that("config.json").is_file().is_readable()
 
 detector = conf.relevancy.detector.name
 dataset_path = Path(conf.ucf101.path)
 classnames_path = Path(conf.relevancy.detector.classnames)
 
-assert_dir(dataset_path)
-assert_file(classnames_path, ".json")
+assert_that(dataset_path).is_directory().is_readable()
+assert_that(classnames_path).is_file().is_readable()
 
 camelcase_tokenizer = re.compile(r"(?<!^)(?=[A-Z])")
 n_subdir = sum([1 for f in dataset_path.iterdir() if f.is_dir()])
