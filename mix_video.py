@@ -54,7 +54,6 @@ def actorcutmix_job(
     bar,
 ):
     bar.set_description(file.stem)
-    bar.update(1)
 
     if not output_path.exists():
         output_frames = actorcutmix(file, scene_path, mask_path)
@@ -67,6 +66,8 @@ def actorcutmix_job(
             fps=fps,
             codec="mp4v",
         )
+
+    bar.update(1)
 
 
 print("Performing checks...")
