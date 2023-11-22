@@ -1,15 +1,15 @@
 #!/bin/bash
 
-git pull
+GITMODULES_FILE=".gitmodules"
 
-project_dir=$(pwd)
-sub_dirs=("assertpy" "python_config" "python_file" "python_image" "python_video")
+if [ -f "$GITMODULES_FILE" ]; then
+    submodule_names=$(grep -E '^\[submodule "' "$GITMODULES_FILE" | sed 's/^\[submodule "//;s/"\]$//')
 
-for dir in "${sub_dirs[@]}"; do
-    if [ -d "$dir" ]; then
-        echo "Updating repository in $dir"
-        (cd "$dir" && git pull)
-    fi
-done
-
-cd "$project_dir" || exit
+    for dir in $submodule_names; do
+        if [ -d "$dir" ]; then
+            (cd "$dir" && git pull)
+        fi
+    done
+else
+    echo "Error: .gitmodules file not found."
+fi
