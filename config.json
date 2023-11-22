@@ -53,10 +53,11 @@
   },
   "e2fgvi": {
     "model": "model.e2fgvi_hq",
-    "mask": "/nas.dbms/randy/datasets/ucf101-UniDet-inter-mask",
+    "mask": "/nas.dbms/randy/datasets/ucf101-UniDet-actor-mask",
     "checkpoint": "release_model/E2FGVI-HQ-CVPR22.pth",
-    "output": "/nas.dbms/randy/datasets/ucf101-scenes-moviepy",
-    "max_video_len": 400
+    "output": "/nas.dbms/randy/datasets/ucf101-scenes-actor",
+    "max_video_len": 400,
+    "video_reader": "opencv"
   },
   "mix": {
     "n_mix_per_video": 1,
