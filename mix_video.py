@@ -126,18 +126,23 @@ with ThreadPoolExecutor(max_workers=n_cores) as executor:
                         output_dir / action.name / f"{file.stem}-{scene_action}-{i+1}"
                     ).with_suffix(".mp4")
 
-                    futures.append(
-                        executor.submit(
-                            partial(
-                                actorcutmix_job,
-                                file,
-                                scene_path,
-                                mask_path,
-                                output_path,
-                                fps,
-                                bar,
+                    if conf.mix.multithread:
+                        futures.append(
+                            executor.submit(
+                                partial(
+                                    actorcutmix_job,
+                                    file,
+                                    scene_path,
+                                    mask_path,
+                                    output_path,
+                                    fps,
+                                    bar,
+                                )
                             )
                         )
-                    )
+                    else:
+                        actorcutmix_job(
+                            file, scene_path, mask_path, output_path, fps, bar
+                        )
 
 bar.close()
