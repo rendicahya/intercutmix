@@ -27,27 +27,37 @@
   },
   "unidet": {
     "detect": {
+      "dataset": {
+        "path": "/nas.dbms/randy/datasets/ucf101",
+        "ext": ".avi"
+      },
       "config": "configs/Unified_learned_OCIM_RS200_6x+2x.yaml",
       "checkpoint": "models/Unified_learned_OCIM_RS200_6x+2x.pth",
       "output": {
         "json": "/nas.dbms/randy/datasets/ucf101-UniDet-json",
         "video": {
-          "path": "/nas.dbms/randy/datasets/ucf101-UniDet",
-          "generate": false
+          "path": "/nas.dbms/randy/datasets/ucf101-UniDet-X",
+          "generate": true
         }
       },
       "confidence": 0.5,
       "parallel": false
     },
     "select": {
+      "dataset": {
+        "path": "/nas.dbms/randy/datasets/ucf101",
+        "ext": ".avi"
+      },
+      "confidence": 0.5,
       "mode": "actorcutmix",
       "json": "/nas.dbms/randy/datasets/ucf101-UniDet-json",
       "output": {
         "video": {
-          "generate": false,
-          "path": "/nas.dbms/randy/datasets/ucf101-UniDet-actor"
+          "generate": true,
+          "writer": "moviepy",
+          "path": "/nas.dbms/randy/datasets/ucf101-UniDet-actor-X"
         },
-        "mask": "/nas.dbms/randy/datasets/ucf101-UniDet-actor-mask"
+        "mask": "/nas.dbms/randy/datasets/ucf101-UniDet-actor-mask-X"
       }
     }
   },
@@ -57,14 +67,15 @@
     "checkpoint": "release_model/E2FGVI-HQ-CVPR22.pth",
     "output": "/nas.dbms/randy/datasets/ucf101-scenes-actor",
     "max_video_len": 400,
-    "video_reader": "opencv"
+    "video_reader": "decord"
   },
   "mix": {
     "n_mix_per_video": 1,
+    "multithread": true,
     "scene": {
-      "list": "ucf101.json",
-      "path": "/nas.dbms/randy/datasets/ucf101",
-      "ext": ".avi"
+      "list": "list/ucf101-scene-xgtf.json",
+      "path": "/nas.dbms/randy/datasets/ucf101-scene-xgtf",
+      "ext": ".mp4"
     },
     "mask": "/nas.dbms/randy/datasets/ucf101-UniDet-actor-mask",
     "output": "/nas.dbms/randy/datasets/ucf101-mix-2"
