@@ -72,12 +72,17 @@
   "mix": {
     "n_mix_per_video": 1,
     "multithread": true,
+    "dataset": {
+      "path": "/nas.dbms/randy/datasets/ucf101",
+      "ext": ".avi",
+      "n_videos": 13320
+    },
     "scene": {
       "list": "list/ucf101-scene-xgtf.json",
       "path": "/nas.dbms/randy/datasets/ucf101-scene-xgtf",
       "ext": ".mp4"
     },
     "mask": "/nas.dbms/randy/datasets/ucf101-UniDet-actor-mask",
-    "output": "/nas.dbms/randy/datasets/ucf101-mix-2"
+    "output": "/nas.dbms/randy/datasets/ucf101-mix-xgtf-actor"
   }
 }
