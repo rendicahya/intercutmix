@@ -9,7 +9,7 @@ from typing import Union
 import cv2
 from assertpy.assertpy import assert_that
 from python_config import Config
-from python_file import count_dir
+from python_file import count_dir, count_files
 from python_image import load_image_dir
 from python_video import frames_to_video, video_frames, video_info
 from tqdm import tqdm
