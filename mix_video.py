@@ -101,9 +101,10 @@ for action, files in scene_json.items():
 print("All checks passed.")
 
 n_cores = multiprocessing.cpu_count()
-print(f"Running jobs on {n_cores} cores...")
-
 bar = tqdm(total=n_videos * n_scene_actions * conf.mix.n_mix_per_video)
+
+if conf.mix.multithread:
+    print(f"Running jobs on {n_cores} cores...")
 
 with ThreadPoolExecutor(max_workers=n_cores) as executor:
     futures = []
