@@ -23,13 +23,13 @@ def actorcutmix(
     assert_that(actor_path).is_file().is_readable()
     assert_that(mask_path).is_directory().is_readable()
 
-    actor_frames = video_frames(actor_path, reader="decord")
+    actor_frames = video_frames(actor_path, reader=conf.mix.video.reader)
     mask_frames = load_image_dir(mask_path, flag=cv2.IMREAD_GRAYSCALE)
     scene_frame = None
 
     for actor_frame in actor_frames:
         if scene_frame is None:
-            scene_frames = video_frames(scene_path, reader="decord")
+            scene_frames = video_frames(scene_path, reader=conf.mix.video.reader)
             scene_frame = next(scene_frames)
 
         actor_mask = next(mask_frames)
@@ -50,7 +50,6 @@ def actorcutmix_job(
     mask_path: PosixPath,
     output_path: PosixPath,
     fps: float,
-    bar,
 ):
     bar.set_description(file.stem)
 
@@ -60,9 +59,8 @@ def actorcutmix_job(
     frames_to_video(
         output_frames,
         output_path,
-        writer="moviepy",
+        writer=conf.mix.video.writer,
         fps=fps,
-        codec="mp4v",
     )
 
     bar.update(1)
@@ -104,7 +102,7 @@ n_cores = multiprocessing.cpu_count()
 bar = tqdm(total=n_videos * n_scene_actions * conf.mix.n_mix_per_video)
 
 if conf.mix.multithread:
-    print(f"Running jobs on {n_cores} cores...")
+    print(f"Running on {n_cores} cores...")
 
 with ThreadPoolExecutor(max_workers=n_cores) as executor:
     futures = []
@@ -127,6 +125,8 @@ with ThreadPoolExecutor(max_workers=n_cores) as executor:
                     ).with_suffix(".mp4")
 
                     if output_path.exists():
+                        bar.set_description("Skipping finished videos...")
+                        bar.update(1)
                         continue
 
                     if conf.mix.multithread:
@@ -139,13 +139,16 @@ with ThreadPoolExecutor(max_workers=n_cores) as executor:
                                     mask_path,
                                     output_path,
                                     fps,
-                                    bar,
                                 )
                             )
                         )
                     else:
                         actorcutmix_job(
-                            file, scene_path, mask_path, output_path, fps, bar
+                            file,
+                            scene_path,
+                            mask_path,
+                            output_path,
+                            fps,
                         )
 
 bar.close()

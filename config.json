@@ -48,6 +48,7 @@
         "path": "/nas.dbms/randy/datasets/ucf101",
         "ext": ".avi"
       },
+      "video_reader": "opencv",
       "confidence": 0.5,
       "mode": "actorcutmix",
       "json": "/nas.dbms/randy/datasets/ucf101-UniDet-json",
@@ -55,9 +56,9 @@
         "video": {
           "generate": true,
           "writer": "moviepy",
-          "path": "/nas.dbms/randy/datasets/ucf101-UniDet-actor-X"
+          "path": "/nas.dbms/randy/datasets/ucf101-UniDet-actor"
         },
-        "mask": "/nas.dbms/randy/datasets/ucf101-UniDet-actor-mask-X"
+        "mask": "/nas.dbms/randy/datasets/ucf101-UniDet-actor-mask"
       }
     }
   },
@@ -71,7 +72,11 @@
   },
   "mix": {
     "n_mix_per_video": 1,
-    "multithread": true,
+    "video": {
+      "reader": "opencv",
+      "writer": "moviepy"
+    },
+    "multithread": false,
     "dataset": {
       "path": "/nas.dbms/randy/datasets/ucf101",
       "ext": ".avi",
