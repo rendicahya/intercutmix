@@ -87,8 +87,6 @@ assert (
     n_videos == conf.mix.dataset.n_videos
 ), f"{conf.mix.dataset.n_videos} videos expected but {n_videos} found."
 
-assert type(conf.mix.n_mix_per_video) == int
-
 with open(conf.mix.scene.list) as f:
     scene_json = json.load(f)
 
@@ -99,7 +97,7 @@ for action, files in scene_json.items():
 print("All checks passed.")
 
 n_cores = multiprocessing.cpu_count()
-bar = tqdm(total=n_videos * n_scene_actions * conf.mix.n_mix_per_video)
+bar = tqdm(total=n_videos * conf.mix.multiplication)
 
 if conf.mix.multithread:
     print(f"Running on {n_cores} cores...")
@@ -111,44 +109,44 @@ with ThreadPoolExecutor(max_workers=n_cores) as executor:
         for file in action.iterdir():
             mask_path = mask_dir / action.name / file.stem
             fps = video_info(file)["fps"]
+            scene_class_option = [s for s in scene_json.keys() if s != action.name]
 
-            for scene_action in scene_json.keys():
-                if action.name == scene_action:
+            for i in range(conf.mix.multiplication):
+                scene_class_pick = random.choice(scene_class_option)
+                scene_list = scene_json[scene_class_pick]
+                scene_pick = random.choice(scene_list)
+                scene_path = scene_dir / scene_pick
+                output_path = (
+                    output_dir / action.name / f"{file.stem}-{scene_class_pick}"
+                ).with_suffix(".mp4")
+
+                scene_class_option.remove(scene_class_pick)
+
+                if output_path.exists():
+                    bar.set_description("Skipping finished videos...")
+                    bar.update(1)
                     continue
 
-                for i in range(conf.mix.n_mix_per_video):
-                    scene_list = scene_json[scene_action]
-                    scene_pick = random.choice(scene_list)
-                    scene_path = scene_dir / scene_pick
-                    output_path = (
-                        output_dir / action.name / f"{file.stem}-{scene_action}-{i+1}"
-                    ).with_suffix(".mp4")
-
-                    if output_path.exists():
-                        bar.set_description("Skipping finished videos...")
-                        bar.update(1)
-                        continue
-
-                    if conf.mix.multithread:
-                        futures.append(
-                            executor.submit(
-                                partial(
-                                    actorcutmix_job,
-                                    file,
-                                    scene_path,
-                                    mask_path,
-                                    output_path,
-                                    fps,
-                                )
+                if conf.mix.multithread:
+                    futures.append(
+                        executor.submit(
+                            partial(
+                                actorcutmix_job,
+                                file,
+                                scene_path,
+                                mask_path,
+                                output_path,
+                                fps,
                             )
                         )
-                    else:
-                        actorcutmix_job(
-                            file,
-                            scene_path,
-                            mask_path,
-                            output_path,
-                            fps,
-                        )
+                    )
+                else:
+                    actorcutmix_job(
+                        file,
+                        scene_path,
+                        mask_path,
+                        output_path,
+                        fps,
+                    )
 
 bar.close()

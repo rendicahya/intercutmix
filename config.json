@@ -71,7 +71,7 @@
     "video_reader": "decord"
   },
   "mix": {
-    "n_mix_per_video": 1,
+    "multiplication": 10,
     "video": {
       "reader": "opencv",
       "writer": "moviepy"
