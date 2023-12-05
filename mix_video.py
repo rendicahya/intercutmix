@@ -1,6 +1,7 @@
 import json
 import multiprocessing
 import random
+import shutil
 from concurrent.futures import ThreadPoolExecutor
 from functools import partial
 from pathlib import Path, PosixPath
@@ -106,7 +107,28 @@ with ThreadPoolExecutor(max_workers=n_cores) as executor:
     futures = []
 
     for action in dataset_dir.iterdir():
+        output_action_dir = output_dir / action.name
+        n_target_videos = count_files(action) * conf.mix.multiplication
+
+        if output_action_dir.exists():
+            if count_files(output_action_dir) == n_target_videos:
+                print(f"Action {action.name} is complete. Skipping...")
+                bar.update(n_target_videos)
+
+                continue
+            else:
+                print(
+                    f"Action {action.name} is partially complete. Deleting and remixing..."
+                )
+                shutil.rmtree(output_action_dir)
+
         for file in action.iterdir():
+            if file.stem in conf.mix.skip_videos:
+                print(f"{file.name} skipped")
+                bar.update(1)
+
+                continue
+
             mask_path = mask_dir / action.name / file.stem
             fps = video_info(file)["fps"]
             scene_class_option = [s for s in scene_json.keys() if s != action.name]
