@@ -87,8 +87,8 @@
       "path": "/nas.dbms/randy/datasets/ucf101-scene-xgtf",
       "ext": ".mp4"
     },
-    "mask": "/nas.dbms/randy/datasets/ucf101-UniDet-actor-mask",
-    "output": "/nas.dbms/randy/datasets/ucf101-mix-xgtf-actor",
+    "mask": "/nas.dbms/randy/datasets/ucf101-UniDet-inter-mask",
+    "output": "/nas.dbms/randy/datasets/ucf101-mix-xgtf-inter",
     "skip_videos": [
       "v_PommelHorse_g05_c01",
       "v_PommelHorse_g05_c02",
