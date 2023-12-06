@@ -98,7 +98,8 @@ for action, files in scene_json.items():
 print("All checks passed.")
 
 n_cores = multiprocessing.cpu_count()
-bar = tqdm(total=n_videos * conf.mix.multiplication)
+n_skip_videos = len(conf.mix.skip_videos)
+bar = tqdm(total=(n_videos - n_skip_videos) * conf.mix.multiplication)
 
 if conf.mix.multithread:
     print(f"Running on {n_cores} cores...")
@@ -108,7 +109,14 @@ with ThreadPoolExecutor(max_workers=n_cores) as executor:
 
     for action in dataset_dir.iterdir():
         output_action_dir = output_dir / action.name
-        n_target_videos = count_files(action) * conf.mix.multiplication
+
+        n_skip_videos = sum(
+            1 for v in conf.mix.skip_videos if v.split("_")[1] == action.name
+        )
+
+        n_target_videos = (
+            count_files(action) - n_skip_videos
+        ) * conf.mix.multiplication
 
         if output_action_dir.exists():
             if count_files(output_action_dir) == n_target_videos:
