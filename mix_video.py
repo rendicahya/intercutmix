@@ -4,28 +4,41 @@ import random
 import shutil
 from concurrent.futures import ThreadPoolExecutor
 from functools import partial
-from pathlib import Path, PosixPath
-from typing import Union
+from pathlib import Path
 
 import cv2
+import numpy as np
 from assertpy.assertpy import assert_that
 from python_config import Config
 from python_file import count_dir, count_files
-from python_image import load_image_dir
 from python_video import frames_to_video, video_frames, video_info
 from tqdm import tqdm
 
 
+def load_image_dir(dir_path, n_frames):
+    assert_that(dir_path).is_directory().is_readable()
+
+    for i in range(n_frames):
+        file_path = dir_path / f"{i:05}{conf.mix.mask.ext}"
+
+        yield cv2.imread(
+            str(file_path), cv2.IMREAD_GRAYSCALE
+        ) if file_path.exists() else None
+
+
 def actorcutmix(
-    actor_path: Union[Path, str],
-    scene_path: Union[Path, str],
-    mask_path: Union[Path, str],
+    actor_path,
+    scene_path,
+    mask_path,
 ):
     assert_that(actor_path).is_file().is_readable()
     assert_that(mask_path).is_directory().is_readable()
 
     actor_frames = video_frames(actor_path, reader=conf.mix.video.reader)
-    mask_frames = load_image_dir(mask_path, flag=cv2.IMREAD_GRAYSCALE)
+    info = video_info(actor_path)
+    w, h = info["width"], info["height"]
+    blank = np.zeros((h, w), np.uint8)
+    mask_frames = load_image_dir(mask_path, info["n_frames"])
     scene_frame = None
 
     for actor_frame in actor_frames:
@@ -34,6 +47,10 @@ def actorcutmix(
             scene_frame = next(scene_frames)
 
         actor_mask = next(mask_frames)
+
+        if actor_mask is None:
+            actor_mask = blank
+
         scene_mask = 255 - actor_mask
 
         actor = cv2.bitwise_and(actor_frame, actor_frame, mask=actor_mask)
@@ -46,10 +63,10 @@ def actorcutmix(
 
 
 def actorcutmix_job(
-    file: PosixPath,
-    scene_path: PosixPath,
-    mask_path: PosixPath,
-    output_path: PosixPath,
+    file,
+    scene_path,
+    mask_path,
+    output_path,
     fps: float,
 ):
     bar.set_description(file.stem)
@@ -74,7 +91,7 @@ assert_that("config.json").is_file().is_readable()
 
 dataset_dir = Path(conf.mix.dataset.path)
 scene_dir = Path(conf.mix.scene.path)
-mask_dir = Path(conf.mix.mask)
+mask_dir = Path(conf.mix.mask.path)
 output_dir = Path(conf.mix.output)
 
 assert_that(dataset_dir).is_directory().is_readable()
