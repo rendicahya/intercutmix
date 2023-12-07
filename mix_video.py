@@ -89,17 +89,17 @@ print("Performing checks...")
 conf = Config("config.json")
 assert_that("config.json").is_file().is_readable()
 
-dataset_dir = Path(conf.mix.dataset.path)
-scene_dir = Path(conf.mix.scene.path)
-mask_dir = Path(conf.mix.mask.path)
-output_dir = Path(conf.mix.output)
+dataset_root = Path(conf.mix.dataset.path)
+scene_root = Path(conf.mix.scene.path)
+mask_root = Path(conf.mix.mask.path)
+output_root = Path(conf.mix.output)
 
-assert_that(dataset_dir).is_directory().is_readable()
-assert_that(scene_dir).is_directory().is_readable()
+assert_that(dataset_root).is_directory().is_readable()
+assert_that(scene_root).is_directory().is_readable()
 assert_that(conf.mix.scene.list).is_file().is_readable()
 
-n_videos = count_files(dataset_dir, ext=conf.mix.dataset.ext)
-n_scene_actions = count_dir(scene_dir)
+n_videos = count_files(dataset_root, ext=conf.mix.dataset.ext)
+n_scene_actions = count_dir(scene_root)
 
 assert (
     n_videos == conf.mix.dataset.n_videos
@@ -110,13 +110,14 @@ with open(conf.mix.scene.list) as f:
 
 for action, files in scene_json.items():
     for file in files:
-        assert_that(scene_dir / file).is_file().is_readable()
+        assert_that(scene_root / file).is_file().is_readable()
 
 print("All checks passed.")
 
 n_cores = multiprocessing.cpu_count()
 n_skip_videos = len(conf.mix.skip_videos)
-bar = tqdm(total=(n_videos - n_skip_videos) * conf.mix.multiplication)
+n_target_videos = (n_videos - n_skip_videos) * conf.mix.multiplication
+bar = tqdm(total=n_target_videos)
 
 if conf.mix.multithread:
     print(f"Running on {n_cores} cores...")
@@ -124,8 +125,8 @@ if conf.mix.multithread:
 with ThreadPoolExecutor(max_workers=n_cores) as executor:
     futures = []
 
-    for action in dataset_dir.iterdir():
-        output_action_dir = output_dir / action.name
+    for action in dataset_root.iterdir():
+        output_action_dir = output_root / action.name
 
         n_skip_videos = sum(
             1 for v in conf.mix.skip_videos if v.split("_")[1] == action.name
@@ -154,7 +155,7 @@ with ThreadPoolExecutor(max_workers=n_cores) as executor:
 
                 continue
 
-            mask_path = mask_dir / action.name / file.stem
+            mask_path = mask_root / action.name / file.stem
             fps = video_info(file)["fps"]
             scene_class_option = [s for s in scene_json.keys() if s != action.name]
 
@@ -162,9 +163,9 @@ with ThreadPoolExecutor(max_workers=n_cores) as executor:
                 scene_class_pick = random.choice(scene_class_option)
                 scene_list = scene_json[scene_class_pick]
                 scene_pick = random.choice(scene_list)
-                scene_path = scene_dir / scene_pick
+                scene_path = scene_root / scene_pick
                 output_path = (
-                    output_dir / action.name / f"{file.stem}-{scene_class_pick}"
+                    output_root / action.name / f"{file.stem}-{scene_class_pick}"
                 ).with_suffix(".mp4")
 
                 scene_class_option.remove(scene_class_pick)
