@@ -1,43 +1,101 @@
 # InterCutMix
 
-Interaction-aware Scene Debiasing Method for Action Recognition
+Interaction-aware Scene Debiasing Method for Action Recognition.
 
 # Steps
 
-## Preparation
+## A. Preparation
 
-1. Clone this repository and the submodules
+1. Clone this repository and the submodules.
 
 ```shell
 git clone --recursive https://github.com/rendicahya/intercutmix.git
+cd intercutmix
 ```
 
-2. Download the UCF101 dataset
+2. Download the UCF101 dataset.
 
 ```shell
-mkdir data
-wget -P data https://www.crcv.ucf.edu/datasets/human-actions/ucf101/UCF101.rar --no-check-certificate
-unrar x UCF101.rar data
-mv data/UCF-101 data/ucf101
+mkdir -p data/ucf101
+cd data/ucf101
+wget https://www.crcv.ucf.edu/datasets/human-actions/ucf101/UCF101.rar --no-check-certificate
+unrar x UCF101.rar
+mv UCF-101 videos
+cd ../..
 ```
 
-3. Prepare virtual environments
+3. Prepare virtual environments.
 
 ```shell
-mkdir venv
-python -m venv venv/venv1
-source venv/venv1/bin/activate
+python -m venv intercutmix-venv
+source intercutmix-venv/bin/activate
 pip install -U pip
 ```
 
-## Relevancy
+## B. Generate scene mask images
+
+This process uses manually-created annotations in xgtf format available in the `xgtf` directory to generate mask images. These images will be used in the step D to create scene videos.
+
+1. Install packages.
+
+```shell
+pip install beautifulsoup4 lxml
+```
+
+2. Generate mask images that will be stored in `data/ucf101/xgtf-mask`.
+
+```shell
+python xgtf_to_mask.py
+```
+
+## C. Generate scene videos
+
+1. Enter submodule.
+
+```shell
+cd E2FGVI
+```
+
+2. Update submodules
+
+```shell
+git submodule update --init --recursive
+```
+
+3. Install packages.
+
+```shell
+pip install torch==1.10.0+cu111 torchvision==0.11.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
+pip install openmim gdown matplotlib av decord moviepy
+mim install mmcv-full
+```
+
+4. Download pretrained model.
+
+```shell
+gdown 10wGdKSUOie0XmCr8SQ2A2FeDe-mfn5w3 -O release_model/
+```
+
+5. Generate videos. This step will take several hours and the resulting videos will be stored in `data/ucf101/scene-xgtf`.
+
+```shell
+python batch.py
+```
+
+6. Go back to the main directory.
+
+```shell
+cd ..
+```
+
+## D. Relevancy
 
 This step generates relevancy scores between UCF101 action names and object names used by the UniDet object detector.
 
-1. Install packages
+1. Install packages.
 
 ```shell
-pip install sentence-transformers pandas tqdm
+pip install sentence-transformers
 ```
 
 2. Generate relevancy lists. This will create subdirectories `relevancy/unidet-relevant-ids` and `relevancy/unidet-relevant-names` and generate relevancy files in JSON format.
@@ -46,48 +104,24 @@ pip install sentence-transformers pandas tqdm
 python relevancy.py
 ```
 
-## Generate scene videos
-
-This process uses manually-created annotations in XGTF format available in the `xgtf` directory.
-
-1. Install packages
-
-```shell
-pip install beautifulsoup4 lxml
-```
-
-2. Convert XGTF annotation files into mask images. This will generate the images in `data/ucf101-xgtf-mask`.
-
-```shell
-python xgtf_to_mask.py
-```
-
-3. Enter submodule
-
-```shell
-cd E2FGVI
-```
-
-4. Generate videos
-
-## Object detection
+## E. Object detection
 
 1. Enter submodule
 
 ```shell
-cd UniDet
+cd ../UniDet
 ```
 
 2. Install packages
 ```shell
-pip install gdown
+
 ```
 
 3. Download pretrained object detection model
 
 ```shell
 mkdir models
-gdown 1HvUv399Vie69dIOQX0gnjkCM0JUI9dqI -O models
+gdown 1HvUv399Vie69dIOQX0gnjkCM0JUI9dqI -O models/
 ```
 
 3. Install packages
