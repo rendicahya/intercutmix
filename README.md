@@ -20,6 +20,7 @@ mkdir -p data/ucf101
 cd data/ucf101
 wget https://www.crcv.ucf.edu/datasets/human-actions/ucf101/UCF101.rar --no-check-certificate
 unrar x UCF101.rar
+rm UCF101.rar
 mv UCF-101 videos
 cd ../..
 ```
@@ -27,8 +28,8 @@ cd ../..
 3. Prepare virtual environments.
 
 ```shell
-python -m venv intercutmix-venv
-source intercutmix-venv/bin/activate
+python -m venv venv
+source venv/bin/activate
 pip install -U pip
 ```
 
@@ -39,7 +40,7 @@ This process uses manually-created annotations in xgtf format available in the `
 1. Install packages.
 
 ```shell
-pip install beautifulsoup4 lxml
+pip install beautifulsoup4 lxml opencv-python-headless tqdm av decord moviepy
 ```
 
 2. Generate mask images that will be stored in `data/ucf101/xgtf-mask`.
@@ -56,13 +57,7 @@ python xgtf_to_mask.py
 cd E2FGVI
 ```
 
-2. Update submodules
-
-```shell
-git submodule update --init --recursive
-```
-
-3. Install packages.
+2. Install packages.
 
 ```shell
 pip install torch==1.10.0+cu111 torchvision==0.11.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
@@ -70,19 +65,19 @@ pip install openmim gdown matplotlib av decord moviepy
 mim install mmcv-full
 ```
 
-4. Download pretrained model.
+3. Download pretrained model.
 
 ```shell
 gdown 10wGdKSUOie0XmCr8SQ2A2FeDe-mfn5w3 -O release_model/
 ```
 
-5. Generate videos. This step will take several hours and the resulting videos will be stored in `data/ucf101/scene-xgtf`.
+4. Generate videos. This step will take several hours and the resulting videos will be stored in `data/ucf101/scene-xgtf`.
 
 ```shell
 python batch.py
 ```
 
-6. Go back to the main directory.
+5. Go back to the main directory.
 
 ```shell
 cd ..
