@@ -1,15 +1,16 @@
 {
   "ucf101": {
-    "path": "/nas.dbms/randy/datasets/ucf101",
+    "path": "data/ucf101/videos",
     "ext": ".avi",
-    "class_index": "ucf101-classInd.txt",
+    "class_index": "data/ucf101/ucf101-classInd.txt",
     "n_videos": 13320,
     "n_classes": 101
   },
   "relevancy": {
+    "output": "data/relevancy",
     "detector": {
       "name": "unidet",
-      "classnames": "../UniDet/classnames.json"
+      "classnames": "UniDet/classnames.json"
     },
     "avail_methods": [
       "all-mpnet-base-v2",
@@ -23,20 +24,29 @@
       "paraphrase-albert-small-v2",
       "paraphrase-multilingual-MiniLM-L12-v2"
     ],
-    "json": "/nas.dbms/randy/projects/intercutmix/relevancy/unidet-ids/all-mpnet-base-v2/0.5.json"
+    "json": "/nas.dbms/randy/projects/intercutmix/data/relevancy/unidet-ids/all-mpnet-base-v2/0.5.json"
+  },
+  "xgtf": {
+    "path": "xgtf",
+    "mask": {
+      "path": "data/ucf101/xgtf-mask",
+      "action_only": false,
+      "n_digits": 5,
+      "ext": ".png"
+    }
   },
   "unidet": {
     "detect": {
       "dataset": {
-        "path": "/nas.dbms/randy/datasets/ucf101",
+        "path": "../data/ucf101/videos",
         "ext": ".avi"
       },
       "config": "configs/Unified_learned_OCIM_RS200_6x+2x.yaml",
       "checkpoint": "models/Unified_learned_OCIM_RS200_6x+2x.pth",
       "output": {
-        "json": "/nas.dbms/randy/datasets/ucf101-UniDet-json",
+        "json": "../data/ucf101-unidet-json",
         "video": {
-          "path": "/nas.dbms/randy/datasets/ucf101-UniDet-X",
+          "path": "../data/ucf101-unidet",
           "generate": true
         }
       },
@@ -51,22 +61,29 @@
       "video_reader": "opencv",
       "confidence": 0.5,
       "mode": "actorcutmix",
-      "json": "/nas.dbms/randy/datasets/ucf101-UniDet-json",
+      "json": "/nas.dbms/randy/datasets/ucf101-unidet-json",
       "output": {
         "video": {
-          "generate": true,
+          "generate": false,
           "writer": "moviepy",
-          "path": "/nas.dbms/randy/datasets/ucf101-UniDet-actor"
+          "path": "/nas.dbms/randy/datasets/ucf101-unidet-actor"
         },
-        "mask": "/nas.dbms/randy/datasets/ucf101-UniDet-actor-mask"
+        "mask": {
+          "path": "/nas.dbms/randy/datasets/ucf101-unidet-actor-mask",
+          "ext": ".png",
+          "n_digits": 5
+        }
       }
     }
   },
   "e2fgvi": {
+    "ucf101": {
+      "path": "../data/ucf101/videos"
+    },
     "model": "model.e2fgvi_hq",
-    "mask": "/nas.dbms/randy/datasets/ucf101-UniDet-actor-mask",
+    "mask": "../data/ucf101/unidet-actor-mask",
     "checkpoint": "release_model/E2FGVI-HQ-CVPR22.pth",
-    "output": "/nas.dbms/randy/datasets/ucf101-scenes-actor",
+    "output": "../data/ucf101/scene-xgtf",
     "max_video_len": 400,
     "video_reader": "decord"
   },
