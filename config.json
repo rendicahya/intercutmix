@@ -81,11 +81,14 @@
       "path": "../data/ucf101/videos"
     },
     "model": "model.e2fgvi_hq",
-    "mask": "../data/ucf101/unidet-actor-mask",
+    "mask": "../data/ucf101/xgtf-mask",
     "checkpoint": "release_model/E2FGVI-HQ-CVPR22.pth",
     "output": "../data/ucf101/scene-xgtf",
     "max_video_len": 400,
-    "video_reader": "decord"
+    "video": {
+      "reader": "opencv",
+      "writer": "moviepy"
+    }
   },
   "mix": {
     "multiplication": 10,

@@ -31,11 +31,10 @@ def calc_similarity(phrase1, phrase2, model):
 
 
 conf = Config("config.json")
-assert_that("config.json").is_file().is_readable()
-
 detector = conf.relevancy.detector.name
 dataset_path = Path(conf.ucf101.path)
 classnames_path = Path(conf.relevancy.detector.classnames)
+output_dir = conf.relevancy.output
 
 assert_that(dataset_path).is_directory().is_readable()
 assert_that(classnames_path).is_file().is_readable()
@@ -65,8 +64,8 @@ for model_name in avail_methods:
         df_data.append(row)
 
     df = pd.DataFrame(df_data, columns=classnames, index=actions)
-    ids_output_dir = Path(f"relevancy/{detector}-ids") / model_name
-    names_output_dir = Path(f"relevancy/{detector}-names") / model_name
+    ids_output_dir = Path(f"{output_dir}/{detector}-ids") / model_name
+    names_output_dir = Path(f"{output_dir}/{detector}-names") / model_name
 
     names_output_dir.mkdir(parents=True, exist_ok=True)
     ids_output_dir.mkdir(parents=True, exist_ok=True)
