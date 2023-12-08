@@ -13,3 +13,9 @@
 [submodule "assertpy"]
 	path = assertpy
 	url = https://github.com/rendicahya/assertpy.git
+[submodule "UniDet"]
+	path = UniDet
+	url = https://github.com/rendicahya/UniDet.git
+[submodule "E2FGVI"]
+	path = E2FGVI
+	url = https://github.com/rendicahya/E2FGVI.git
