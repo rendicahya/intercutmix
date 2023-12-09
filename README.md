@@ -19,9 +19,13 @@ cd intercutmix
 mkdir -p data/ucf101
 cd data/ucf101
 wget https://www.crcv.ucf.edu/datasets/human-actions/ucf101/UCF101.rar --no-check-certificate
+wget https://www.crcv.ucf.edu/data/UCF101/UCF101TrainTestSplits-RecognitionTask.zip --no-check-certificate
 unrar x UCF101.rar
 rm UCF101.rar
 mv UCF-101 videos
+unzip UCF101TrainTestSplits-RecognitionTask.zip
+rm UCF101TrainTestSplits-RecognitionTask.zip
+mv ucfTrainTestlist annotations
 cd ../..
 ```
 
@@ -35,15 +39,15 @@ pip install -U pip
 
 ## B. Generate scene mask images
 
-This process uses manually-created annotations in xgtf format available in the `xgtf` directory to generate mask images. These images will be used in the step D to create scene videos.
+This process uses manually-created annotations in xgtf format available in the `xgtf` directory to generate mask images. These images will be used in the next step to create scene videos.
 
 1. Install packages.
 
 ```shell
-pip install beautifulsoup4 lxml opencv-python-headless tqdm av decord moviepy
+pip install beautifulsoup4 lxml opencv-python tqdm av decord moviepy
 ```
 
-2. Generate mask images that will be stored in `data/ucf101/xgtf-mask`.
+2. Generate mask images. The results will be stored in `data/ucf101/xgtf-mask`.
 
 ```shell
 python xgtf_to_mask.py
@@ -77,10 +81,11 @@ gdown 10wGdKSUOie0XmCr8SQ2A2FeDe-mfn5w3 -O release_model/
 python batch.py
 ```
 
-5. Go back to the main directory.
+5. Make a list of the generated scene videos. The list will be stored in `data/ucf101/scene-xgtf.json`.
 
 ```shell
 cd ..
+python make_file_list_json.py
 ```
 
 ## D. Relevancy
@@ -101,28 +106,27 @@ python relevancy.py
 
 ## E. Object detection
 
-1. Enter submodule
+1. Enter submodule.
 
 ```shell
-cd ../UniDet
+cd UniDet
 ```
 
-2. Install packages
+2. Install packages.
 ```shell
-
+pip install detectron2 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu111/torch1.10/index.html
+pip install pillow==9.5.0 numpy==1.23.5
 ```
 
-3. Download pretrained object detection model
+3. Download pretrained object detection model.
 
 ```shell
 mkdir models
 gdown 1HvUv399Vie69dIOQX0gnjkCM0JUI9dqI -O models/
 ```
 
-3. Install packages
+3. Run object detection. The detection results will be stored in JSON files in `data/ucf101/unidet-json`.
 
 ```shell
-# pip install torch==1.10.0+cu111 torchvision==0.11.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
-# pip install detectron2 https://dl.fbaipublicfiles.com/detectron2/wheels/cu113/torch1.10/index.html
-pip install -r requirements.txt
+python batch-detect.py
 ```
