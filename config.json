@@ -2,7 +2,7 @@
   "ucf101": {
     "path": "data/ucf101/videos",
     "ext": ".avi",
-    "class_index": "data/ucf101/ucf101-classInd.txt",
+    "class_index": "data/ucf101/annotations/classInd.txt",
     "n_videos": 13320,
     "n_classes": 101
   },
@@ -113,8 +113,8 @@
       "n_videos": 13320
     },
     "scene": {
-      "list": "list/ucf101-scene-xgtf.json",
-      "path": "/nas.dbms/randy/datasets/ucf101-scene-xgtf",
+      "list": "data/ucf101/scene-xgtf.json",
+      "path": "data/ucf101/scene-xgtf",
       "ext": ".mp4"
     },
     "mask": {
