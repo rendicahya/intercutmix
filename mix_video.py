@@ -115,8 +115,10 @@ for action, files in scene_json.items():
 print("All checks passed.")
 
 n_cores = multiprocessing.cpu_count()
-n_skip_videos = len(conf.mix.skip_videos)
-n_target_videos = (n_videos - n_skip_videos) * conf.mix.multiplication
+n_video_blacklist = len(conf.mix.video.blacklist)
+n_target_videos = (n_videos - n_video_blacklist) * conf.mix.multiplication
+action_whitelist = conf.mix.action.whitelist
+action_blacklist = conf.mix.action.blacklist
 bar = tqdm(total=n_target_videos)
 
 if conf.mix.multithread:
@@ -126,14 +128,19 @@ with ThreadPoolExecutor(max_workers=n_cores) as executor:
     futures = []
 
     for action in dataset_root.iterdir():
+        if (action_whitelist is not None and action.name not in action_whitelist) or (
+            action_blacklist is not None and action.name in action_blacklist
+        ):
+            continue
+
         output_action_dir = output_root / action.name
 
-        n_skip_videos = sum(
-            1 for v in conf.mix.skip_videos if v.split("_")[1] == action.name
+        n_video_blacklist = sum(
+            1 for v in conf.mix.video.blacklist if v.split("_")[1] == action.name
         )
 
         n_target_videos = (
-            count_files(action) - n_skip_videos
+            count_files(action) - n_video_blacklist
         ) * conf.mix.multiplication
 
         if output_action_dir.exists():
@@ -149,7 +156,7 @@ with ThreadPoolExecutor(max_workers=n_cores) as executor:
                 shutil.rmtree(output_action_dir)
 
         for file in action.iterdir():
-            if file.stem in conf.mix.skip_videos:
+            if file.stem in conf.mix.video.blacklist:
                 print(f"{file.name} skipped")
                 bar.update(1)
 

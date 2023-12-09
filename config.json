@@ -94,7 +94,17 @@
     "multiplication": 10,
     "video": {
       "reader": "opencv",
-      "writer": "moviepy"
+      "writer": "moviepy",
+      "blacklist": [
+        "v_PommelHorse_g05_c01",
+        "v_PommelHorse_g05_c02",
+        "v_PommelHorse_g05_c03",
+        "v_PommelHorse_g05_c04"
+      ]
+    },
+    "action": {
+      "whitelist": null,
+      "blacklist": null
     },
     "multithread": false,
     "dataset": {
@@ -111,12 +121,6 @@
       "path": "/nas.dbms/randy/datasets/ucf101-UniDet-inter-mask",
       "ext": ".png"
     },
-    "output": "/nas.dbms/randy/datasets/ucf101-mix-xgtf-inter",
-    "skip_videos": [
-      "v_PommelHorse_g05_c01",
-      "v_PommelHorse_g05_c02",
-      "v_PommelHorse_g05_c03",
-      "v_PommelHorse_g05_c04"
-    ]
+    "output": "/nas.dbms/randy/datasets/ucf101-mix-xgtf-inter"
   }
 }
