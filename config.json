@@ -47,7 +47,8 @@
         "json": "../data/ucf101-unidet-json",
         "video": {
           "path": "../data/ucf101-unidet",
-          "generate": true
+          "writer": "moviepy",
+          "generate": false
         }
       },
       "confidence": 0.5,
@@ -108,7 +109,7 @@
     },
     "multithread": false,
     "dataset": {
-      "path": "/nas.dbms/randy/datasets/ucf101",
+      "path": "data/ucf101/videos",
       "ext": ".avi",
       "n_videos": 13320
     },
@@ -118,7 +119,7 @@
       "ext": ".mp4"
     },
     "mask": {
-      "path": "/nas.dbms/randy/datasets/ucf101-UniDet-inter-mask",
+      "path": "/nas.dbms/randy/datasets/ucf101-UniDet-actor-mask",
       "ext": ".png"
     },
     "output": "/nas.dbms/randy/datasets/ucf101-mix-xgtf-inter"
