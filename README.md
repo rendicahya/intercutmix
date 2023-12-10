@@ -113,6 +113,7 @@ cd UniDet
 ```
 
 2. Install packages.
+
 ```shell
 pip install detectron2 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu111/torch1.10/index.html
 pip install pillow==9.5.0 numpy==1.23.5
@@ -125,8 +126,14 @@ mkdir models
 gdown 1HvUv399Vie69dIOQX0gnjkCM0JUI9dqI -O models/
 ```
 
-3. Run object detection. The detection results will be stored in JSON files in `data/ucf101/unidet-json`.
+3. Run object detection. This step will detect all objects with a confidence threshold of (by default) 0.5. The detection results will be saved in a JSON file for each video in `data/ucf101/unidet-json`.
 
 ```shell
 python batch-detect.py
+```
+
+4. Filter object detection. This will select only relevant objects based on the relevancy between the video class names and the detected object names.
+
+```shell
+python batch-select.py
 ```
