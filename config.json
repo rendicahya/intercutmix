@@ -65,9 +65,9 @@
       "json": "../data/ucf101/unidet-json",
       "output": {
         "video": {
-          "generate": false,
+          "generate": true,
           "writer": "moviepy",
-          "path": "..data/ucf101/unidet-actor"
+          "path": "../data/ucf101/unidet-actor"
         },
         "mask": {
           "path": "../data/ucf101/unidet-actor-mask",
