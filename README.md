@@ -144,14 +144,20 @@ Alternatively, in case the above download fails:
 wget https://download1649.mediafire.com/jjyqufty4b1gXPpH0tUaoqp-MK0xgi-89SKBJqYjH1TLSjrDqufwW_LIXF0OeiiH8tx2BxZ71cm0S_dg7xpkb0Y_sWdGD9Ca0b8eyrU32VF8ZVSUc8IKibOi_wb6DkDSR3I3cRfIVKqArhw0U_JJEpewtkgHXjdl3FCNSJ4Kv4y53Q/wdxfkp1wyc0ccxl/Unified_learned_OCIM_RS200_6x%2B2x.pth -P models/
 ```
 
-4. Run object detection. This step detects all objects with a confidence threshold of (by default) 0.5. The detection results for each video will be saved in a JSON file in `data/ucf101/unidet-json` and the generated videos will be saved in `data/ucf101/unidet`. If you want to speed up the process by generating only the JSON files without generating videos, modify `config.py` and set `unidet.detect.output.video.generate` to `false`.
+4. Run object detection.
+
+This step detects all objects with a confidence threshold of (by default) 0.5. The detection results for each video will be saved in a JSON file in `data/ucf101/unidet-json` and the generated videos will be saved in `data/ucf101/unidet`. If you want to speed up the process by generating only the JSON files without generating videos, modify `config.py` and set `unidet.detect.output.video.generate` to `false`.
 
 ```shell
 python batch-detect.py
 ```
 
-5. Filter object detection. This will select only relevant objects based on the relevancy between the video class names and the detected object names. The output of this step is mask images stored in `data/ucf101/unidet-actor-mask` and the generated videos will be saved in `data/ucf101/unidet-actor`. Therefore, make sure that `batch-detect.py` and step D (relevancy) have been successfully completed. If you want to speed up the process by generating only the JSON files without generating videos, modify `config.py` and set `unidet.select.output.video.generate` to `false`.
+5. Filter object detection.
+
+This will select only relevant objects based on the relevancy between the video class names and the detected object names. The output of this step is mask images stored in `data/ucf101/unidet-actor-mask` and the generated videos will be saved in `data/ucf101/unidet-actor`. Therefore, make sure that `batch-detect.py` and step D (relevancy) have been successfully completed. If you want to speed up the process by generating only the JSON files without generating videos, modify `config.py` and set `unidet.select.output.video.generate` to `false`.
 
 ```shell
 python batch-select.py
 ```
+
+There are two modes of this script: `actorcutmix` (default) and `intercutmix`. This can be configured in `config.json` at `unidet.select.mode`. If you change the mode, make sure to change `unidet.select.output.video.path` and `unidet.select.output.mask.path` as well.
