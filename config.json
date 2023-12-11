@@ -44,11 +44,11 @@
       "config": "configs/Unified_learned_OCIM_RS200_6x+2x.yaml",
       "checkpoint": "models/Unified_learned_OCIM_RS200_6x+2x.pth",
       "output": {
-        "json": "../data/ucf101-unidet-json",
+        "json": "../data/ucf101/unidet-json",
         "video": {
-          "path": "../data/ucf101-unidet",
+          "path": "../data/ucf101/unidet",
           "writer": "moviepy",
-          "generate": false
+          "generate": true
         }
       },
       "confidence": 0.5,
@@ -56,21 +56,21 @@
     },
     "select": {
       "dataset": {
-        "path": "/nas.dbms/randy/datasets/ucf101",
+        "path": "../data/ucf101/videos",
         "ext": ".avi"
       },
       "video_reader": "opencv",
       "confidence": 0.5,
       "mode": "actorcutmix",
-      "json": "/nas.dbms/randy/datasets/ucf101-unidet-json",
+      "json": "../data/ucf101/unidet-json",
       "output": {
         "video": {
           "generate": false,
           "writer": "moviepy",
-          "path": "/nas.dbms/randy/datasets/ucf101-unidet-actor"
+          "path": "..data/ucf101/unidet-actor"
         },
         "mask": {
-          "path": "/nas.dbms/randy/datasets/ucf101-unidet-actor-mask",
+          "path": "../data/ucf101/unidet-actor-mask",
           "ext": ".png",
           "n_digits": 5
         }
@@ -119,9 +119,9 @@
       "ext": ".mp4"
     },
     "mask": {
-      "path": "/nas.dbms/randy/datasets/ucf101-UniDet-actor-mask",
+      "path": "../data/ucf101/UniDet-actor-mask",
       "ext": ".png"
     },
-    "output": "/nas.dbms/randy/datasets/ucf101-mix-xgtf-inter"
+    "output": "../data/ucf101/mix-xgtf-inter"
   }
 }
