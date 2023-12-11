@@ -35,6 +35,20 @@
       "ext": ".png"
     }
   },
+  "e2fgvi": {
+    "ucf101": {
+      "path": "../data/ucf101/videos"
+    },
+    "model": "model.e2fgvi_hq",
+    "mask": "../data/ucf101/xgtf-mask",
+    "checkpoint": "release_model/E2FGVI-HQ-CVPR22.pth",
+    "output": "../data/ucf101/scene-xgtf",
+    "max_video_len": 400,
+    "video": {
+      "reader": "opencv",
+      "writer": "moviepy"
+    }
+  },
   "unidet": {
     "detect": {
       "dataset": {
@@ -55,14 +69,14 @@
       "parallel": false
     },
     "select": {
+      "mode": "actorcutmix",
       "dataset": {
         "path": "../data/ucf101/videos",
         "ext": ".avi"
       },
-      "video_reader": "opencv",
       "confidence": 0.5,
-      "mode": "actorcutmix",
       "json": "../data/ucf101/unidet-json",
+      "video_reader": "opencv",
       "output": {
         "video": {
           "generate": true,
@@ -75,20 +89,6 @@
           "n_digits": 5
         }
       }
-    }
-  },
-  "e2fgvi": {
-    "ucf101": {
-      "path": "../data/ucf101/videos"
-    },
-    "model": "model.e2fgvi_hq",
-    "mask": "../data/ucf101/xgtf-mask",
-    "checkpoint": "release_model/E2FGVI-HQ-CVPR22.pth",
-    "output": "../data/ucf101/scene-xgtf",
-    "max_video_len": 400,
-    "video": {
-      "reader": "opencv",
-      "writer": "moviepy"
     }
   },
   "mix": {
