@@ -18,7 +18,13 @@ cd intercutmix
 ```shell
 mkdir -p data/ucf101
 cd data/ucf101
+```
+
+```shell
 wget https://www.crcv.ucf.edu/datasets/human-actions/ucf101/UCF101.rar https://www.crcv.ucf.edu/data/UCF101/UCF101TrainTestSplits-RecognitionTask.zip --no-check-certificate
+```
+
+```shell
 unrar x UCF101.rar -idq
 rm UCF101.rar
 mv UCF-101 videos
@@ -46,7 +52,7 @@ This process uses manually-created annotations in xgtf format available in the `
 pip install beautifulsoup4 lxml opencv-python tqdm av decord moviepy
 ```
 
-2. Generate mask images. The results will be stored in `data/ucf101/xgtf-mask`.
+2. Generate mask images. This will take a few minutes and the results will be stored in `data/ucf101/xgtf-mask`.
 
 ```shell
 python xgtf_to_mask.py
@@ -72,6 +78,11 @@ mim install mmcv-full
 
 ```shell
 gdown 10wGdKSUOie0XmCr8SQ2A2FeDe-mfn5w3 -O release_model/
+```
+
+Alternative:
+```shell
+wget https://download847.mediafire.com/ou5x8bq0q9sgku70mNh31V5epldWxIMWhR7n2ZU7vhIoJqAg-QwZEFMqXQ3Y9gckOviT5ItorlxGBJRFg6WYuxHmkkkirUJNefaB9OdExmXDVUaZc_Gwua1BRanev3ONCDwvk1jbc5KcKuZMblIBvG6UyFoqxxzK29ejxXK3GMWOyw/mrd06il310cklxh/E2FGVI-HQ-CVPR22.pth -P release_model/
 ```
 
 4. Generate videos. This step will take several hours and the resulting videos will be stored in `data/ucf101/scene-xgtf`.
@@ -123,6 +134,11 @@ pip install pillow==9.5.0 numpy==1.23.5
 ```shell
 mkdir models
 gdown 1HvUv399Vie69dIOQX0gnjkCM0JUI9dqI -O models/
+```
+
+Alternative:
+```shell
+wget https://download1649.mediafire.com/jjyqufty4b1gXPpH0tUaoqp-MK0xgi-89SKBJqYjH1TLSjrDqufwW_LIXF0OeiiH8tx2BxZ71cm0S_dg7xpkb0Y_sWdGD9Ca0b8eyrU32VF8ZVSUc8IKibOi_wb6DkDSR3I3cRfIVKqArhw0U_JJEpewtkgHXjdl3FCNSJ4Kv4y53Q/wdxfkp1wyc0ccxl/Unified_learned_OCIM_RS200_6x%2B2x.pth -P models/
 ```
 
 3. Run object detection. This step will detect all objects with a confidence threshold of (by default) 0.5. The detection results will be saved in a JSON file for each video in `data/ucf101/unidet-json`.
