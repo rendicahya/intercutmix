@@ -119,6 +119,7 @@ n_video_blacklist = len(conf.mix.video.blacklist)
 n_target_videos = (n_videos - n_video_blacklist) * conf.mix.multiplication
 action_whitelist = conf.mix.action.whitelist
 action_blacklist = conf.mix.action.blacklist
+output_ext = conf.mix.output.ext
 bar = tqdm(total=n_target_videos)
 
 if conf.mix.multithread:
@@ -173,7 +174,7 @@ with ThreadPoolExecutor(max_workers=n_cores) as executor:
                 scene_path = scene_root / scene_pick
                 output_path = (
                     output_root / action.name / f"{file.stem}-{scene_class_pick}"
-                ).with_suffix(".mp4")
+                ).with_suffix(output_ext)
 
                 scene_class_option.remove(scene_class_pick)
 

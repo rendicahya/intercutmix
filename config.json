@@ -120,6 +120,9 @@
       "path": "../data/ucf101/UniDet-actor-mask",
       "ext": ".png"
     },
-    "output": "../data/ucf101/mix-xgtf-inter"
+    "output": {
+      "path": "../data/ucf101/mix-xgtf-inter",
+      "ext": ".mp4"
+    }
   }
 }
