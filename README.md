@@ -60,6 +60,8 @@ python xgtf_to_mask.py
 
 ## C. Generate scene videos
 
+This step uses mask images generated in step B. Therefore, make sure that step B has been successfully completed.
+
 1. Enter submodule.
 
 ```shell
@@ -80,7 +82,8 @@ mim install mmcv-full
 gdown 10wGdKSUOie0XmCr8SQ2A2FeDe-mfn5w3 -O release_model/
 ```
 
-Alternative:
+Alternatively, in case the above download fails:
+
 ```shell
 wget https://download847.mediafire.com/ou5x8bq0q9sgku70mNh31V5epldWxIMWhR7n2ZU7vhIoJqAg-QwZEFMqXQ3Y9gckOviT5ItorlxGBJRFg6WYuxHmkkkirUJNefaB9OdExmXDVUaZc_Gwua1BRanev3ONCDwvk1jbc5KcKuZMblIBvG6UyFoqxxzK29ejxXK3GMWOyw/mrd06il310cklxh/E2FGVI-HQ-CVPR22.pth -P release_model/
 ```
@@ -91,7 +94,7 @@ wget https://download847.mediafire.com/ou5x8bq0q9sgku70mNh31V5epldWxIMWhR7n2ZU7v
 python batch.py
 ```
 
-5. Make a list of the generated scene videos. The list will be stored in `data/ucf101/scene-xgtf.json`.
+5. Make a list of the generated scene videos. Do this step only after the video generation step has been completed. The list will be stored in `data/ucf101/scene-xgtf.json`.
 
 ```shell
 cd ..
@@ -108,7 +111,7 @@ This step generates relevancy scores between UCF101 action names and object name
 pip install sentence-transformers
 ```
 
-2. Generate relevancy lists. This will create subdirectories `relevancy/unidet-relevant-ids` and `relevancy/unidet-relevant-names` and generate relevancy files in JSON format.
+2. Generate relevancy lists. This will generate relevancy files in JSON format and save them in `relevancy/unidet-relevant-ids` and `relevancy/unidet-relevant-names`.
 
 ```shell
 python relevancy.py
@@ -132,23 +135,29 @@ pip install pillow==9.5.0 numpy==1.23.5
 3. Download pretrained object detection model.
 
 ```shell
-mkdir models
 gdown 1HvUv399Vie69dIOQX0gnjkCM0JUI9dqI -O models/
 ```
 
-Alternative:
+Alternatively, in case the above download fails:
+
 ```shell
 wget https://download1649.mediafire.com/jjyqufty4b1gXPpH0tUaoqp-MK0xgi-89SKBJqYjH1TLSjrDqufwW_LIXF0OeiiH8tx2BxZ71cm0S_dg7xpkb0Y_sWdGD9Ca0b8eyrU32VF8ZVSUc8IKibOi_wb6DkDSR3I3cRfIVKqArhw0U_JJEpewtkgHXjdl3FCNSJ4Kv4y53Q/wdxfkp1wyc0ccxl/Unified_learned_OCIM_RS200_6x%2B2x.pth -P models/
 ```
 
-3. Run object detection. This step will detect all objects with a confidence threshold of (by default) 0.5. The detection results will be saved in a JSON file for each video in `data/ucf101/unidet-json`.
+4. Run object detection.
+
+This step detects all objects with a confidence threshold of (by default) 0.5. The detection results for each video will be saved in a JSON file in `data/ucf101/unidet-json` and the generated videos will be saved in `data/ucf101/unidet`. If you want to speed up the process by generating only the JSON files without generating videos, modify `config.py` and set `unidet.detect.output.video.generate` to `false`.
 
 ```shell
 python batch-detect.py
 ```
 
-4. Filter object detection. This will select only relevant objects based on the relevancy between the video class names and the detected object names.
+5. Filter object detection.
+
+This will select only relevant objects based on the relevancy between the video class names and the detected object names. The output of this step is mask images stored in `data/ucf101/unidet-actor-mask` and the generated videos will be saved in `data/ucf101/unidet-actor`. Therefore, make sure that `batch-detect.py` and step D (relevancy) have been successfully completed. If you want to speed up the process by generating only the JSON files without generating videos, modify `config.py` and set `unidet.select.output.video.generate` to `false`.
 
 ```shell
 python batch-select.py
 ```
+
+There are two modes of this script: `actorcutmix` (default) and `intercutmix`. This can be configured in `config.json` at `unidet.select.mode`. If you change the mode, make sure to change `unidet.select.output.video.path` and `unidet.select.output.mask.path` as well.
