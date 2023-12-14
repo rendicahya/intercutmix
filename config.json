@@ -12,6 +12,7 @@
       "name": "unidet",
       "classnames": "UniDet/classnames.json"
     },
+    "json": "data/relevancy/unidet-ids/all-mpnet-base-v2/0.5.json",
     "avail_methods": [
       "all-mpnet-base-v2",
       "multi-qa-mpnet-base-dot-v1",
@@ -23,15 +24,13 @@
       "paraphrase-multilingual-mpnet-base-v2",
       "paraphrase-albert-small-v2",
       "paraphrase-multilingual-MiniLM-L12-v2"
-    ],
-    "json": "/nas.dbms/randy/projects/intercutmix/data/relevancy/unidet-ids/all-mpnet-base-v2/0.5.json"
+    ]
   },
   "xgtf": {
     "path": "xgtf",
     "mask": {
       "path": "data/ucf101/xgtf-mask",
       "action_only": false,
-      "n_digits": 5,
       "ext": ".png"
     }
   },
@@ -65,14 +64,13 @@
       "json": "../data/ucf101/unidet-json",
       "output": {
         "video": {
-          "generate": false,
+          "generate": true,
           "writer": "moviepy",
-          "path": "..data/ucf101/unidet-actor"
+          "path": "../data/ucf101/unidet-actor"
         },
         "mask": {
           "path": "../data/ucf101/unidet-actor-mask",
-          "ext": ".png",
-          "n_digits": 5
+          "ext": ".png"
         }
       }
     }
