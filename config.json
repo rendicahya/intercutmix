@@ -6,6 +6,14 @@
     "n_videos": 13320,
     "n_classes": 101
   },
+  "xgtf": {
+    "path": "data/ucf101/xgtf",
+    "mask": {
+      "path": "data/ucf101/xgtf-mask",
+      "action_only": false,
+      "ext": ".png"
+    }
+  },
   "relevancy": {
     "output": "data/relevancy",
     "detector": {
@@ -25,14 +33,6 @@
       "paraphrase-albert-small-v2",
       "paraphrase-multilingual-MiniLM-L12-v2"
     ]
-  },
-  "xgtf": {
-    "path": "xgtf",
-    "mask": {
-      "path": "data/ucf101/xgtf-mask",
-      "action_only": false,
-      "ext": ".png"
-    }
   },
   "e2fgvi": {
     "ucf101": {
