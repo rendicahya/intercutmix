@@ -92,7 +92,8 @@ assert_that("config.json").is_file().is_readable()
 dataset_root = Path(conf.mix.dataset.path)
 scene_root = Path(conf.mix.scene.path)
 mask_root = Path(conf.mix.mask.path)
-output_root = Path(conf.mix.output)
+output_root = Path(conf.mix.output.path)
+output_ext = conf.mix.output.ext
 
 assert_that(dataset_root).is_directory().is_readable()
 assert_that(scene_root).is_directory().is_readable()
@@ -173,7 +174,7 @@ with ThreadPoolExecutor(max_workers=n_cores) as executor:
                 scene_path = scene_root / scene_pick
                 output_path = (
                     output_root / action.name / f"{file.stem}-{scene_class_pick}"
-                ).with_suffix(".mp4")
+                ).with_suffix(output_ext)
 
                 scene_class_option.remove(scene_class_pick)
 
