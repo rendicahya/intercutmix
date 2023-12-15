@@ -13,7 +13,17 @@ git clone --recursive https://github.com/rendicahya/intercutmix.git
 cd intercutmix
 ```
 
-2. Download the UCF101 dataset.
+2. Create a virtual environment.
+
+```shell
+python -m venv venv
+source venv/bin/activate
+pip install -U pip
+```
+
+## B. Download the datasets
+
+### a. UCF101
 
 ```shell
 mkdir -p data/ucf101
@@ -35,17 +45,31 @@ mv ucfTrainTestlist annotations
 cd ../..
 ```
 
-3. Prepare virtual environments.
+### b. HMDB51
 
 ```shell
-python -m venv venv
-source venv/bin/activate
-pip install -U pip
+mkdir -p data/hmdb51/videos
+cd data/hmdb51/videos
 ```
 
-## B. Generate scene mask images
+```shell
+wget http://serre-lab.clps.brown.edu/wp-content/uploads/2013/10/hmdb51_org.rar
+wget http://serre-lab.clps.brown.edu/wp-content/uploads/2013/10/hmdb51_sta.rar
+```
+
+```shell
+unrar x hmdb51_sta.rar
+rm hmdb51_sta.rar
+for file in *.rar; do unrar x "$file"; done
+rm *.rar
+cd ../../..
+```
+
+## D. Generate scene mask images
 
 This process uses bounding boxes in xgtf format to generate mask images that will be used in the next step to create scene videos.
+
+### a. UCF101
 
 1. Install packages.
 
@@ -76,7 +100,11 @@ cd ../..
 python xgtf_to_mask.py
 ```
 
-## C. Generate scene videos
+### b. HMDB51
+
+1. 
+
+## E. Generate scene videos
 
 This step uses mask images generated in step B. Therefore, make sure that step B has been successfully completed.
 
@@ -119,7 +147,7 @@ cd ..
 python make_file_list_json.py
 ```
 
-## D. Relevancy
+## F. Relevancy
 
 This step generates relevancy scores between UCF101 action names and object names used by the UniDet object detector.
 
@@ -135,7 +163,7 @@ pip install sentence-transformers
 python relevancy.py
 ```
 
-## E. Object detection
+## G. Object detection
 
 1. Enter submodule.
 
