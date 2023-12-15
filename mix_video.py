@@ -120,6 +120,7 @@ n_video_blacklist = len(conf.mix.video.blacklist)
 n_target_videos = (n_videos - n_video_blacklist) * conf.mix.multiplication
 action_whitelist = conf.mix.action.whitelist
 action_blacklist = conf.mix.action.blacklist
+output_ext = conf.mix.output.ext
 bar = tqdm(total=n_target_videos)
 
 if conf.mix.multithread:

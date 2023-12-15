@@ -21,7 +21,8 @@ cd data/ucf101
 ```
 
 ```shell
-wget https://www.crcv.ucf.edu/datasets/human-actions/ucf101/UCF101.rar https://www.crcv.ucf.edu/data/UCF101/UCF101TrainTestSplits-RecognitionTask.zip --no-check-certificate
+wget https://www.crcv.ucf.edu/datasets/human-actions/ucf101/UCF101.rar --no-check-certificate
+wget https://www.crcv.ucf.edu/data/UCF101/UCF101TrainTestSplits-RecognitionTask.zip --no-check-certificate
 ```
 
 ```shell
@@ -44,12 +45,29 @@ pip install -U pip
 
 ## B. Generate scene mask images
 
-This process uses manually-created annotations in xgtf format available in the `xgtf` directory to generate mask images. These images will be used in the next step to create scene videos.
+This process uses bounding boxes in xgtf format to generate mask images that will be used in the next step to create scene videos.
 
 1. Install packages.
 
 ```shell
 pip install beautifulsoup4 lxml opencv-python tqdm av decord moviepy
+```
+
+2. Download bounding boxes.
+```shell
+cd data/ucf101
+```
+
+```shell
+wget http://crcv.ucf.edu/ICCV13-Action-Workshop/index.files/UCF101_24Action_Detection_Annotations.zip --no-check-certificate
+```
+
+```shell
+unzip -q UCF101_24Action_Detection_Annotations.zip
+mv UCF101_24Action_Detection_Annotations/UCF101_24_Annotations xgtf
+rmdir UCF101_24Action_Detection_Annotations
+rm UCF101_24Action_Detection_Annotations.zip readme.txt
+cd ../..
 ```
 
 2. Generate mask images. This will take a few minutes and the results will be stored in `data/ucf101/xgtf-mask`.

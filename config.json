@@ -6,12 +6,21 @@
     "n_videos": 13320,
     "n_classes": 101
   },
+  "xgtf": {
+    "path": "data/ucf101/xgtf",
+    "mask": {
+      "path": "data/ucf101/xgtf-mask",
+      "action_only": false,
+      "ext": ".png"
+    }
+  },
   "relevancy": {
     "output": "data/relevancy",
     "detector": {
       "name": "unidet",
       "classnames": "UniDet/classnames.json"
     },
+    "json": "data/relevancy/unidet-ids/all-mpnet-base-v2/0.5.json",
     "avail_methods": [
       "all-mpnet-base-v2",
       "multi-qa-mpnet-base-dot-v1",
@@ -23,17 +32,7 @@
       "paraphrase-multilingual-mpnet-base-v2",
       "paraphrase-albert-small-v2",
       "paraphrase-multilingual-MiniLM-L12-v2"
-    ],
-    "json": "/nas.dbms/randy/projects/intercutmix/data/relevancy/unidet-ids/all-mpnet-base-v2/0.5.json"
-  },
-  "xgtf": {
-    "path": "xgtf",
-    "mask": {
-      "path": "data/ucf101/xgtf-mask",
-      "action_only": false,
-      "n_digits": 5,
-      "ext": ".png"
-    }
+    ]
   },
   "e2fgvi": {
     "ucf101": {
@@ -85,8 +84,7 @@
         },
         "mask": {
           "path": "../data/ucf101/unidet-actor-mask",
-          "ext": ".png",
-          "n_digits": 5
+          "ext": ".png"
         }
       }
     }

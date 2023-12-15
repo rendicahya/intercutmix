@@ -88,7 +88,6 @@ def main():
     mask_ext = conf.xgtf.mask.ext
     output_root = Path(conf.xgtf.mask.path)
     bar = tqdm(total=count_files(xgtf_dir))
-    n_digits = conf.xgtf.mask.n_digits
 
     assert_that(xgtf_dir).is_directory().is_readable()
     assert_that(ucf101_dir).is_directory().is_readable()
@@ -116,7 +115,7 @@ def main():
 
             for i in range(n_frames):
                 mask = np.zeros((height, width), dtype=np.uint8)
-                output_file = output_dir / (f"%0{n_digits}d{mask_ext}" % i)
+                output_file = output_dir / (f"%05d{mask_ext}" % i)
 
                 for person_id, person_bbox in people_bbox.items():
                     if i not in person_bbox:
