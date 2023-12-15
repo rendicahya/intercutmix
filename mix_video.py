@@ -92,7 +92,8 @@ assert_that("config.json").is_file().is_readable()
 dataset_root = Path(conf.mix.dataset.path)
 scene_root = Path(conf.mix.scene.path)
 mask_root = Path(conf.mix.mask.path)
-output_root = Path(conf.mix.output)
+output_root = Path(conf.mix.output.path)
+output_ext = conf.mix.output.ext
 
 assert_that(dataset_root).is_directory().is_readable()
 assert_that(scene_root).is_directory().is_readable()
