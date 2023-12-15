@@ -109,9 +109,9 @@
     },
     "multithread": false,
     "dataset": {
-      "path": "data/ucf101/videos",
+      "path": "/nas.dbms/randy/datasets/ucf24",
       "ext": ".avi",
-      "n_videos": 13320
+      "n_videos": 3207
     },
     "scene": {
       "list": "data/ucf101/scene-xgtf.json",
@@ -119,9 +119,12 @@
       "ext": ".mp4"
     },
     "mask": {
-      "path": "../data/ucf101/UniDet-actor-mask",
+      "path": "data/ucf101/xgtf-mask",
       "ext": ".png"
     },
-    "output": "../data/ucf101/mix-xgtf-inter"
+    "output": {
+      "path": "data/ucf101/ucf24-mix",
+      "ext": ".mp4"
+    }
   }
 }
