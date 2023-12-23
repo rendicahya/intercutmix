@@ -106,7 +106,7 @@ python xgtf_to_mask.py
 
 ## E. Generate scene videos
 
-This step generates scene-only videos using the [E2FGVI](https://github.com/MCG-NKU/E2FGVI) method ([Li et al., 2022](https://arxiv.org/abs/2204.02663)) and the mask images generated in [step D](#d-generate-scene-mask-images). Therefore, make sure that step D has been successfully completed.
+This step generates scene-only videos using the [E<sup>2</sup>FGVI](https://github.com/MCG-NKU/E2FGVI) method ([Li et al., 2022](https://arxiv.org/abs/2204.02663)) and the mask images generated in [step D](#d-generate-scene-mask-images). Therefore, make sure that step D has been successfully completed.
 
 1. Enter submodule.
 
@@ -114,7 +114,7 @@ This step generates scene-only videos using the [E2FGVI](https://github.com/MCG-
 cd E2FGVI
 ```
 
-2. Install packages.
+2. Install packages. Use the correct PyTorch version according to your system.
 
 ```shell
 pip install torch==1.10.0+cu111 torchvision==0.11.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
@@ -122,7 +122,7 @@ pip install openmim gdown matplotlib av decord moviepy
 mim install mmcv-full
 ```
 
-3. Download checkpoint `E2FGVI-HQ-CVPR22.pth`.
+3. Download the E<sup>2</sup>FGVI checkpoint `E2FGVI-HQ-CVPR22.pth`.
 
 ```shell
 gdown 10wGdKSUOie0XmCr8SQ2A2FeDe-mfn5w3 -O release_model/
@@ -134,7 +134,7 @@ gdown 10wGdKSUOie0XmCr8SQ2A2FeDe-mfn5w3 -O release_model/
 python batch.py
 ```
 
-5. Make a list of the generated scene videos. Do this step only after the video generation step has been completed. The list will be stored in `data/ucf101/scene-xgtf.json`.
+5. Make a list of the generated scene videos. The list will be stored in `data/ucf101/scene-xgtf.json`.
 
 ```shell
 cd ..
@@ -143,7 +143,7 @@ python make_file_list_json.py
 
 ## F. Relevancy
 
-This step generates relevancy scores between UCF101 action names and object names used by the UniDet object detector.
+This step generates relevancy scores between UCF101 action names and object names covered in the UniDet object detector.
 
 1. Install packages.
 
@@ -151,13 +151,15 @@ This step generates relevancy scores between UCF101 action names and object name
 pip install sentence-transformers
 ```
 
-2. Generate relevancy lists. This will generate relevancy files in JSON format and save them in `relevancy/unidet-relevant-ids` and `relevancy/unidet-relevant-names`.
+2. Generate relevancy lists. This will generate relevancy files in JSON format saved in `relevancy/unidet-relevant-ids` and `relevancy/unidet-relevant-names`.
 
 ```shell
 python relevancy.py
 ```
 
 ## G. Object detection
+
+This step uses the [UniDet](https://github.com/xingyizhou/UniDet) method ([Zhou et al., 2022](http://arxiv.org/abs/2102.13086)).
 
 1. Enter submodule.
 
