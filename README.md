@@ -106,7 +106,7 @@ python xgtf_to_mask.py
 
 ## E. Generate scene videos
 
-This step uses mask images generated in step B. Therefore, make sure that step B has been successfully completed.
+This step generates scene-only videos using the [E2FGVI](https://github.com/MCG-NKU/E2FGVI) method ([Li et al., 2022](https://arxiv.org/abs/2204.02663)) and the mask images generated in step D. Therefore, make sure that step D has been successfully completed.
 
 1. Enter submodule.
 
