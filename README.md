@@ -122,16 +122,10 @@ pip install openmim gdown matplotlib av decord moviepy
 mim install mmcv-full
 ```
 
-3. Download pretrained model.
+3. Download checkpoint `E2FGVI-HQ-CVPR22.pth`.
 
 ```shell
 gdown 10wGdKSUOie0XmCr8SQ2A2FeDe-mfn5w3 -O release_model/
-```
-
-Alternatively, in case the above download fails:
-
-```shell
-wget https://download847.mediafire.com/ou5x8bq0q9sgku70mNh31V5epldWxIMWhR7n2ZU7vhIoJqAg-QwZEFMqXQ3Y9gckOviT5ItorlxGBJRFg6WYuxHmkkkirUJNefaB9OdExmXDVUaZc_Gwua1BRanev3ONCDwvk1jbc5KcKuZMblIBvG6UyFoqxxzK29ejxXK3GMWOyw/mrd06il310cklxh/E2FGVI-HQ-CVPR22.pth -P release_model/
 ```
 
 4. Generate videos. This step will take several hours and the resulting videos will be stored in `data/ucf101/scene-xgtf`.
@@ -178,16 +172,10 @@ pip install detectron2 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu111
 pip install pillow==9.5.0 numpy==1.23.5
 ```
 
-3. Download pretrained object detection model.
+3. Download object detection checkpoint `Unified_learned_OCIM_RS200_6x+2x.pth`.
 
 ```shell
 gdown 1HvUv399Vie69dIOQX0gnjkCM0JUI9dqI -O models/
-```
-
-Alternatively, in case the above download fails:
-
-```shell
-wget https://download1649.mediafire.com/jjyqufty4b1gXPpH0tUaoqp-MK0xgi-89SKBJqYjH1TLSjrDqufwW_LIXF0OeiiH8tx2BxZ71cm0S_dg7xpkb0Y_sWdGD9Ca0b8eyrU32VF8ZVSUc8IKibOi_wb6DkDSR3I3cRfIVKqArhw0U_JJEpewtkgHXjdl3FCNSJ4Kv4y53Q/wdxfkp1wyc0ccxl/Unified_learned_OCIM_RS200_6x%2B2x.pth -P models/
 ```
 
 4. Run object detection.
