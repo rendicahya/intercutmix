@@ -113,6 +113,8 @@ python xgtf_to_mask.py
 pip install scipy
 ```
 
+2. TODO
+
 ## E. Generate scene videos
 
 This step generates scene-only videos using the [E<sup>2</sup>FGVI](https://github.com/MCG-NKU/E2FGVI) method ([Li et al., 2022](https://arxiv.org/abs/2204.02663)) and the mask images generated in [step D](#d-generate-scene-mask-images). Therefore, make sure that step D has been successfully completed.
