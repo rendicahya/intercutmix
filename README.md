@@ -91,7 +91,13 @@ unzip -q UCF101_24Action_Detection_Annotations.zip
 mv UCF101_24Action_Detection_Annotations/UCF101_24_Annotations xgtf
 rmdir UCF101_24Action_Detection_Annotations
 rm UCF101_24Action_Detection_Annotations.zip readme.txt
-cd ../..
+```
+
+3. Correct file name.
+```shell
+cd xgtf/RopeClimbing
+mv v_RopeClimbing_g02_C01.xgtf v_RopeClimbing_g02_c01.xgtf
+cd ../../../..
 ```
 
 2. Generate mask images. This will take a few minutes and the results will be stored in `data/ucf101/xgtf-mask`.
