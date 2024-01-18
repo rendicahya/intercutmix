@@ -90,19 +90,19 @@ wget http://crcv.ucf.edu/ICCV13-Action-Workshop/index.files/UCF101_24Action_Dete
 unzip -q UCF101_24Action_Detection_Annotations.zip
 mv UCF101_24Action_Detection_Annotations/UCF101_24_Annotations xgtf
 rmdir UCF101_24Action_Detection_Annotations
-rm UCF101_24Action_Detection_Annotations.zip readme.txt
+rm UCF101_24Action_Detection_Annotations.zip
 ```
 
 3. Correct file name.
 ```shell
 cd xgtf/RopeClimbing
 mv v_RopeClimbing_g02_C01.xgtf v_RopeClimbing_g02_c01.xgtf
-cd ../../../..
 ```
 
-2. Generate mask images. This will take a few minutes and the results will be stored in `data/ucf101/xgtf-mask`.
+4. Generate mask images. This will take a few minutes and the results will be stored in `data/ucf101/xgtf-mask`.
 
 ```shell
+cd ../../../..
 python xgtf_to_mask.py
 ```
 
