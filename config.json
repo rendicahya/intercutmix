@@ -6,6 +6,9 @@
     "n_videos": 13320,
     "n_classes": 101
   },
+  "hmdb51": {
+    "path": "data/hmdb51/videos"
+  },
   "xgtf": {
     "path": "data/ucf101/xgtf",
     "mask": {
@@ -13,6 +16,9 @@
       "action_only": false,
       "ext": ".png"
     }
+  },
+  "mat": {
+    "path": "data/hmdb51/mat-mask"
   },
   "relevancy": {
     "output": "data/relevancy",
@@ -78,13 +84,18 @@
       "video_reader": "opencv",
       "output": {
         "video": {
-          "generate": true,
+          "generate": false,
           "writer": "moviepy",
           "path": "../data/ucf101/unidet-actor"
         },
         "mask": {
+          "generate": false,
           "path": "../data/ucf101/unidet-actor-mask",
           "ext": ".png"
+        },
+        "repp": {
+          "enabled": true,
+          "path": "../data/ucf101/repp"
         }
       }
     }

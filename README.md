@@ -21,7 +21,7 @@ source venv/bin/activate
 pip install -U pip
 ```
 
-## B. Download the datasets
+## B. Download datasets
 
 ### a. UCF101
 
@@ -54,12 +54,12 @@ cd data/hmdb51/videos
 
 ```shell
 wget http://serre-lab.clps.brown.edu/wp-content/uploads/2013/10/hmdb51_org.rar
-wget http://serre-lab.clps.brown.edu/wp-content/uploads/2013/10/hmdb51_sta.rar
+# wget http://serre-lab.clps.brown.edu/wp-content/uploads/2013/10/hmdb51_sta.rar
 ```
 
 ```shell
-unrar x hmdb51_sta.rar
-rm hmdb51_sta.rar
+unrar x hmdb51_org.rar
+rm hmdb51_org.rar
 for file in *.rar; do unrar x "$file"; done
 rm *.rar
 cd ../../..
@@ -102,7 +102,10 @@ python xgtf_to_mask.py
 
 ### b. HMDB51
 
-1. 
+1. Install packages.
+```shell
+pip install scipy
+```
 
 ## E. Generate scene videos
 
