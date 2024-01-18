@@ -109,7 +109,7 @@ pip install scipy
 
 ## E. Generate scene videos
 
-This step uses mask images generated in step B. Therefore, make sure that step B has been successfully completed.
+This step generates scene-only videos using the [E<sup>2</sup>FGVI](https://github.com/MCG-NKU/E2FGVI) method ([Li et al., 2022](https://arxiv.org/abs/2204.02663)) and the mask images generated in [step D](#d-generate-scene-mask-images). Therefore, make sure that step D has been successfully completed.
 
 1. Enter submodule.
 
@@ -117,7 +117,7 @@ This step uses mask images generated in step B. Therefore, make sure that step B
 cd E2FGVI
 ```
 
-2. Install packages.
+2. Install packages. Use the correct PyTorch version according to your system.
 
 ```shell
 pip install torch==1.10.0+cu111 torchvision==0.11.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
@@ -125,16 +125,10 @@ pip install openmim gdown matplotlib av decord moviepy
 mim install mmcv-full
 ```
 
-3. Download pretrained model.
+3. Download the E<sup>2</sup>FGVI checkpoint `E2FGVI-HQ-CVPR22.pth`.
 
 ```shell
 gdown 10wGdKSUOie0XmCr8SQ2A2FeDe-mfn5w3 -O release_model/
-```
-
-Alternatively, in case the above download fails:
-
-```shell
-wget https://download847.mediafire.com/ou5x8bq0q9sgku70mNh31V5epldWxIMWhR7n2ZU7vhIoJqAg-QwZEFMqXQ3Y9gckOviT5ItorlxGBJRFg6WYuxHmkkkirUJNefaB9OdExmXDVUaZc_Gwua1BRanev3ONCDwvk1jbc5KcKuZMblIBvG6UyFoqxxzK29ejxXK3GMWOyw/mrd06il310cklxh/E2FGVI-HQ-CVPR22.pth -P release_model/
 ```
 
 4. Generate videos. This step will take several hours and the resulting videos will be stored in `data/ucf101/scene-xgtf`.
@@ -143,7 +137,7 @@ wget https://download847.mediafire.com/ou5x8bq0q9sgku70mNh31V5epldWxIMWhR7n2ZU7v
 python batch.py
 ```
 
-5. Make a list of the generated scene videos. Do this step only after the video generation step has been completed. The list will be stored in `data/ucf101/scene-xgtf.json`.
+5. Make a list of the generated scene videos. The list will be stored in `data/ucf101/scene-xgtf.json`.
 
 ```shell
 cd ..
@@ -152,7 +146,7 @@ python make_file_list_json.py
 
 ## F. Relevancy
 
-This step generates relevancy scores between UCF101 action names and object names used by the UniDet object detector.
+This step generates relevancy scores between UCF101 action names and object names covered in the UniDet object detector.
 
 1. Install packages.
 
@@ -160,13 +154,15 @@ This step generates relevancy scores between UCF101 action names and object name
 pip install sentence-transformers
 ```
 
-2. Generate relevancy lists. This will generate relevancy files in JSON format and save them in `relevancy/unidet-relevant-ids` and `relevancy/unidet-relevant-names`.
+2. Generate relevancy lists. This will generate relevancy files in JSON format saved in `relevancy/unidet-relevant-ids` and `relevancy/unidet-relevant-names`.
 
 ```shell
 python relevancy.py
 ```
 
 ## G. Object detection
+
+This step uses the [UniDet](https://github.com/xingyizhou/UniDet) method ([Zhou et al., 2022](http://arxiv.org/abs/2102.13086)).
 
 1. Enter submodule.
 
@@ -181,16 +177,10 @@ pip install detectron2 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu111
 pip install pillow==9.5.0 numpy==1.23.5
 ```
 
-3. Download pretrained object detection model.
+3. Download object detection checkpoint `Unified_learned_OCIM_RS200_6x+2x.pth`.
 
 ```shell
 gdown 1HvUv399Vie69dIOQX0gnjkCM0JUI9dqI -O models/
-```
-
-Alternatively, in case the above download fails:
-
-```shell
-wget https://download1649.mediafire.com/jjyqufty4b1gXPpH0tUaoqp-MK0xgi-89SKBJqYjH1TLSjrDqufwW_LIXF0OeiiH8tx2BxZ71cm0S_dg7xpkb0Y_sWdGD9Ca0b8eyrU32VF8ZVSUc8IKibOi_wb6DkDSR3I3cRfIVKqArhw0U_JJEpewtkgHXjdl3FCNSJ4Kv4y53Q/wdxfkp1wyc0ccxl/Unified_learned_OCIM_RS200_6x%2B2x.pth -P models/
 ```
 
 4. Run object detection.
