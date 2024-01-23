@@ -74,29 +74,43 @@
       "parallel": false
     },
     "select": {
-      "mode": "actorcutmix",
+      "mode": "intercutmix",
       "dataset": {
-        "path": "../data/ucf101/videos",
+        "path": "data/ucf101/videos",
         "ext": ".avi"
       },
       "confidence": 0.5,
+      "common_objects": ["Person", "Man", "Woman"],
       "json": "../data/ucf101/unidet-json",
       "video_reader": "opencv",
       "output": {
         "video": {
-          "generate": false,
+          "generate": true,
           "writer": "moviepy",
-          "path": "../data/ucf101/unidet-actor"
+          "path": "data/ucf101/unidet-inter"
         },
         "mask": {
           "generate": false,
-          "path": "../data/ucf101/unidet-actor-mask",
+          "path": "data/ucf101/unidet-inter-mask",
           "ext": ".png"
         },
         "repp": {
-          "enabled": true,
-          "path": "../data/ucf101/repp"
+          "enabled": false,
+          "path": "data/ucf101/unidet-inter-dump"
         }
+      }
+    }
+  },
+  "repp": {
+    "input": {
+      "path": "data/ucf101/repp-inter-json"
+    },
+    "video_reader": "opencv",
+    "dataset": "ucf101",
+    "output": {
+      "video": {
+        "path": "data/ucf101/repp-inter",
+        "writer": "moviepy"
       }
     }
   },
