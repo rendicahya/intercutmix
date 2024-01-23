@@ -65,7 +65,7 @@ rm *.rar
 cd ../../..
 ```
 
-## D. Generate scene mask images
+## C. Generate scene mask images
 
 This process uses bounding boxes in xgtf format to generate mask images that will be used in the next step to create scene videos.
 
@@ -129,7 +129,7 @@ cd E2FGVI
 
 ```shell
 pip install torch==1.10.0+cu111 torchvision==0.11.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
-pip install openmim gdown matplotlib av decord moviepy
+pip install openmim gdown matplotlib
 mim install mmcv-full
 ```
 
