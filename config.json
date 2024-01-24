@@ -57,17 +57,17 @@
   "unidet": {
     "detect": {
       "dataset": {
-        "path": "../data/ucf101/videos",
+        "path": "data/ucf101/videos",
         "ext": ".avi"
       },
       "config": "configs/Unified_learned_OCIM_RS200_6x+2x.yaml",
       "checkpoint": "models/Unified_learned_OCIM_RS200_6x+2x.pth",
       "output": {
-        "json": "../data/ucf101/unidet-json",
+        "json": "data/ucf101/unidet-json",
         "video": {
-          "path": "../data/ucf101/unidet",
+          "path": "data/ucf101/unidet",
           "writer": "moviepy",
-          "generate": true
+          "generate": false
         }
       },
       "confidence": 0.5,
@@ -81,11 +81,11 @@
       },
       "confidence": 0.5,
       "common_objects": ["Person", "Man", "Woman"],
-      "json": "../data/ucf101/unidet-json",
+      "json": "data/ucf101/unidet-json",
       "video_reader": "opencv",
       "output": {
         "video": {
-          "generate": true,
+          "generate": false,
           "writer": "moviepy",
           "path": "data/ucf101/unidet-inter"
         },
@@ -95,7 +95,7 @@
           "ext": ".png"
         },
         "repp": {
-          "enabled": false,
+          "enabled": true,
           "path": "data/ucf101/unidet-inter-dump"
         }
       }
@@ -103,15 +103,17 @@
   },
   "repp": {
     "input": {
-      "path": "data/ucf101/repp-inter-json"
+      "path": "data/ucf101/unidet-inter-dump"
     },
+    "configuration": "REPP_cfg/fgfa_repp_cfg.json",
     "video_reader": "opencv",
     "dataset": "ucf101",
     "output": {
       "video": {
         "path": "data/ucf101/repp-inter",
         "writer": "moviepy"
-      }
+      },
+      "path": "data/ucf101/unidet-repp-inter-json"
     }
   },
   "mix": {
