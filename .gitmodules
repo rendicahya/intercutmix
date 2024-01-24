@@ -19,3 +19,6 @@
 [submodule "E2FGVI"]
 	path = E2FGVI
 	url = https://github.com/rendicahya/E2FGVI.git
+[submodule "REPP"]
+	path = REPP
+	url = https://github.com/rendicahya/REPP.git
