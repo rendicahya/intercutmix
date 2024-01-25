@@ -64,8 +64,8 @@ for model_name in avail_methods:
         df_data.append(row)
 
     df = pd.DataFrame(df_data, columns=classnames, index=actions)
-    ids_output_dir = Path(f"{output_dir}/{detector}-ids") / model_name
-    names_output_dir = Path(f"{output_dir}/{detector}-names") / model_name
+    ids_output_dir = Path(f"{output_dir}/{detector}/ids") / model_name
+    names_output_dir = Path(f"{output_dir}/{detector}/names") / model_name
 
     names_output_dir.mkdir(parents=True, exist_ok=True)
     ids_output_dir.mkdir(parents=True, exist_ok=True)
