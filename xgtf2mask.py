@@ -130,6 +130,8 @@ def main():
 
             bar.update(1)
 
+    bar.close()
+
 
 if __name__ == "__main__":
     main()
