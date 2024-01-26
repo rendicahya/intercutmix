@@ -63,7 +63,7 @@
       "config": "configs/Unified_learned_OCIM_RS200_6x+2x.yaml",
       "checkpoint": "models/Unified_learned_OCIM_RS200_6x+2x.pth",
       "output": {
-        "json": "data/ucf101/UniDet/json",
+        "json": "data/ucf101/UniDet/detect/json",
         "video": {
           "generate": false,
           "path": "data/ucf101/UniDet/detect/videos",
