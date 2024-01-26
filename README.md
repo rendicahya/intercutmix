@@ -249,7 +249,7 @@ cd REPP
 
 2. Run REPP.
 
-This will process the `.pckl` files and save the results as JSON files in `data/{dataset}/UniDet/REPP/inter/json`.
+This will post-process the `.pckl` files and save the resulting mask files in `data/{dataset}/UniDet/REPP/inter/mask` and (optionally) videos in `data/{dataset}/UniDet/REPP/inter/videos`.
 
 ```shell
 python batch.py
