@@ -145,11 +145,10 @@
       "ext": ".mp4"
     },
     "mask": {
-      "path": "data/ucf101/xgtf-mask",
-      "ext": ".png"
+      "path": "data/ucf101/xgtf-mask"
     },
     "output": {
-      "path": "data/ucf101/ucf24-mix",
+      "path": "data/ucf101/intercutmix",
       "ext": ".mp4"
     }
   }
