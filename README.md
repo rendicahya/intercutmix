@@ -91,13 +91,7 @@ pip install beautifulsoup4 lxml opencv-python tqdm av decord moviepy
 2. Download bounding boxes.
 ```shell
 cd data/ucf101
-```
-
-```shell
 wget http://crcv.ucf.edu/ICCV13-Action-Workshop/index.files/UCF101_24Action_Detection_Annotations.zip --no-check-certificate
-```
-
-```shell
 mkdir xgtf
 unzip -q UCF101_24Action_Detection_Annotations.zip
 mv UCF101_24Action_Detection_Annotations/UCF101_24_Annotations xgtf/files
