@@ -135,11 +135,9 @@
       "whitelist": null,
       "blacklist": null
     },
-    "multithread": false,
     "dataset": {
-      "path": "/nas.dbms/randy/datasets/ucf24",
-      "ext": ".avi",
-      "n_videos": 3207
+      "path": "data/ucf101/videos",
+      "ext": ".avi"
     },
     "scene": {
       "list": "data/ucf101/xgtf/scene-list.json",
