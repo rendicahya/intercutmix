@@ -10,9 +10,9 @@
     "path": "data/hmdb51/videos"
   },
   "xgtf": {
-    "path": "data/ucf101/xgtf",
+    "path": "data/ucf101/xgtf/files",
     "mask": {
-      "path": "data/ucf101/xgtf-mask",
+      "path": "data/ucf101/xgtf/mask",
       "action_only": false,
       "ext": ".png"
     }
@@ -23,10 +23,10 @@
   "relevancy": {
     "output": "data/relevancy",
     "detector": {
-      "name": "unidet",
+      "name": "UniDet",
       "classnames": "UniDet/classnames.json"
     },
-    "json": "data/relevancy/unidet-ids/all-mpnet-base-v2/0.5.json",
+    "json": "data/relevancy/UniDet/ids/all-mpnet-base-v2/0.5.json",
     "avail_methods": [
       "all-mpnet-base-v2",
       "multi-qa-mpnet-base-dot-v1",
@@ -45,9 +45,9 @@
       "path": "../data/ucf101/videos"
     },
     "model": "model.e2fgvi_hq",
-    "mask": "../data/ucf101/xgtf-mask",
+    "mask": "../data/ucf101/xgtf/mask",
     "checkpoint": "release_model/E2FGVI-HQ-CVPR22.pth",
-    "output": "../data/ucf101/scene-xgtf",
+    "output": "../data/ucf101/xgtf/scene",
     "max_video_len": 400,
     "video": {
       "reader": "opencv",
@@ -63,11 +63,11 @@
       "config": "configs/Unified_learned_OCIM_RS200_6x+2x.yaml",
       "checkpoint": "models/Unified_learned_OCIM_RS200_6x+2x.pth",
       "output": {
-        "json": "data/ucf101/unidet-json",
+        "json": "data/ucf101/UniDet/json",
         "video": {
-          "path": "data/ucf101/unidet",
-          "writer": "moviepy",
-          "generate": false
+          "generate": false,
+          "path": "data/ucf101/UniDet/detect/videos",
+          "writer": "moviepy"
         }
       },
       "confidence": 0.5,
@@ -81,39 +81,42 @@
       },
       "confidence": 0.5,
       "common_objects": ["Person", "Man", "Woman"],
-      "json": "data/ucf101/unidet-json",
+      "json": "data/ucf101/UniDet/json",
       "video_reader": "opencv",
       "output": {
         "video": {
           "generate": false,
           "writer": "moviepy",
-          "path": "data/ucf101/unidet-inter"
+          "path": "data/ucf101/UniDet/select/inter/videos"
         },
         "mask": {
           "generate": false,
-          "path": "data/ucf101/unidet-inter-mask",
+          "path": "data/ucf101/UniDet/select/inter/mask",
           "ext": ".png"
         },
-        "repp": {
+        "dump": {
           "enabled": true,
-          "path": "data/ucf101/unidet-inter-dump"
+          "path": "data/ucf101/UniDet/select/inter/dump"
         }
       }
     }
   },
   "repp": {
-    "input": {
-      "path": "data/ucf101/unidet-inter-dump"
-    },
     "configuration": "REPP_cfg/fgfa_repp_cfg.json",
-    "video_reader": "opencv",
-    "dataset": "ucf101",
+    "video": {
+      "path": "data/ucf101/videos",
+      "reader": "opencv"
+    },
     "output": {
       "video": {
-        "path": "data/ucf101/repp-inter",
-        "writer": "moviepy"
+        "generate": true,
+        "path": "data/ucf101/UniDet/REPP/inter/videos",
+        "writer": "moviepy",
+        "ext": ".mp4"
       },
-      "path": "data/ucf101/unidet-repp-inter-json"
+      "mask": {
+        "path": "data/ucf101/UniDet/REPP/inter/mask"
+      }
     }
   },
   "mix": {
@@ -139,8 +142,8 @@
       "n_videos": 3207
     },
     "scene": {
-      "list": "data/ucf101/scene-xgtf.json",
-      "path": "data/ucf101/scene-xgtf",
+      "list": "data/ucf101/xgtf/scene-list.json",
+      "path": "data/ucf101/xgtf/scene",
       "ext": ".mp4"
     },
     "mask": {
