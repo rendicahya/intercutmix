@@ -237,7 +237,7 @@ There are two modes: `actorcutmix` and `intercutmix` (default) that can be confi
 cd ..
 ```
 
-## H. Post-processing.
+## H. Detection Post-processing
 
 This step uses [Robust and efficient post-processing for video object detection (REPP)](https://github.com/AlbertoSabater/Robust-and-efficient-post-processing-for-video-object-detection) ([Sabater et al., 2020](https://arxiv.org/abs/2009.11050)) to refine the object detection results.
 
@@ -253,4 +253,14 @@ This will post-process the `.pckl` files and save the resulting mask files in `d
 
 ```shell
 python batch.py
+```
+
+## I. CutMix
+
+Videos will be mixed with scene-only videos. By default, 10 scene-only videos will be randomly picked from different actions and each video will be mixed with them. Thus, the resulting mixed videos will be 10 times as many as the original videos.
+
+1. Run script.
+
+```shell
+python cutmix.py
 ```
