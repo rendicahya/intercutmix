@@ -249,7 +249,7 @@ cd REPP
 
 2. Run REPP.
 
-This will post-process the `.pckl` files and save the resulting mask files in `data/{dataset}/UniDet/REPP/inter/mask` and (optionally) videos in `data/{dataset}/UniDet/REPP/inter/videos`.
+This will post-process the `.pckl` files and save the resulting mask files in `data/{dataset}/UniDet/REPP/inter/mask` and (optionally) the resulting videos in `data/{dataset}/UniDet/REPP/inter/videos`.
 
 ```shell
 python batch.py
