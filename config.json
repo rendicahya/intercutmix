@@ -74,48 +74,52 @@
       "parallel": false
     },
     "select": {
-      "mode": "intercutmix",
-      "dataset": {
+      "mode": "actorcutmix",
+      "video": {
         "path": "data/ucf101/videos",
-        "ext": ".avi"
+        "ext": ".avi",
+        "reader": "opencv"
       },
       "confidence": 0.5,
       "common_objects": ["Person", "Man", "Woman"],
       "json": "data/ucf101/UniDet/json",
-      "video_reader": "opencv",
       "output": {
         "video": {
-          "generate": false,
+          "generate": true,
           "writer": "moviepy",
-          "path": "data/ucf101/UniDet/select/inter/videos"
+          "path": "data/ucf101/UniDet/select/actor/videos"
         },
         "mask": {
-          "generate": false,
-          "path": "data/ucf101/UniDet/select/inter/mask",
-          "ext": ".png"
+          "generate": true,
+          "path": "data/ucf101/UniDet/select/actor/mask"
         },
         "dump": {
           "enabled": true,
-          "path": "data/ucf101/UniDet/select/inter/dump"
+          "path": "data/ucf101/UniDet/select/actor/dump"
         }
       }
     }
   },
   "repp": {
     "configuration": "REPP_cfg/fgfa_repp_cfg.json",
-    "video": {
-      "path": "data/ucf101/videos",
-      "reader": "opencv"
+    "input": {
+      "dump": {
+        "path": "data/ucf101/UniDet/select/actor/dump"
+      },
+      "video": {
+        "path": "data/ucf101/videos",
+        "reader": "opencv"
+      }
     },
     "output": {
       "video": {
         "generate": true,
-        "path": "data/ucf101/UniDet/REPP/inter/videos",
+        "path": "data/ucf101/UniDet/REPP/actor/videos",
         "writer": "moviepy",
         "ext": ".mp4"
       },
       "mask": {
-        "path": "data/ucf101/UniDet/REPP/inter/mask"
+        "path": "data/ucf101/UniDet/REPP/actor/mask"
       }
     }
   },
