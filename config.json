@@ -42,10 +42,10 @@
   },
   "e2fgvi": {
     "ucf101": {
-      "path": "../data/ucf101/videos"
+      "path": "data/ucf101/videos"
     },
     "model": "model.e2fgvi_hq",
-    "mask": "../data/ucf101/xgtf/mask",
+    "mask": "data/ucf101/xgtf/mask",
     "checkpoint": "release_model/E2FGVI-HQ-CVPR22.pth",
     "output": "../data/ucf101/xgtf/scene",
     "max_video_len": 400,
@@ -108,6 +108,7 @@
       },
       "video": {
         "path": "data/ucf101/videos",
+        "ext": ".avi",
         "reader": "opencv"
       }
     },
