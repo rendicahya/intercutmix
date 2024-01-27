@@ -56,7 +56,7 @@
   },
   "unidet": {
     "detect": {
-      "dataset": {
+      "video": {
         "path": "data/ucf101/videos",
         "ext": ".avi"
       },
