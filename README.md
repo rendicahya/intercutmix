@@ -268,14 +268,16 @@ python batch.py
 
 Videos will be mixed with scene-only videos. By default, 10 scene-only videos will be randomly picked from different actions and each input video will be mixed with them. Thus, the resulting mixed videos will be 10 times as many as the original videos.
 
+1. Run script.
+
+```shell
+python cutmix.py
+```
+
+## J. Training
+
 1. Install packages.
 
 ```shell
 pip install 
-```
-
-2. Run script.
-
-```shell
-python cutmix.py
 ```
