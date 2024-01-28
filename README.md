@@ -258,6 +258,10 @@ This will post-process the `.pckl` files and save the resulting mask files in `d
 
 ```shell
 python batch.py
+
+# Symlink:
+# mkdir -p ../data/ucf101/UniDet/REPP/inter
+# ln -s /nas.dbms/randy/datasets/ucf101/REPP/inter/mask ../data/ucf101/UniDet/REPP/inter/mask
 ```
 
 ## I. CutMix
