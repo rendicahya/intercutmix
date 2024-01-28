@@ -82,7 +82,7 @@
       },
       "confidence": 0.5,
       "common_objects": ["Person", "Man", "Woman"],
-      "json": "data/ucf101/UniDet/json",
+      "json": "data/ucf101/UniDet/detect/json",
       "output": {
         "video": {
           "generate": true,
