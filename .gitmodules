@@ -22,3 +22,6 @@
 [submodule "REPP"]
 	path = REPP
 	url = https://github.com/rendicahya/REPP.git
+[submodule "mmaction2"]
+	path = mmaction2
+	url = https://github.com/rendicahya/mmaction2.git
