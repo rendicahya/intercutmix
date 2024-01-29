@@ -85,12 +85,12 @@
       "json": "data/ucf101/UniDet/detect/json",
       "output": {
         "video": {
-          "generate": true,
+          "generate": false,
           "writer": "moviepy",
           "path": "data/ucf101/UniDet/select/actor/videos"
         },
         "mask": {
-          "generate": true,
+          "generate": false,
           "path": "data/ucf101/UniDet/select/actor/mask"
         },
         "dump": {
@@ -115,18 +115,20 @@
     "output": {
       "video": {
         "generate": true,
-        "path": "data/ucf101/UniDet/REPP/actor/videos",
+        "path": "data/ucf101/REPP/actor/videos",
         "writer": "moviepy",
         "ext": ".mp4"
       },
       "mask": {
-        "path": "data/ucf101/UniDet/REPP/actor/mask"
+        "path": "data/ucf101/REPP/actor/mask"
       }
     }
   },
-  "mix": {
+  "cutmix": {
     "multiplication": 10,
     "video": {
+      "path": "data/ucf101/videos",
+      "ext": ".avi",
       "reader": "opencv",
       "writer": "moviepy",
       "blacklist": [
@@ -140,20 +142,16 @@
       "whitelist": null,
       "blacklist": null
     },
-    "dataset": {
-      "path": "data/ucf101/videos",
-      "ext": ".avi"
-    },
     "scene": {
       "list": "data/ucf101/xgtf/scene-list.json",
       "path": "data/ucf101/xgtf/scene",
       "ext": ".mp4"
     },
     "mask": {
-      "path": "data/ucf101/xgtf-mask"
+      "path": "data/ucf101/REPP/actor/mask"
     },
     "output": {
-      "path": "data/ucf101/intercutmix",
+      "path": "data/ucf101/REPP/actorcutmix",
       "ext": ".mp4"
     }
   }
