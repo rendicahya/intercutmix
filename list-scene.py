@@ -18,7 +18,7 @@ for action in sorted(scene_dir.iterdir()):
     files = [
         str(file.relative_to(scene_dir))
         for file in action.iterdir()
-        if file.is_file() and file.suffix == conf.mix.scene.ext
+        if file.is_file() and file.suffix == conf.cutmix.scene.ext
     ]
 
     data[action.name] = files
