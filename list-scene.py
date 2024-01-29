@@ -7,12 +7,10 @@ from tqdm import tqdm
 
 conf = Config("config.json")
 scene_dir = Path(conf.cutmix.scene.path)
-label_file = Path(conf.ucf101.class_index)
 
 assert_that(scene_dir).is_directory().is_readable()
-assert_that(label_file).is_file().is_readable()
-n_actions = sum(1 for d in scene_dir.iterdir() if d.is_dir())
 
+n_actions = sum(1 for d in scene_dir.iterdir() if d.is_dir())
 data = {}
 bar = tqdm(total=n_actions)
 
