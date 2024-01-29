@@ -55,45 +55,23 @@ def cutmix(actor_path, scene_path, mask_path, video_reader):
         yield mix
 
 
-# def actorcutmix_job(
-#     file,
-#     scene_path,
-#     mask_path,
-#     output_path,
-#     fps: float,
-# ):
-#     bar.set_description(file.stem)
-
-#     output_frames = cutmix(file, scene_path, mask_path)
-
-#     output_path.parent.mkdir(parents=True, exist_ok=True)
-#     frames_to_video(
-#         output_frames,
-#         output_path,
-#         writer=conf.mix.video.writer,
-#         fps=fps,
-#     )
-
-#     bar.update(1)
-
-
 if __name__ == "__main__":
     print("Performing checks...")
 
     conf = Config("config.json")
     assert_that("config.json").is_file().is_readable()
 
-    dataset_root = Path(conf.mix.dataset.path)
-    scene_root = Path(conf.mix.scene.path)
-    mask_root = Path(conf.mix.mask.path)
-    out_root = Path(conf.mix.output.path)
-    out_ext = conf.mix.output.ext
-    scene_options = conf.mix.scene.list
-    n_videos = count_files(dataset_root, ext=conf.mix.dataset.ext)
-    n_scene_actions = count_dir(scene_root)
+    video_in_dir = Path(conf.cutmix.video.path)
+    scene_dir = Path(conf.cutmix.scene.path)
+    mask_dir = Path(conf.cutmix.mask.path)
+    video_out_dir = Path(conf.cutmix.output.path)
+    out_ext = conf.cutmix.output.ext
+    scene_options = conf.cutmix.scene.list
+    n_videos = count_files(video_in_dir, ext=conf.cutmix.video.ext)
+    n_scene_actions = count_dir(scene_dir)
 
-    assert_that(dataset_root).is_directory().is_readable()
-    assert_that(scene_root).is_directory().is_readable()
+    assert_that(video_in_dir).is_directory().is_readable()
+    assert_that(scene_dir).is_directory().is_readable()
     assert_that(scene_options).is_file().is_readable()
 
     with open(scene_options) as f:
@@ -101,38 +79,31 @@ if __name__ == "__main__":
 
     for action, files in scene_json.items():
         for file in files:
-            assert_that(scene_root / file).is_file().is_readable()
+            assert_that(scene_dir / file).is_file().is_readable()
 
     print("All checks passed.")
 
-    # n_cores = multiprocessing.cpu_count()
-    n_video_blacklist = len(conf.mix.video.blacklist)
-    n_target_videos = (n_videos - n_video_blacklist) * conf.mix.multiplication
-    action_whitelist = conf.mix.action.whitelist
-    action_blacklist = conf.mix.action.blacklist
+    n_video_blacklist = len(conf.cutmix.video.blacklist)
+    n_target_videos = (n_videos - n_video_blacklist) * conf.cutmix.multiplication
+    action_whitelist = conf.cutmix.action.whitelist
+    action_blacklist = conf.cutmix.action.blacklist
     bar = tqdm(total=n_target_videos)
 
-    # if conf.mix.multithread:
-    #     print(f"Running on {n_cores} cores...")
-
-    # with ThreadPoolExecutor(max_workers=n_cores) as executor:
-    #     futures = []
-
-    for action in dataset_root.iterdir():
+    for action in video_in_dir.iterdir():
         if (action_whitelist is not None and action.name not in action_whitelist) or (
             action_blacklist is not None and action.name in action_blacklist
         ):
             continue
 
-        output_action_dir = out_root / action.name
+        output_action_dir = video_out_dir / action.name
 
         n_video_blacklist = sum(
-            1 for v in conf.mix.video.blacklist if v.split("_")[1] == action.name
+            1 for v in conf.cutmix.video.blacklist if v.split("_")[1] == action.name
         )
 
         n_target_videos = (
             count_files(action) - n_video_blacklist
-        ) * conf.mix.multiplication
+        ) * conf.cutmix.multiplication
 
         if output_action_dir.exists():
             if count_files(output_action_dir) == n_target_videos:
@@ -147,23 +118,23 @@ if __name__ == "__main__":
                 shutil.rmtree(output_action_dir)
 
         for file in action.iterdir():
-            if file.stem in conf.mix.video.blacklist:
+            if file.stem in conf.cutmix.video.blacklist:
                 print(f"{file.name} skipped")
                 bar.update(1)
 
                 continue
 
-            mask_path = mask_root / action.name / file.stem
+            mask_path = mask_dir / action.name / file.stem
             fps = video_info(file)["fps"]
             scene_class_options = [s for s in scene_json.keys() if s != action.name]
 
-            for i in range(conf.mix.multiplication):
+            for i in range(conf.cutmix.multiplication):
                 scene_class_pick = random.choice(scene_class_options)
                 scene_options = scene_json[scene_class_pick]
                 scene_pick = random.choice(scene_options)
-                scene_path = scene_root / scene_pick
+                scene_path = scene_dir / scene_pick
                 output_path = (
-                    out_root / action.name / f"{file.stem}-{scene_class_pick}"
+                    video_out_dir / action.name / f"{file.stem}-{scene_class_pick}"
                 ).with_suffix(out_ext)
 
                 scene_class_options.remove(scene_class_pick)
@@ -173,38 +144,17 @@ if __name__ == "__main__":
                     bar.update(1)
                     continue
 
-                # if conf.mix.multithread:
-                #     futures.append(
-                #         executor.submit(
-                #             partial(
-                #                 actorcutmix_job,
-                #                 file,
-                #                 scene_path,
-                #                 mask_path,
-                #                 output_path,
-                #                 fps,
-                #             )
-                #         )
-                #     )
-                # else:
-                # actorcutmix_job(
-                #     file,
-                #     scene_path,
-                #     mask_path,
-                #     output_path,
-                #     fps,
-                # )
                 bar.set_description(file.stem)
                 output_path.parent.mkdir(parents=True, exist_ok=True)
 
                 output_frames = cutmix(
-                    file, scene_path, mask_path, conf.mix.video.reader
+                    file, scene_path, mask_path, conf.cutmix.video.reader
                 )
 
                 frames_to_video(
                     output_frames,
                     output_path,
-                    writer=conf.mix.video.writer,
+                    writer=conf.cutmix.video.writer,
                     fps=fps,
                 )
 
