@@ -74,7 +74,7 @@
       "parallel": false
     },
     "select": {
-      "mode": "actorcutmix",
+      "mode": "intercutmix",
       "video": {
         "path": "data/ucf101/videos",
         "ext": ".avi",
@@ -87,15 +87,16 @@
         "video": {
           "generate": false,
           "writer": "moviepy",
-          "path": "data/ucf101/UniDet/select/actor/videos"
+          "path": "data/ucf101/UniDet/select/inter/videos"
         },
         "mask": {
-          "generate": false,
-          "path": "data/ucf101/UniDet/select/actor/mask"
+          "generate": true,
+          "bundle": true,
+          "path": "data/ucf101/UniDet/select/inter/mask"
         },
         "dump": {
-          "enabled": true,
-          "path": "data/ucf101/UniDet/select/actor/dump"
+          "enabled": false,
+          "path": "data/ucf101/UniDet/select/inter/dump"
         }
       }
     }
@@ -120,7 +121,8 @@
         "ext": ".mp4"
       },
       "mask": {
-        "path": "data/ucf101/REPP/actor/mask"
+        "path": "data/ucf101/REPP/actor/mask",
+        "bundle": true
       }
     }
   },
