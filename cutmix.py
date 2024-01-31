@@ -24,22 +24,33 @@ def load_image_dir(dir_path, n_frames):
 
 
 def cutmix(actor_path, scene_path, mask_path, video_reader):
-    assert_that(actor_path).is_file().is_readable()
-    assert_that(mask_path).is_directory().is_readable()
+    if not actor_path.is_file() or not actor_path.exists():
+        print("Not a file or not exists:", actor_path)
+        return None
+
+    if not scene_path.is_file() or not scene_path.exists():
+        print("Not a file or not exists:", scene_path)
+        return None
+
+    if not mask_path.is_file() or not mask_path.exists():
+        print("Not a file or not exists:", mask_path)
+        return None
 
     actor_frames = video_frames(actor_path, reader=video_reader)
     info = video_info(actor_path)
     w, h = info["width"], info["height"]
     blank = np.zeros((h, w), np.uint8)
-    mask_frames = load_image_dir(mask_path, info["n_frames"])
+    # mask_frames = load_image_dir(mask_path, info["n_frames"])
+    mask_bundle = np.load(mask_path)
     scene_frame = None
 
-    for actor_frame in actor_frames:
+    for f, actor_frame in enumerate(actor_frames):
         if scene_frame is None:
             scene_frames = video_frames(scene_path, reader=video_reader)
             scene_frame = next(scene_frames)
 
-        actor_mask = next(mask_frames)
+        # actor_mask = next(mask_frames)
+        actor_mask = mask_bundle[f]
 
         if actor_mask is None:
             actor_mask = blank
@@ -88,6 +99,7 @@ if __name__ == "__main__":
     action_whitelist = conf.cutmix.action.whitelist
     action_blacklist = conf.cutmix.action.blacklist
     bar = tqdm(total=n_target_videos)
+    n_error = 0
 
     for action in video_in_dir.iterdir():
         if (action_whitelist is not None and action.name not in action_whitelist) or (
@@ -124,7 +136,7 @@ if __name__ == "__main__":
 
                 continue
 
-            mask_path = mask_dir / action.name / file.stem
+            mask_path = mask_dir / action.name / file.with_suffix(".npz").name
             fps = video_info(file)["fps"]
             scene_class_options = [s for s in scene_json.keys() if s != action.name]
 
@@ -147,12 +159,16 @@ if __name__ == "__main__":
                 bar.set_description(file.stem)
                 output_path.parent.mkdir(parents=True, exist_ok=True)
 
-                output_frames = cutmix(
+                out_frames = cutmix(
                     file, scene_path, mask_path, conf.cutmix.video.reader
                 )
 
+                if not out_frames:
+                    n_error += 1
+                    continue
+
                 frames_to_video(
-                    output_frames,
+                    out_frames,
                     output_path,
                     writer=conf.cutmix.video.writer,
                     fps=fps,
@@ -161,3 +177,4 @@ if __name__ == "__main__":
                 bar.update(1)
 
     bar.close()
+    print("Errors:", n_error)
