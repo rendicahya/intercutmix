@@ -105,7 +105,7 @@
     "configuration": "REPP_cfg/fgfa_repp_cfg.json",
     "input": {
       "dump": {
-        "path": "data/ucf101/UniDet/select/actor/dump"
+        "path": "data/ucf101/UniDet/select/inter/dump"
       },
       "video": {
         "path": "data/ucf101/videos",
@@ -116,12 +116,12 @@
     "output": {
       "video": {
         "generate": false,
-        "path": "data/ucf101/REPP/actor/videos",
+        "path": "data/ucf101/REPP/inter/videos",
         "writer": "moviepy",
         "ext": ".mp4"
       },
       "mask": {
-        "path": "data/ucf101/REPP/actor/mask",
+        "path": "data/ucf101/REPP/inter/mask",
         "bundle": true
       }
     }
@@ -146,7 +146,7 @@
         "ext": ".mp4"
       },
       "mask": {
-        "path": "data/ucf101/REPP/actor/mask"
+        "path": "data/ucf101/REPP/inter/mask"
       }
     },
     "action": {
@@ -154,7 +154,7 @@
       "blacklist": null
     },
     "output": {
-      "path": "data/ucf101/REPP/actorcutmix",
+      "path": "data/ucf101/REPP/intercutmix",
       "writer": "moviepy",
       "ext": ".mp4"
     }
