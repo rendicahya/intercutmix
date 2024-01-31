@@ -115,7 +115,7 @@
     },
     "output": {
       "video": {
-        "generate": true,
+        "generate": false,
         "path": "data/ucf101/REPP/actor/videos",
         "writer": "moviepy",
         "ext": ".mp4"
