@@ -40,7 +40,6 @@ def cutmix(actor_path, scene_path, mask_path, video_reader):
     info = video_info(actor_path)
     w, h = info["width"], info["height"]
     blank = np.zeros((h, w), np.uint8)
-    # mask_frames = load_image_dir(mask_path, info["n_frames"])
     mask_bundle = np.load(mask_path)["arr_0"]
     scene_frame = None
 
@@ -49,7 +48,6 @@ def cutmix(actor_path, scene_path, mask_path, video_reader):
             scene_frames = video_frames(scene_path, reader=video_reader)
             scene_frame = next(scene_frames)
 
-        # actor_mask = next(mask_frames)
         actor_mask = mask_bundle[f]
 
         if actor_mask is None:
