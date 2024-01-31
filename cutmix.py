@@ -41,7 +41,7 @@ def cutmix(actor_path, scene_path, mask_path, video_reader):
     w, h = info["width"], info["height"]
     blank = np.zeros((h, w), np.uint8)
     # mask_frames = load_image_dir(mask_path, info["n_frames"])
-    mask_bundle = np.load(mask_path)
+    mask_bundle = np.load(mask_path)["arr_0"]
     scene_frame = None
 
     for f, actor_frame in enumerate(actor_frames):
@@ -72,13 +72,13 @@ if __name__ == "__main__":
     conf = Config("config.json")
     assert_that("config.json").is_file().is_readable()
 
-    video_in_dir = Path(conf.cutmix.video.path)
-    scene_dir = Path(conf.cutmix.scene.path)
-    mask_dir = Path(conf.cutmix.mask.path)
+    video_in_dir = Path(conf.cutmix.input.video.path)
+    scene_dir = Path(conf.cutmix.input.scene.path)
+    mask_dir = Path(conf.cutmix.input.mask.path)
     video_out_dir = Path(conf.cutmix.output.path)
     out_ext = conf.cutmix.output.ext
-    scene_options = conf.cutmix.scene.list
-    n_videos = count_files(video_in_dir, ext=conf.cutmix.video.ext)
+    scene_options = conf.cutmix.input.scene.list
+    n_videos = count_files(video_in_dir, ext=conf.cutmix.input.video.ext)
     n_scene_actions = count_dir(scene_dir)
 
     assert_that(video_in_dir).is_directory().is_readable()
@@ -94,7 +94,7 @@ if __name__ == "__main__":
 
     print("All checks passed.")
 
-    n_video_blacklist = len(conf.cutmix.video.blacklist)
+    n_video_blacklist = len(conf.cutmix.input.video.blacklist)
     n_target_videos = (n_videos - n_video_blacklist) * conf.cutmix.multiplication
     action_whitelist = conf.cutmix.action.whitelist
     action_blacklist = conf.cutmix.action.blacklist
@@ -110,7 +110,9 @@ if __name__ == "__main__":
         output_action_dir = video_out_dir / action.name
 
         n_video_blacklist = sum(
-            1 for v in conf.cutmix.video.blacklist if v.split("_")[1] == action.name
+            1
+            for v in conf.cutmix.input.video.blacklist
+            if v.split("_")[1] == action.name
         )
 
         n_target_videos = (
@@ -130,7 +132,7 @@ if __name__ == "__main__":
                 shutil.rmtree(output_action_dir)
 
         for file in action.iterdir():
-            if file.stem in conf.cutmix.video.blacklist:
+            if file.stem in conf.cutmix.input.video.blacklist:
                 print(f"{file.name} skipped")
                 bar.update(1)
 
@@ -160,7 +162,7 @@ if __name__ == "__main__":
                 output_path.parent.mkdir(parents=True, exist_ok=True)
 
                 out_frames = cutmix(
-                    file, scene_path, mask_path, conf.cutmix.video.reader
+                    file, scene_path, mask_path, conf.cutmix.input.video.reader
                 )
 
                 if not out_frames:
@@ -170,11 +172,13 @@ if __name__ == "__main__":
                 frames_to_video(
                     out_frames,
                     output_path,
-                    writer=conf.cutmix.video.writer,
+                    writer=conf.cutmix.output.writer,
                     fps=fps,
                 )
 
                 bar.update(1)
+            break
+        break
 
     bar.close()
     print("Errors:", n_error)
