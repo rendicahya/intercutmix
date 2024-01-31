@@ -128,32 +128,34 @@
   },
   "cutmix": {
     "multiplication": 10,
-    "video": {
-      "path": "data/ucf101/videos",
-      "ext": ".avi",
-      "reader": "opencv",
-      "writer": "moviepy",
-      "blacklist": [
-        "v_PommelHorse_g05_c01",
-        "v_PommelHorse_g05_c02",
-        "v_PommelHorse_g05_c03",
-        "v_PommelHorse_g05_c04"
-      ]
+    "input": {
+      "video": {
+        "path": "data/ucf101/videos",
+        "ext": ".avi",
+        "reader": "opencv",
+        "blacklist": [
+          "v_PommelHorse_g05_c01",
+          "v_PommelHorse_g05_c02",
+          "v_PommelHorse_g05_c03",
+          "v_PommelHorse_g05_c04"
+        ]
+      },
+      "scene": {
+        "list": "data/ucf101/xgtf/scene-list.json",
+        "path": "data/ucf101/xgtf/scene",
+        "ext": ".mp4"
+      },
+      "mask": {
+        "path": "data/ucf101/REPP/actor/mask"
+      }
     },
     "action": {
       "whitelist": null,
       "blacklist": null
     },
-    "scene": {
-      "list": "data/ucf101/xgtf/scene-list.json",
-      "path": "data/ucf101/xgtf/scene",
-      "ext": ".mp4"
-    },
-    "mask": {
-      "path": "data/ucf101/REPP/actor/mask"
-    },
     "output": {
       "path": "data/ucf101/REPP/actorcutmix",
+      "writer": "moviepy",
       "ext": ".mp4"
     }
   }
