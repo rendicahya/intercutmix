@@ -64,17 +64,17 @@ cd data/hmdb51/videos
 2. Download.
 
 ```shell
-wget http://serre-lab.clps.brown.edu/wp-content/uploads/2013/10/hmdb51_org.rar
-# wget http://serre-lab.clps.brown.edu/wp-content/uploads/2013/10/hmdb51_sta.rar
+wget http://serre-lab.clps.brown.edu/wp-content/uploads/2013/10/hmdb51_sta.rar
 ```
 
 3. Extract.
 
 ```shell
-unrar x hmdb51_org.rar
-rm hmdb51_org.rar
+unrar x hmdb51_sta.rar
+rm hmdb51_sta.rar
 for file in *.rar; do unrar x "$file"; done
 rm *.rar
+find . \( -name "*.avi.avi" -o -name "*.db" \) -type f -exec rm {} +
 cd ../../..
 ```
 
