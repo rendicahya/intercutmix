@@ -80,15 +80,15 @@ cd ../../..
 
 ## C. Generate scene mask images
 
-### a. UCF101
-
 1. Install packages.
 
 ```shell
-pip install beautifulsoup4 lxml opencv-python tqdm av decord moviepy
+pip install beautifulsoup4 lxml opencv-python tqdm av decord moviepy scipy
 ```
 
-2. Download bounding boxes.
+### a. UCF101
+
+1. Download bounding boxes.
 ```shell
 cd data/ucf101
 wget http://crcv.ucf.edu/ICCV13-Action-Workshop/index.files/UCF101_24Action_Detection_Annotations.zip --no-check-certificate
@@ -99,16 +99,16 @@ rmdir UCF101_24Action_Detection_Annotations
 rm UCF101_24Action_Detection_Annotations.zip
 ```
 
-3. Correct file name.
+2. Correct file name.
 ```shell
 cd xgtf/RopeClimbing
 mv v_RopeClimbing_g02_C01.xgtf v_RopeClimbing_g02_c01.xgtf
 cd ../../../..
 ```
 
-4. Convert XGTF to mask images.
+3. Convert XGTF to mask images.
 
-This will take several minutes and the results will be stored in `data/{dataset}/xgtf/mask`.
+This will take several minutes and the results will be stored in `data/ucf101/xgtf/mask`.
 
 ```shell
 python xgtf2mask.py
@@ -116,9 +116,9 @@ python xgtf2mask.py
 
 ### b. HMDB51
 
-1. Install packages.
+1. Download annotations.
 ```shell
-pip install scipy
+
 ```
 
 2. TODO
