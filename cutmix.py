@@ -177,8 +177,6 @@ if __name__ == "__main__":
                 )
 
                 bar.update(1)
-            break
-        break
 
     bar.close()
     print("Errors:", n_error)
