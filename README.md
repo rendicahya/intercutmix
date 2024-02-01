@@ -23,6 +23,8 @@ pip install -U pip
 
 ## B. Download datasets
 
+Make sure that you are in the `intercutmix` directory.
+
 ### a. UCF101
 
 1. Make directory.
@@ -57,7 +59,7 @@ cd ../..
 1. Make directory.
 
 ```shell
-mkdir -p data/hmdb51/videos
+mkdir -p data/hmdb51/videos data/hmdb51/mat
 cd data/hmdb51/videos
 ```
 
@@ -74,7 +76,14 @@ unrar x hmdb51_sta.rar
 rm hmdb51_sta.rar
 for file in *.rar; do unrar x "$file"; done
 rm *.rar
+```
+
+4. Clean up and separate videos and .mat files.
+
+```shell
 find . \( -name "*.avi.avi" -o -name "*.db" \) -type f -exec rm {} +
+find . -type f -name "*.mat" -exec rsync -q --relative {} ../mat \;
+find . -name "*.mat" -type f -exec rm {} +
 cd ../../..
 ```
 
