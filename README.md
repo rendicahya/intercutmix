@@ -84,7 +84,7 @@ cd ../../..
 1. Install packages.
 
 ```shell
-pip install beautifulsoup4 lxml opencv-python tqdm av decord moviepy scipy gdown
+pip install beautifulsoup4 lxml tqdm scipy gdown opencv-python av decord moviepy
 ```
 
 ### a. UCF101
