@@ -20,12 +20,12 @@ if __name__ == "__main__":
     for file in mat_dir.glob("**/*.mat"):
         stem = file.name.split(".")[0]
 
-        bar.set_description(stem)
+        bar.set_description(stem[:30])
 
         action = file.parent.name
         mat = loadmat(file)
         # Change from (h, w, t) to (t, h, w)
-        mask_cube = np.moveaxis(mat["mask_out"], -1, 0)
+        mask_cube = np.moveaxis(mat["part_mask"], -1, 0)
         mask_cube *= 255
         out_path = out_dir / action / stem
 
