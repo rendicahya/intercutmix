@@ -109,7 +109,7 @@ cd ../../../..
 
 3. Convert .xgtf files into mask images.
 
-This will take several minutes and the results will be stored in `data/ucf101/xgtf/mask`.
+The results will be stored in `data/ucf101/xgtf/mask`.
 
 ```shell
 python xgtf2mask.py
@@ -120,8 +120,8 @@ python xgtf2mask.py
 1. Download .mat files.
 
 ```shell
-mkdir -p data/hmdb51/mask/files
-cd data/hmdb51/mask/files
+mkdir -p data/hmdb51/mat/files
+cd data/hmdb51/mat/files
 gdown 1qwarqC8O6XU5CKyMLub6qPpjw2pvVrfg
 ```
 
@@ -135,8 +135,10 @@ rm hmdb51-mask.tar.gz
 3. Convert .mat files into mask images.
 
 ```shell
-TODO
+python mat2mask.py
 ```
+
+The results will be stored in `data/hmdb51/mat/mask`.
 
 ## E. Generate scene-only videos
 
