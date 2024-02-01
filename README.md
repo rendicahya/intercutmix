@@ -59,45 +59,37 @@ cd ../..
 1. Make directory.
 
 ```shell
-mkdir -p data/hmdb51/videos data/hmdb51/mat
+mkdir -p data/hmdb51/videos
 cd data/hmdb51/videos
 ```
 
 2. Download.
 
 ```shell
-wget http://serre-lab.clps.brown.edu/wp-content/uploads/2013/10/hmdb51_sta.rar
+wget --no-check-certificate http://serre-lab.clps.brown.edu/wp-content/uploads/2013/10/hmdb51_org.rar
 ```
 
 3. Extract.
 
 ```shell
-unrar x hmdb51_sta.rar
-rm hmdb51_sta.rar
+unrar x hmdb51_org.rar
+rm hmdb51_org.rar
 for file in *.rar; do unrar x "$file"; done
 rm *.rar
-```
-
-4. Clean up and separate videos and .mat files.
-
-```shell
-find . \( -name "*.avi.avi" -o -name "*.db" \) -type f -exec rm {} +
-find . -type f -name "*.mat" -exec rsync -q --relative {} ../mat \;
-find . -name "*.mat" -type f -exec rm {} +
 cd ../../..
 ```
 
-## C. Generate scene mask images
+## C. Generate mask images
 
 1. Install packages.
 
 ```shell
-pip install beautifulsoup4 lxml opencv-python tqdm av decord moviepy scipy
+pip install beautifulsoup4 lxml opencv-python tqdm av decord moviepy scipy gdown
 ```
 
 ### a. UCF101
 
-1. Download bounding boxes.
+1. Download .xgtf files.
 ```shell
 cd data/ucf101
 wget http://crcv.ucf.edu/ICCV13-Action-Workshop/index.files/UCF101_24Action_Detection_Annotations.zip --no-check-certificate
@@ -115,9 +107,9 @@ mv v_RopeClimbing_g02_C01.xgtf v_RopeClimbing_g02_c01.xgtf
 cd ../../../..
 ```
 
-3. Convert XGTF to mask images.
+3. Convert .xgtf files into mask images.
 
-This will take several minutes and the results will be stored in `data/ucf101/xgtf/mask`.
+The results will be stored in `data/ucf101/xgtf/mask`.
 
 ```shell
 python xgtf2mask.py
@@ -125,12 +117,28 @@ python xgtf2mask.py
 
 ### b. HMDB51
 
-1. Download annotations.
-```shell
+1. Download .mat files.
 
+```shell
+mkdir -p data/hmdb51/mat/files
+cd data/hmdb51/mat/files
+gdown 1qwarqC8O6XU5CKyMLub6qPpjw2pvVrfg
 ```
 
-2. TODO
+2. Extract.
+
+```shell
+tar -xzf hmdb51-mask.tar.gz
+rm hmdb51-mask.tar.gz
+```
+
+3. Convert .mat files into mask images.
+
+```shell
+python mat2mask.py
+```
+
+The results will be stored in `data/hmdb51/mat/mask`.
 
 ## E. Generate scene-only videos
 
@@ -148,7 +156,7 @@ Use the correct PyTorch version according to your system.
 
 ```shell
 pip install torch==1.10.0+cu111 torchvision==0.11.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
-pip install openmim gdown matplotlib
+pip install openmim matplotlib
 mim install mmcv-full
 ```
 
