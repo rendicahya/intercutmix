@@ -4,21 +4,27 @@
     "ext": ".avi",
     "class_index": "data/ucf101/annotations/classInd.txt",
     "n_videos": 13320,
-    "n_classes": 101
-  },
-  "hmdb51": {
-    "path": "data/hmdb51/videos"
-  },
-  "xgtf": {
-    "path": "data/ucf101/xgtf/files",
-    "mask": {
-      "path": "data/ucf101/xgtf/mask",
-      "action_only": false,
-      "ext": ".png"
+    "n_classes": 101,
+    "xgtf": {
+      "path": "data/ucf101/xgtf/files",
+      "mask": {
+        "path": "data/ucf101/xgtf/mask",
+        "action_only": false,
+        "ext": ".png"
+      }
     }
   },
-  "mat": {
-    "path": "data/hmdb51/mat-mask"
+  "hmdb51": {
+    "path": "data/hmdb51/videos",
+    "ext": ".avi",
+    "n_videos": 13320,
+    "n_classes": 101,
+    "mat": {
+      "path": "data/hmdb51/mat/files",
+      "mask": {
+        "path": "data/hmdb51/mat/mask"
+      }
+    }
   },
   "relevancy": {
     "output": "data/relevancy",
@@ -91,7 +97,6 @@
         },
         "mask": {
           "generate": true,
-          "bundle": true,
           "path": "data/ucf101/UniDet/select/inter/mask"
         },
         "dump": {
@@ -121,8 +126,7 @@
         "ext": ".mp4"
       },
       "mask": {
-        "path": "data/ucf101/REPP/inter/mask",
-        "bundle": true
+        "path": "data/ucf101/REPP/inter/mask"
       }
     }
   },
