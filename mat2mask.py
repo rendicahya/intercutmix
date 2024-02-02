@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import cv2
 import numpy as np
 from assertpy.assertpy import assert_that
 from python_config import Config
@@ -20,17 +21,20 @@ if __name__ == "__main__":
     for file in mat_dir.glob("**/*.mat"):
         stem = file.name.split(".")[0]
 
-        bar.set_description(stem[:30])
+        bar.set_description(stem[:40])
 
         action = file.parent.name
         mat = loadmat(file)
         # Change from (h, w, t) to (t, h, w)
         mask_cube = np.moveaxis(mat["part_mask"], -1, 0)
         mask_cube *= 255
-        out_path = out_dir / action / stem
 
-        out_path.parent.mkdir(exist_ok=True, parents=True)
-        np.savez_compressed(out_path, mask_cube)
+        for f, mask in enumerate(mask_cube):
+            out_path = out_dir / action / stem / (f"%05d.png" % f)
+
+            out_path.parent.mkdir(exist_ok=True, parents=True)
+            cv2.imwrite(str(out_path), mask)
+
         bar.update(1)
 
     bar.close()
