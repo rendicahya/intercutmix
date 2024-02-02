@@ -27,16 +27,17 @@ Make sure that you are in the `intercutmix` directory.
 
 ### a. UCF101
 
-1. Make directory.
+1. Download videos.
 
 ```shell
 mkdir -p data/ucf101
 cd data/ucf101
+wget https://www.crcv.ucf.edu/datasets/human-actions/ucf101/UCF101.rar --no-check-certificate
 ```
-2. Download videos.
+
+2. Extract videos
 
 ```shell
-wget https://www.crcv.ucf.edu/datasets/human-actions/ucf101/UCF101.rar --no-check-certificate
 unrar x UCF101.rar -idq
 rm UCF101.rar
 mv UCF-101 videos
@@ -56,20 +57,18 @@ cd ../..
 
 ### b. HMDB51
 
-1. Make directory.
+1. Download.
 
 ```shell
 mkdir -p data/hmdb51/videos
 cd data/hmdb51/videos
-```
-
-2. Download.
-
-```shell
 wget --no-check-certificate http://serre-lab.clps.brown.edu/wp-content/uploads/2013/10/hmdb51_org.rar
+
+# Symlink:
+# ln -s /nas.dbms/randy/datasets/hmdb51/videos /nas.dbms/randy/projects/intercutmix/data/hmdb51/videos
 ```
 
-3. Extract.
+2. Extract.
 
 ```shell
 unrar x hmdb51_org.rar
