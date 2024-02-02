@@ -13,7 +13,7 @@ git clone --recursive https://github.com/rendicahya/intercutmix.git
 cd intercutmix
 ```
 
-2. Create a virtual environment.
+2. Create virtual environment.
 
 ```shell
 python -m venv ~/venv/intercutmix
@@ -33,19 +33,15 @@ Make sure that you are in the `intercutmix` directory.
 mkdir -p data/ucf101
 cd data/ucf101
 wget https://www.crcv.ucf.edu/datasets/human-actions/ucf101/UCF101.rar --no-check-certificate
-```
-
-2. Extract videos
-
-```shell
 unrar x UCF101.rar -idq
 rm UCF101.rar
 mv UCF-101 videos
 
-# Symlink: ln -s /nas.dbms/randy/datasets/ucf101/videos/avi data/ucf101/videos
+# Symlink:
+# ln -s /nas.dbms/randy/datasets/ucf101/videos/avi data/ucf101/videos
 ```
 
-3. Download annotations.
+2. Download annotations.
 
 ```shell
 wget https://www.crcv.ucf.edu/data/UCF101/UCF101TrainTestSplits-RecognitionTask.zip --no-check-certificate
@@ -57,30 +53,25 @@ cd ../..
 
 ### b. HMDB51
 
-1. Download.
+Download videos.
 
 ```shell
 mkdir -p data/hmdb51/videos
 cd data/hmdb51/videos
 wget --no-check-certificate http://serre-lab.clps.brown.edu/wp-content/uploads/2013/10/hmdb51_org.rar
-
-# Symlink:
-# ln -s /nas.dbms/randy/datasets/hmdb51/videos /nas.dbms/randy/projects/intercutmix/data/hmdb51/videos
-```
-
-2. Extract.
-
-```shell
 unrar x hmdb51_org.rar
 rm hmdb51_org.rar
 for file in *.rar; do unrar x "$file"; done
 rm *.rar
 cd ../../..
+
+# Symlink:
+# ln -s /nas.dbms/randy/datasets/hmdb51/videos /nas.dbms/randy/projects/intercutmix/data/hmdb51/videos
 ```
 
 ## C. Generate mask images
 
-1. Install packages.
+Install packages.
 
 ```shell
 pip install beautifulsoup4 lxml tqdm scipy gdown opencv-python av decord moviepy
@@ -89,6 +80,7 @@ pip install beautifulsoup4 lxml tqdm scipy gdown opencv-python av decord moviepy
 ### a. UCF101
 
 1. Download .xgtf files.
+
 ```shell
 cd data/ucf101
 wget http://crcv.ucf.edu/ICCV13-Action-Workshop/index.files/UCF101_24Action_Detection_Annotations.zip --no-check-certificate
@@ -100,6 +92,7 @@ rm UCF101_24Action_Detection_Annotations.zip
 ```
 
 2. Correct file name.
+
 ```shell
 cd xgtf/RopeClimbing
 mv v_RopeClimbing_g02_C01.xgtf v_RopeClimbing_g02_c01.xgtf
@@ -122,16 +115,11 @@ python xgtf2mask.py
 mkdir -p data/hmdb51/mat/files
 cd data/hmdb51/mat/files
 gdown 1qwarqC8O6XU5CKyMLub6qPpjw2pvVrfg
-```
-
-2. Extract.
-
-```shell
 tar -xzf hmdb51-mask.tar.gz
 rm hmdb51-mask.tar.gz
 ```
 
-3. Convert .mat files into mask images.
+2. Convert .mat files into mask images.
 
 ```shell
 python mat2mask.py
