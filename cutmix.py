@@ -1,3 +1,4 @@
+# Kumamoto Daigaku
 import json
 import random
 import shutil
