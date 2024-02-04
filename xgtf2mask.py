@@ -111,7 +111,7 @@ if __name__ == "__main__":
 
         for f in range(n_frames):
             mask = np.zeros((height, width), np.uint8)
-            out_file = out_dir / (f"%05d.png" % f)
+            out_path = out_dir / (f"%05d.png" % f)
 
             for person_id, person_bbox in people_bbox.items():
                 if f not in person_bbox:
@@ -122,7 +122,7 @@ if __name__ == "__main__":
                 y2 = y1 + h
                 mask[y1:y2, x1:x2] = 255
 
-            cv2.imwrite(str(out_file), mask)
+            cv2.imwrite(str(out_path), mask)
 
         bar.update(1)
 
