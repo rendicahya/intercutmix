@@ -94,7 +94,7 @@ rm UCF101_24Action_Detection_Annotations.zip
 2. Correct file name.
 
 ```shell
-cd xgtf/RopeClimbing
+cd xgtf/files/RopeClimbing
 mv v_RopeClimbing_g02_C01.xgtf v_RopeClimbing_g02_c01.xgtf
 cd ../../../..
 ```
