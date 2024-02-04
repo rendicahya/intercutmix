@@ -58,7 +58,7 @@
       "checkpoint": "release_model/E2FGVI-HQ-CVPR22.pth"
     },
     "output": {
-      "path": "data/hmdb51/mask",
+      "path": "data/hmdb51/mat/scene-test",
       "ext": ".mp4",
       "writer": "moviepy"
     }
