@@ -58,7 +58,7 @@
       "checkpoint": "release_model/E2FGVI-HQ-CVPR22.pth"
     },
     "output": {
-      "path": "data/ucf101/scene",
+      "path": "data/ucf101/xgtf/scene",
       "ext": ".mp4",
       "writer": "moviepy"
     }
