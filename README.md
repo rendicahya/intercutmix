@@ -74,7 +74,7 @@ cd ../../..
 Install packages.
 
 ```shell
-pip install beautifulsoup4 lxml tqdm scipy gdown opencv-python av decord moviepy
+pip install beautifulsoup4 lxml tqdm opencv-python av decord moviepy scipy gdown
 ```
 
 ### a. UCF101
@@ -96,7 +96,7 @@ rm UCF101_24Action_Detection_Annotations.zip
 ```shell
 cd xgtf/files/RopeClimbing
 mv v_RopeClimbing_g02_C01.xgtf v_RopeClimbing_g02_c01.xgtf
-cd ../../../..
+cd ../../../../..
 ```
 
 3. Convert .xgtf files into mask images.
@@ -117,6 +117,7 @@ cd data/hmdb51/mat/files
 gdown 1qwarqC8O6XU5CKyMLub6qPpjw2pvVrfg
 tar -xzf hmdb51-mask.tar.gz
 rm hmdb51-mask.tar.gz
+cd ../../../..
 ```
 
 2. Convert .mat files into mask images.
