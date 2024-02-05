@@ -300,16 +300,27 @@ Videos will be mixed with scene-only videos. By default, 10 scene-only videos wi
 python cutmix.py
 ```
 
-## J. Training
+## J. Classification
 
-1. Enter submodule.
+1. Install packages.
 
 ```shell
-cd mmaction2
+mim install mmengine mmcv
 ```
 
-2. Generate file list.
+2. Install mmaction2.
 
 ```shell
-python tools/data/build_file_list.py ucf101 ../data/ucf101/videos/ --level 2 --format videos --shuffle
+pip install -v -e mmaction2
+```
+
+3. Generate file list.
+
+```shell
+python mmaction2/tools/data/build_file_list.py ucf101 data/ucf101/videos --level 2 --format videos --shuffle
+```
+4. Train.
+
+```shell
+python mmaction2/tools/train.py mmaction2/configs/<config>.py --work-dir mmaction2/work_dirs/<dir> --amp --auto-scale-lr
 ```
