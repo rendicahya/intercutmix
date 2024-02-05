@@ -319,8 +319,15 @@ pip install -v -e mmaction2
 ```shell
 python mmaction2/tools/data/build_file_list.py ucf101 data/ucf101/videos --level 2 --format videos --shuffle
 ```
+
 4. Train.
 
 ```shell
 python mmaction2/tools/train.py mmaction2/configs/<config>.py --work-dir mmaction2/work_dirs/<dir> --amp --auto-scale-lr
+```
+
+5. Test.
+
+```shell
+python mmaction2/tools/test.py mmaction2/configs/<config>.py work_dirs/<checkpoint>.pth 
 ```
