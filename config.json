@@ -48,17 +48,17 @@
   "e2fgvi": {
     "input": {
       "video": {
-        "path": "data/ucf101/videos",
+        "path": "data/hmdb51/videos",
         "ext": ".avi",
         "reader": "opencv",
         "max_len": 400
       },
       "model": "model.e2fgvi_hq",
-      "mask": "data/ucf101/xgtf/mask",
+      "mask": "data/hmdb51/mat/mask",
       "checkpoint": "release_model/E2FGVI-HQ-CVPR22.pth"
     },
     "output": {
-      "path": "data/hmdb51/mat/scene-test",
+      "path": "data/hmdb51/mat/scene",
       "ext": ".mp4",
       "writer": "moviepy"
     }
