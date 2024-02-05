@@ -272,7 +272,13 @@ This step uses [Robust and efficient post-processing for video object detection 
 cd REPP
 ```
 
-2. Run REPP.
+2. Install packages.
+
+```shell
+pip install scikit-learn+
+```
+
+3. Run REPP.
 
 This will post-process the `.pckl` files and save the resulting mask files in `data/{dataset}/UniDet/REPP/inter/mask` and (optionally) the resulting videos in `data/{dataset}/UniDet/REPP/inter/videos`.
 
