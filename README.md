@@ -30,8 +30,7 @@ Make sure that you are in the `intercutmix` directory.
 1. Download videos.
 
 ```shell
-mkdir -p data/ucf101
-cd data/ucf101
+mkdir -p data/ucf101 && cd "$_"
 wget https://www.crcv.ucf.edu/datasets/human-actions/ucf101/UCF101.rar --no-check-certificate
 unrar x UCF101.rar -idq
 rm UCF101.rar
@@ -56,8 +55,7 @@ cd ../..
 Download videos.
 
 ```shell
-mkdir -p data/hmdb51/videos
-cd data/hmdb51/videos
+mkdir -p data/hmdb51/videos && cd "$_"
 wget --no-check-certificate http://serre-lab.clps.brown.edu/wp-content/uploads/2013/10/hmdb51_org.rar
 unrar x hmdb51_org.rar
 rm hmdb51_org.rar
@@ -112,8 +110,7 @@ python xgtf2mask.py
 1. Download .mat files.
 
 ```shell
-mkdir -p data/hmdb51/mat/files
-cd data/hmdb51/mat/files
+mkdir -p data/hmdb51/mat/files && cd "$_"
 gdown 1qwarqC8O6XU5CKyMLub6qPpjw2pvVrfg
 tar -xzf hmdb51-mask.tar.gz
 rm hmdb51-mask.tar.gz
