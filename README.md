@@ -30,8 +30,7 @@ pip install -U pip
 ```shell
 mkdir -p data/ucf101 && cd "$_"
 wget https://www.crcv.ucf.edu/datasets/human-actions/ucf101/UCF101.rar --no-check-certificate
-unrar x UCF101.rar -idq
-rm UCF101.rar
+unrar x UCF101.rar -idq && rm "$_"
 mv UCF-101 videos
 ```
 
