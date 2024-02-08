@@ -26,5 +26,5 @@ for action in sorted(scene_dir.iterdir()):
 
 bar.close()
 
-with open(conf.cutmix.scene.list, "w") as f:
+with open(conf.cutmix.input.scene.list, "w") as f:
     json.dump(data, f, indent=2)
