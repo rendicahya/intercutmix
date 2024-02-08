@@ -6,7 +6,7 @@ from python_config import Config
 from tqdm import tqdm
 
 conf = Config("config.json")
-scene_dir = Path(conf.cutmix.scene.path)
+scene_dir = Path(conf.cutmix.input.scene.path)
 
 assert_that(scene_dir).is_directory().is_readable()
 
