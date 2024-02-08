@@ -328,3 +328,15 @@ python mmaction2/tools/train.py mmaction2/configs/<config>.py --work-dir mmactio
 ```shell
 python mmaction2/tools/test.py mmaction2/configs/<config>.py work_dirs/<checkpoint>.pth 
 ```
+
+# Citations
+
+If you find our code useful for your research, please consider citing our paper:
+ ```bibtex
+ @inproceedings{randy2024intercutmix,
+    title={InterCutMix: Interaction-aware Scene Debiasing Method for Action Recognition},
+    author={Wihandika, Randy Cahya and Mendonça, Israel and Aritsugi, Masayoshi},
+    booktitle={European Conference on Computer Vision (ECCV)},
+    year={2024}
+ }
+ ```
