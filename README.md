@@ -144,7 +144,6 @@ This step will take several hours and the resulting videos will be stored in `da
 
 ```shell
 python3 batch.py
-cd ..
 ```
 
 Alternatively, download the result:
