@@ -23,8 +23,6 @@ pip install -U pip
 
 ## B. Download datasets
 
-Make sure that you are in the `intercutmix` directory.
-
 ### a. UCF101
 
 1. Download videos.
