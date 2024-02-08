@@ -185,7 +185,7 @@ source ~/venv/sentence-transformers/bin/activate
 2. Install packages.
 
 ```shell
-pip install sentence-transformers
+pip install sentence-transformers pandas
 ```
 
 3. Generate relevancy lists. This will generate relevancy files in JSON format saved in `data/relevancy/UniDet/ids` and `data/relevancy/UniDet/names`.
