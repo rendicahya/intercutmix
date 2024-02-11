@@ -53,6 +53,7 @@
         "reader": "opencv",
         "max_len": 400
       },
+      "frames": "data/hmdb51/frames",
       "model": "model.e2fgvi_hq",
       "mask": "data/hmdb51/mat/mask",
       "checkpoint": "release_model/E2FGVI-HQ-CVPR22.pth"
