@@ -302,8 +302,17 @@ Videos will be mixed with scene-only videos. By default, 10 scene-only videos wi
 
 1. Run script.
 
+This will take several hours and, by default, this will generate mixed videos using the InterCutMix mode.
+
 ```shell
 python3 cutmix.py
+```
+
+2. Optionally, change the mode to ActorCutMix (`conf.cutmix.input.mask.path` and `conf.cutmix.output.path`) and rerun the above command.
+3. Make list of the generated videos.
+
+```shell
+python3 list-videos.py
 ```
 
 ## J. Classification
