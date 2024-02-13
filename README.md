@@ -302,8 +302,17 @@ Videos will be mixed with scene-only videos. By default, 10 scene-only videos wi
 
 1. Run script.
 
+This will take several hours and, by default, this will generate mixed videos using the InterCutMix mode.
+
 ```shell
 python3 cutmix.py
+```
+
+2. Optionally, change the mode to ActorCutMix (`conf.cutmix.input.mask.path` and `conf.cutmix.output.path`) and rerun the above command.
+3. Make list of the generated videos.
+
+```shell
+python3 list-videos.py
 ```
 
 ## J. Classification
@@ -338,11 +347,11 @@ python3 mmaction2/tools/train.py mmaction2/configs/<config>.py --work-dir mmacti
 python3 mmaction2/tools/test.py mmaction2/configs/<config>.py work_dirs/<checkpoint>.pth 
 ```
 
-# Citations
+# Citation
 
 If you find our code useful for your research, please consider citing our paper:
  ```bibtex
- @inproceedings{randy2024intercutmix,
+ @inproceedings{wihandika2024intercutmix,
     title={InterCutMix: Interaction-aware Scene Debiasing Method for Action Recognition},
     author={Wihandika, Randy Cahya and Mendonça, Israel and Aritsugi, Masayoshi},
     booktitle={European Conference on Computer Vision (ECCV)},
