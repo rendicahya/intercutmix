@@ -104,7 +104,30 @@ tar -xzf hmdb51-mask.tar.gz && rm "$_"
 cd ../../../..
 ```
 
-2. Convert .mat files into mask images.
+2. Fix locations.
+
+```shell
+cd data/hmdb51/mat/files
+mv catch/LearnToShootFromTheMaster_catch_f_cm_np1_ba_med_* shoot_ball/
+mv catch/Goalkeeper_Training_Day_@_7_catch_f_cm_np1_ri_med_0.mat catch/Goalkeeper_Training_Day_#_7_catch_f_cm_np1_ri_med_0.mat
+mv clap/@20_Rhythm_clap_u_nm_np1_le_goo_0.mat clap/#20_Rhythm_clap_u_nm_np1_le_goo_0.mat
+mv clap/@20_Rhythm_clap_u_nm_np1_le_goo_1.mat clap/#20_Rhythm_clap_u_nm_np1_le_goo_1.mat
+mv clap/@20_Rhythm_clap_u_nm_np1_le_goo_3.mat clap/#20_Rhythm_clap_u_nm_np1_le_goo_3.mat
+mv golf/Golf_Swing_@6Iron_golf_f_cm_np1_fr_med_0.mat golf/Golf_Swing_#6Iron_golf_f_cm_np1_fr_med_0.mat
+mv golf/Golf_Swing_@6Iron_golf_f_cm_np1_fr_med_1.mat golf/Golf_Swing_#6Iron_golf_f_cm_np1_fr_med_1.mat
+mv golf/Golf_Swing_@6Iron_golf_f_cm_np1_fr_med_2.mat golf/Golf_Swing_#6Iron_golf_f_cm_np1_fr_med_2.mat
+mv golf/Golf_Swing_@6Iron_golf_f_cm_np1_fr_med_3.mat golf/Golf_Swing_#6Iron_golf_f_cm_np1_fr_med_3.mat
+mv golf/Golf_Swing_@6Iron_golf_f_cm_np1_fr_med_4.mat golf/Golf_Swing_#6Iron_golf_f_cm_np1_fr_med_4.mat
+mv golf/Golf_Swing_@6Iron_golf_f_cm_np1_fr_med_5.mat golf/Golf_Swing_#6Iron_golf_f_cm_np1_fr_med_5.mat
+mv kick_ball/Goal_1_@_2_kick_ball_f_cm_np1_fr_goo_2.mat kick_ball/Goal_1_&_2_kick_ball_f_cm_np1_fr_goo_2.mat
+mv kick_ball/Amazing_Soccer_@2_kick_ball_u_cm_np1_ba_bad_0.mat kick_ball/Amazing_Soccer_#2_kick_ball_u_cm_np1_ba_bad_0.mat
+mv kick_ball/Amazing_Soccer_@2_kick_ball_f_cm_np1_le_bad_2.mat kick_ball/Amazing_Soccer_#2_kick_ball_f_cm_np1_le_bad_2.mat
+mv pour/Drink_@18_-_Apple_martini_pour_u_nm_np1_fr_goo_0.mat pour/Drink_#18_-_Apple_martini_pour_u_nm_np1_fr_goo_0.mat
+mv pour/Drink_@18_-_Apple_martini_pour_u_nm_np1_fr_goo_1.mat pour/Drink_#18_-_Apple_martini_pour_u_nm_np1_fr_goo_1.mat
+mv pour/Drink_@18_-_Apple_martini_pour_u_nm_np1_fr_goo_2.mat pour/Drink_#18_-_Apple_martini_pour_u_nm_np1_fr_goo_2.mat
+```
+
+4. Convert .mat files into mask images.
 
 ```shell
 python3 mat2mask.py
