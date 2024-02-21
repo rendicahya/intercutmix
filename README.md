@@ -104,7 +104,7 @@ tar -xzf hmdb51-mask.tar.gz && rm "$_"
 cd ../../../..
 ```
 
-2. Fix locations.
+2. Fix file locations and names.
 
 ```shell
 cd data/hmdb51/mat/files
@@ -125,6 +125,7 @@ mv kick_ball/Amazing_Soccer_@2_kick_ball_f_cm_np1_le_bad_2.mat kick_ball/Amazing
 mv pour/Drink_@18_-_Apple_martini_pour_u_nm_np1_fr_goo_0.mat pour/Drink_#18_-_Apple_martini_pour_u_nm_np1_fr_goo_0.mat
 mv pour/Drink_@18_-_Apple_martini_pour_u_nm_np1_fr_goo_1.mat pour/Drink_#18_-_Apple_martini_pour_u_nm_np1_fr_goo_1.mat
 mv pour/Drink_@18_-_Apple_martini_pour_u_nm_np1_fr_goo_2.mat pour/Drink_#18_-_Apple_martini_pour_u_nm_np1_fr_goo_2.mat
+cd ../../../..
 ```
 
 4. Convert .mat files into mask images.
