@@ -101,13 +101,11 @@ python3 xgtf2mask.py
 mkdir -p data/hmdb51/mat/files && cd "$_"
 gdown 1qwarqC8O6XU5CKyMLub6qPpjw2pvVrfg
 tar -xzf hmdb51-mask.tar.gz && rm "$_"
-cd ../../../..
 ```
 
 2. Fix file locations and names.
 
 ```shell
-cd data/hmdb51/mat/files
 mv catch/LearnToShootFromTheMaster_catch_f_cm_np1_ba_med_* shoot_ball/
 mv catch/Goalkeeper_Training_Day_@_7_catch_f_cm_np1_ri_med_0.mat catch/Goalkeeper_Training_Day_#_7_catch_f_cm_np1_ri_med_0.mat
 mv clap/@20_Rhythm_clap_u_nm_np1_le_goo_0.mat clap/#20_Rhythm_clap_u_nm_np1_le_goo_0.mat
