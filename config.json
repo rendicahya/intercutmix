@@ -21,6 +21,7 @@
     "mat": {
       "path": "data/hmdb51/mat/files",
       "mask": {
+        "box": true,
         "path": "data/hmdb51/mat/mask"
       }
     }
