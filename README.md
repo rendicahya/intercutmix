@@ -108,6 +108,7 @@ tar -xzf hmdb51-mask.tar.gz && rm "$_"
 ```shell
 rm climb_stairs/Stadium_Plyometric_Workout_climb_stairs_f_cm_np1_ba_bad_5.mat
 rm catch/LearnToShootFromTheMaster_catch_*
+rm throw/Faith_Rewarded_throw_f_nm_np1_le_bad_51.mat
 mv catch/Goalkeeper_Training_Day_@_7_catch_f_cm_np1_ri_med_0.mat catch/Goalkeeper_Training_Day_#_7_catch_f_cm_np1_ri_med_0.mat
 mv clap/@20_Rhythm_clap_u_nm_np1_fr_goo_0.mat clap/#20_Rhythm_clap_u_nm_np1_fr_goo_0.mat
 mv clap/@20_Rhythm_clap_u_nm_np1_fr_goo_1.mat clap/#20_Rhythm_clap_u_nm_np1_fr_goo_1.mat
