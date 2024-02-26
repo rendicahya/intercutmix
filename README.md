@@ -178,12 +178,15 @@ This step will take several hours and the resulting videos will be stored in `da
 python3 batch.py
 ```
 
-Alternatively, download the result:
+Alternatively, download the finished result:
 
 ```shell
 mkdir -p ../data/ucf101/xgtf/scene && cd "$_"
 gdown 1F53RbTXaWW-M6W5I7JDhRU73szm2GvWi
 tar -xzf ucf101-scene.tar.gz && rm "$_"
+mkdir -p ../../../hmdb51/mat/scene && cd "$_"
+gdown TODO
+tar -xzf hmdb51-scene.tar.gz && rm "$_"
 cd ../../../../
 ```
 
@@ -195,6 +198,8 @@ The output will be stored in `data/{dataset}/xgtf/scene-list.json`.
 cd ..
 python3 list-scene.py
 ```
+
+6. Switch to another dataset (UCF101/HMDB51) by changing `conf.active.dataset` then rerunning step 4 and step 5.
 
 ## E. Relevancy
 

@@ -15,6 +15,11 @@
         "path": "data/ucf101/xgtf/mask",
         "action_only": false
       }
+    },
+    "annotation": "data/ucf101/xgtf/files",
+    "mask": {
+      "path": "data/ucf101/xgtf/mask",
+      "action_only": false
     }
   },
   "hmdb51": {
@@ -22,12 +27,18 @@
     "ext": ".avi",
     "n_videos": 6766,
     "n_classes": 51,
+    "frames": "data/hmdb51/frames",
     "mat": {
       "path": "data/hmdb51/mat/files",
       "mask": {
         "box": true,
         "path": "data/hmdb51/mat/mask"
       }
+    },
+    "annotation": "data/hmdb51/mat/files",
+    "mask": {
+      "box": true,
+      "path": "data/hmdb51/mat/mask"
     }
   },
   "relevancy": {
@@ -55,23 +66,16 @@
       "ucf101": {
         "type": "video",
         "video": {
-          "path": "data/ucf101/videos",
-          "ext": ".avi",
           "reader": "opencv",
           "max_len": 400
-        },
-        "mask": "data/ucf101/xgtf/mask"
+        }
       },
       "hmdb51": {
         "type": "frames",
-        "path": "data/hmdb51/frames",
         "video": {
-          "path": "data/hmdb51/videos",
-          "ext": ".avi",
           "reader": "opencv",
           "max_len": 400
-        },
-        "mask": "data/hmdb51/mat/mask"
+        }
       }
     },
     "model": "model.e2fgvi_hq",
