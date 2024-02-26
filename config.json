@@ -16,10 +16,12 @@
         "action_only": false
       }
     },
-    "annotation": "data/ucf101/xgtf/files",
-    "mask": {
-      "path": "data/ucf101/xgtf/mask",
-      "action_only": false
+    "annotation": {
+      "path": "data/ucf101/xgtf/files",
+      "mask": {
+        "path": "data/ucf101/xgtf/mask",
+        "action_only": false
+      }
     }
   },
   "hmdb51": {
@@ -35,10 +37,12 @@
         "path": "data/hmdb51/mat/mask"
       }
     },
-    "annotation": "data/hmdb51/mat/files",
-    "mask": {
-      "box": true,
-      "path": "data/hmdb51/mat/mask"
+    "annotation": {
+      "path": "data/hmdb51/mat/files",
+      "mask": {
+        "box": true,
+        "path": "data/hmdb51/mat/mask"
+      }
     }
   },
   "relevancy": {
