@@ -164,24 +164,37 @@
   "cutmix": {
     "multiplication": 10,
     "input": {
-      "video": {
-        "path": "data/ucf101/videos",
-        "ext": ".avi",
+      "ucf101": {
+        "video": {
+          "path": "data/ucf101/videos",
+          "ext": ".avi",
+          "reader": "opencv",
+          "blacklist": [
+            "v_PommelHorse_g05_c01",
+            "v_PommelHorse_g05_c02",
+            "v_PommelHorse_g05_c03",
+            "v_PommelHorse_g05_c04"
+          ]
+        },
+        "scene": {
+          "list": "data/ucf101/xgtf/scene-list.json",
+          "path": "data/ucf101/xgtf/scene",
+          "ext": ".mp4"
+        },
+        "mask": {
+          "path": "data/ucf101/REPP/inter/mask"
+        }
+      },
+      "hmdb51": {
         "reader": "opencv",
-        "blacklist": [
-          "v_PommelHorse_g05_c01",
-          "v_PommelHorse_g05_c02",
-          "v_PommelHorse_g05_c03",
-          "v_PommelHorse_g05_c04"
-        ]
-      },
-      "scene": {
-        "list": "data/ucf101/xgtf/scene-list.json",
-        "path": "data/ucf101/xgtf/scene",
-        "ext": ".mp4"
-      },
-      "mask": {
-        "path": "data/ucf101/REPP/inter/mask"
+        "scene": {
+          "list": "data/hmdb51/mat/scene-list.json",
+          "path": "data/hmdb51/mat/scene",
+          "ext": ".mp4"
+        },
+        "mask": {
+          "path": "data/hmdb51/REPP/inter/mask"
+        }
       }
     },
     "action": {

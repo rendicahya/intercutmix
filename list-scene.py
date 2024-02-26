@@ -6,7 +6,9 @@ from python_config import Config
 from tqdm import tqdm
 
 conf = Config("config.json")
-scene_dir = Path(conf.cutmix.input.scene.path)
+scene_dir = Path(conf.cutmix.input[conf.active.dataset].scene.path)
+scene_ext = conf.cutmix.input[conf.active.dataset].scene.ext
+json_out_path = conf.cutmix.input[conf.active.dataset].scene.list
 
 assert_that(scene_dir).is_directory().is_readable()
 
@@ -18,7 +20,7 @@ for action in sorted(scene_dir.iterdir()):
     files = [
         str(file.relative_to(scene_dir))
         for file in action.iterdir()
-        if file.is_file() and file.suffix == conf.cutmix.input.scene.ext
+        if file.is_file() and file.suffix == scene_ext
     ]
 
     data[action.name] = files
@@ -26,5 +28,5 @@ for action in sorted(scene_dir.iterdir()):
 
 bar.close()
 
-with open(conf.cutmix.input.scene.list, "w") as f:
+with open(json_out_path, "w") as f:
     json.dump(data, f, indent=2)
