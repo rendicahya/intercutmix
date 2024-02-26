@@ -1,4 +1,8 @@
 {
+  "active": {
+    "dataset": "hmdb51",
+    "mode": "intercutmix"
+  },
   "ucf101": {
     "path": "data/ucf101/videos",
     "ext": ".avi",
@@ -48,19 +52,37 @@
   },
   "e2fgvi": {
     "input": {
-      "video": {
-        "path": "data/hmdb51/videos",
-        "ext": ".avi",
-        "reader": "opencv",
-        "max_len": 400
+      "ucf101": {
+        "type": "video",
+        "video": {
+          "path": "data/ucf101/videos",
+          "ext": ".avi",
+          "reader": "opencv",
+          "max_len": 400
+        },
+        "mask": "data/ucf101/xgtf/mask"
       },
-      "frames": "data/hmdb51/frames",
-      "model": "model.e2fgvi_hq",
-      "mask": "data/hmdb51/mat/mask",
-      "checkpoint": "release_model/E2FGVI-HQ-CVPR22.pth"
+      "hmdb51": {
+        "type": "frames",
+        "path": "data/hmdb51/frames",
+        "video": {
+          "path": "data/hmdb51/videos",
+          "ext": ".avi",
+          "reader": "opencv",
+          "max_len": 400
+        },
+        "mask": "data/hmdb51/mat/mask"
+      }
     },
+    "model": "model.e2fgvi_hq",
+    "checkpoint": "release_model/E2FGVI-HQ-CVPR22.pth",
     "output": {
-      "path": "data/hmdb51/mat/scene",
+      "ucf101": {
+        "path": "data/ucf101/xgtf/scene"
+      },
+      "hmdb51": {
+        "path": "data/hmdb51/mat/scene"
+      },
       "ext": ".mp4",
       "writer": "moviepy"
     }
