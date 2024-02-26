@@ -85,7 +85,7 @@ mv v_RopeClimbing_g02_C01.xgtf v_RopeClimbing_g02_c01.xgtf
 cd ../../../../..
 ```
 
-3. Convert .xgtf files into mask images.
+3. Generate mask images from .xgtf files.
 
 The results will be stored in `data/ucf101/xgtf/mask`.
 
@@ -128,7 +128,15 @@ mv pour/Drink_@18_-_Apple_martini_pour_u_nm_np1_fr_goo_2.mat pour/Drink_#18_-_Ap
 cd ../../../..
 ```
 
-4. Convert .mat files into mask images.
+3. Split videos into frames.
+
+```shell
+python3 hmdb51-frames.py
+```
+
+The results will be stored in `data/hmdb51/frames`.
+
+4. Generate mask images from .mat files.
 
 ```shell
 python3 mat2mask.py
