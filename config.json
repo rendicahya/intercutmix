@@ -85,12 +85,8 @@
     "model": "model.e2fgvi_hq",
     "checkpoint": "release_model/E2FGVI-HQ-CVPR22.pth",
     "output": {
-      "ucf101": {
-        "path": "data/ucf101/xgtf/scene"
-      },
-      "hmdb51": {
-        "path": "data/hmdb51/mat/scene"
-      },
+      "ucf101": "data/ucf101/xgtf/scene",
+      "hmdb51": "data/hmdb51/mat/scene",
       "ext": ".mp4",
       "writer": "moviepy"
     }
