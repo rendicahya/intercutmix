@@ -80,14 +80,12 @@
       "ucf101": {
         "type": "video",
         "video": {
-          "reader": "opencv",
           "max_len": 400
         }
       },
       "hmdb51": {
         "type": "frames",
         "video": {
-          "reader": "opencv",
           "max_len": 400
         }
       }
@@ -97,8 +95,7 @@
     "output": {
       "ucf101": "data/ucf101/xgtf/scene",
       "hmdb51": "data/hmdb51/mat/scene",
-      "ext": ".mp4",
-      "writer": "moviepy"
+      "ext": ".mp4"
     }
   },
   "unidet": {
