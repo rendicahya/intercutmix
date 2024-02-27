@@ -1,7 +1,8 @@
 {
   "active": {
-    "dataset": "hmdb51",
-    "mode": "intercutmix"
+    "dataset": "ucf101",
+    "mode": "intercutmix",
+    "detector": "UniDet"
   },
   "ucf101": {
     "path": "data/ucf101/videos",
@@ -48,10 +49,15 @@
   "relevancy": {
     "output": "data/relevancy",
     "detector": {
-      "name": "UniDet",
-      "classnames": "UniDet/classnames.json"
+      "UniDet": {
+        "classnames": "UniDet/classnames.json"
+      }
     },
     "json": "data/relevancy/UniDet/ids/all-mpnet-base-v2/0.5.json",
+    "selected": {
+      "method": "all-mpnet-base-v2",
+      "threshold": 0.2
+    },
     "avail_methods": [
       "all-mpnet-base-v2",
       "multi-qa-mpnet-base-dot-v1",

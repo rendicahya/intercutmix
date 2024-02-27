@@ -31,17 +31,16 @@ def calc_similarity(phrase1, phrase2, model):
 
 
 conf = Config("config.json")
-detector = conf.relevancy.detector.name
-dataset_path = Path(conf.ucf101.path)
-classnames_path = Path(conf.relevancy.detector.classnames)
-output_dir = conf.relevancy.output
+dataset_dir = Path(conf[conf.active.dataset].path)
+classnames_path = Path(conf.relevancy.detector[conf.active.detector].classnames)
+output_dir = Path(conf.relevancy.output) / conf.active.detector / conf.active.dataset
 
-assert_that(dataset_path).is_directory().is_readable()
+assert_that(dataset_dir).is_directory().is_readable()
 assert_that(classnames_path).is_file().is_readable()
 
 camelcase_tokenizer = re.compile(r"(?<!^)(?=[A-Z])")
-n_subdir = sum([1 for f in dataset_path.iterdir() if f.is_dir()])
-actions = [action.name for action in dataset_path.iterdir()]
+n_subdir = sum([1 for d in dataset_dir.iterdir() if d.is_dir()])
+actions = [action.name for action in dataset_dir.iterdir()]
 avail_methods = conf.relevancy.avail_methods
 embed_bank = {}
 
@@ -55,7 +54,7 @@ for model_name in avail_methods:
     embed_bank = {}
     df_data = []
 
-    for subdir in tqdm(dataset_path.iterdir(), total=n_subdir):
+    for subdir in tqdm(dataset_dir.iterdir(), total=n_subdir):
         action = camelcase_tokenizer.sub(" ", subdir.name)
         row = [
             calc_similarity(action.lower(), obj.lower(), model) for obj in classnames
@@ -64,8 +63,8 @@ for model_name in avail_methods:
         df_data.append(row)
 
     df = pd.DataFrame(df_data, columns=classnames, index=actions)
-    ids_output_dir = Path(f"{output_dir}/{detector}/ids") / model_name
-    names_output_dir = Path(f"{output_dir}/{detector}/names") / model_name
+    ids_output_dir = Path(f"{output_dir}/ids") / model_name
+    names_output_dir = Path(f"{output_dir}/names") / model_name
 
     names_output_dir.mkdir(parents=True, exist_ok=True)
     ids_output_dir.mkdir(parents=True, exist_ok=True)

@@ -220,11 +220,13 @@ pip install -U pip
 pip install sentence-transformers pandas pyarrow
 ```
 
-3. Generate relevancy lists. This will generate relevancy files in JSON format in `data/relevancy/UniDet/ids` and `data/relevancy/UniDet/names`.
+3. Generate relevancy lists. This will generate relevancy files in JSON format in `data/relevancy/{detector}/{dataset}/ids` and `data/relevancy/{detector}/{dataset}/names`.
 
 ```shell
 python3 relevancy.py
 ```
+
+4. Run with other detectors and datasets by changing `conf.active.detector` and `conf.active.dataset` then rerunning step 3.
 
 ## F. Object detection
 
