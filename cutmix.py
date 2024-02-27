@@ -18,9 +18,11 @@ def load_image_dir(dir_path, n_frames):
     for i in range(n_frames):
         file_path = dir_path / f"{i:05}.png"
 
-        yield cv2.imread(
-            str(file_path), cv2.IMREAD_GRAYSCALE
-        ) if file_path.exists() else None
+        yield (
+            cv2.imread(str(file_path), cv2.IMREAD_GRAYSCALE)
+            if file_path.exists()
+            else None
+        )
 
 
 def cutmix(actor_path, scene_path, mask_path, video_reader):
@@ -70,13 +72,13 @@ if __name__ == "__main__":
     conf = Config("config.json")
     assert_that("config.json").is_file().is_readable()
 
-    video_in_dir = Path(conf.cutmix.input.video.path)
-    scene_dir = Path(conf.cutmix.input.scene.path)
-    mask_dir = Path(conf.cutmix.input.mask.path)
-    video_out_dir = Path(conf.cutmix.output.path)
+    video_in_dir = Path(conf[conf.active.dataset].path)
+    scene_dir = Path(conf.cutmix.input[conf.active.dataset].scene.path)
+    mask_dir = Path(conf.cutmix.input[conf.active.dataset].mask)
+    video_out_dir = Path("data") / conf.active.dataset / "REPP" / conf.active.mode
     out_ext = conf.cutmix.output.ext
-    scene_options = conf.cutmix.input.scene.list
-    n_videos = count_files(video_in_dir, ext=conf.cutmix.input.video.ext)
+    scene_options = conf.cutmix.input[conf.active.dataset].scene.list
+    n_videos = count_files(video_in_dir, ext=conf[conf.active.dataset].ext)
     n_scene_actions = count_dir(scene_dir)
 
     assert_that(video_in_dir).is_directory().is_readable()
@@ -92,7 +94,7 @@ if __name__ == "__main__":
 
     print("All checks passed.")
 
-    n_video_blacklist = len(conf.cutmix.input.video.blacklist)
+    n_video_blacklist = len(conf.cutmix.input[conf.active.dataset].blacklist)
     n_target_videos = (n_videos - n_video_blacklist) * conf.cutmix.multiplication
     action_whitelist = conf.cutmix.action.whitelist
     action_blacklist = conf.cutmix.action.blacklist
@@ -109,7 +111,7 @@ if __name__ == "__main__":
 
         n_video_blacklist = sum(
             1
-            for v in conf.cutmix.input.video.blacklist
+            for v in conf.cutmix.input[conf.active.dataset].blacklist
             if v.split("_")[1] == action.name
         )
 
@@ -130,7 +132,7 @@ if __name__ == "__main__":
                 shutil.rmtree(output_action_dir)
 
         for file in action.iterdir():
-            if file.stem in conf.cutmix.input.video.blacklist:
+            if file.stem in conf.cutmix.input[conf.active.dataset].blacklist:
                 print(f"{file.name} skipped")
                 bar.update(1)
 
@@ -160,7 +162,7 @@ if __name__ == "__main__":
                 output_path.parent.mkdir(parents=True, exist_ok=True)
 
                 out_frames = cutmix(
-                    file, scene_path, mask_path, conf.cutmix.input.video.reader
+                    file, scene_path, mask_path, conf.active.video.reader
                 )
 
                 if not out_frames:
@@ -170,7 +172,7 @@ if __name__ == "__main__":
                 frames_to_video(
                     out_frames,
                     output_path,
-                    writer=conf.cutmix.output.writer,
+                    writer=conf.video.writer,
                     fps=fps,
                 )
 
