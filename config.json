@@ -121,25 +121,10 @@
   },
   "repp": {
     "configuration": "REPP_cfg/fgfa_repp_cfg.json",
-    "input": {
-      "dump": {
-        "path": "data/ucf101/UniDet/select/inter/dump"
-      },
-      "video": {
-        "path": "data/ucf101/videos",
-        "ext": ".avi",
-        "reader": "opencv"
-      }
-    },
     "output": {
       "video": {
-        "generate": false,
-        "path": "data/ucf101/REPP/inter/videos",
-        "writer": "moviepy",
+        "generate": true,
         "ext": ".mp4"
-      },
-      "mask": {
-        "path": "data/ucf101/REPP/inter/mask"
       }
     }
   },
