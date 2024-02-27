@@ -60,7 +60,7 @@
     "json": "data/relevancy/UniDet/ids/all-mpnet-base-v2/0.5.json",
     "selected": {
       "method": "all-mpnet-base-v2",
-      "threshold": 0.2
+      "threshold": 0.5
     },
     "avail_methods": [
       "all-mpnet-base-v2",
@@ -110,29 +110,12 @@
       "generate_videos": true
     },
     "select": {
-      "mode": "intercutmix",
-      "video": {
-        "path": "data/ucf101/videos",
-        "ext": ".avi",
-        "reader": "opencv"
-      },
       "confidence": 0.5,
       "common_objects": ["Person", "Man", "Woman"],
-      "json": "data/ucf101/UniDet/detect/json",
       "output": {
-        "video": {
-          "generate": false,
-          "writer": "moviepy",
-          "path": "data/ucf101/UniDet/select/inter/videos"
-        },
-        "mask": {
-          "generate": true,
-          "path": "data/ucf101/UniDet/select/inter/mask"
-        },
-        "dump": {
-          "enabled": false,
-          "path": "data/ucf101/UniDet/select/inter/dump"
-        }
+        "video": true,
+        "mask": false,
+        "dump": true
       }
     }
   },
