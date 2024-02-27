@@ -1,8 +1,12 @@
 {
   "active": {
-    "dataset": "ucf101",
+    "dataset": "hmdb51",
     "mode": "intercutmix",
-    "detector": "UniDet"
+    "detector": "UniDet",
+    "video": {
+      "reader": "opencv",
+      "writer": "moviepy"
+    }
   },
   "ucf101": {
     "path": "data/ucf101/videos",
@@ -99,22 +103,11 @@
   },
   "unidet": {
     "detect": {
-      "video": {
-        "path": "data/ucf101/videos",
-        "ext": ".avi"
-      },
       "config": "configs/Unified_learned_OCIM_RS200_6x+2x.yaml",
       "checkpoint": "models/Unified_learned_OCIM_RS200_6x+2x.pth",
-      "output": {
-        "json": "data/ucf101/UniDet/detect/json",
-        "video": {
-          "generate": false,
-          "path": "data/ucf101/UniDet/detect/videos",
-          "writer": "moviepy"
-        }
-      },
       "confidence": 0.5,
-      "parallel": false
+      "parallel": false,
+      "generate_videos": true
     },
     "select": {
       "mode": "intercutmix",
