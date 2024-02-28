@@ -1,6 +1,6 @@
 {
   "active": {
-    "dataset": "hmdb51",
+    "dataset": "ucf101",
     "mode": "intercutmix",
     "detector": "UniDet",
     "video": {
@@ -142,6 +142,7 @@
         }
       },
       "hmdb51": {
+        "blacklist": [],
         "scene": {
           "list": "data/hmdb51/mat/scene-list.json",
           "path": "data/hmdb51/mat/scene",
