@@ -302,6 +302,7 @@ tar -xzf hmdb51-UniDet-dump-actor.tar.gz && rm "$_"
 mkdir -p ../../intercutmix/dump && cd "$_"
 gdown 1Pjyw54ivdSKhmB0I4YoIcpt3wwZ0JCnu
 tar -xzf hmdb51-UniDet-dump-inter.tar.gz && rm "$_"
+cd ../../../../../..
 ```
 
 ## G. Detection Post-processing
