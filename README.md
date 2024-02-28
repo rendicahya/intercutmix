@@ -367,6 +367,7 @@ python3 cutmix.py
 ```
 
 2. Optionally, change the mode to ActorCutMix (`conf.cutmix.input.mask.path` and `conf.cutmix.output.path`) and rerun the above command.
+
 3. Make list of the generated videos.
 
 ```shell
