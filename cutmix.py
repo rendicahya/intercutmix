@@ -48,6 +48,9 @@ def cutmix(actor_path, scene_path, mask_path, video_reader):
     scene_w, scene_h = scene_info["width"], scene_info["height"]
 
     for f, actor_frame in enumerate(actor_frames):
+        if f == len(mask_bundle) - 1:
+            return
+
         if scene_frame is None:
             scene_frames = video_frames(scene_path, reader=video_reader)
             scene_frame = next(scene_frames)
