@@ -1,7 +1,7 @@
 {
   "active": {
     "dataset": "hmdb51",
-    "mode": "actorcutmix",
+    "mode": "intercutmix",
     "detector": "UniDet",
     "video": {
       "reader": "opencv",
@@ -139,16 +139,14 @@
           "list": "data/ucf101/xgtf/scene-list.json",
           "path": "data/ucf101/xgtf/scene",
           "ext": ".mp4"
-        },
-        "mask": "data/ucf101/REPP/inter/mask"
+        }
       },
       "hmdb51": {
         "scene": {
           "list": "data/hmdb51/mat/scene-list.json",
           "path": "data/hmdb51/mat/scene",
           "ext": ".mp4"
-        },
-        "mask": "data/hmdb51/REPP/inter/mask"
+        }
       }
     },
     "action": {
