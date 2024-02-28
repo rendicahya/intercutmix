@@ -44,11 +44,16 @@ def cutmix(actor_path, scene_path, mask_path, video_reader):
     blank = np.zeros((h, w), np.uint8)
     mask_bundle = np.load(mask_path)["arr_0"]
     scene_frame = None
+    scene_info = video_info(scene_path)
+    scene_w, scene_h = scene_info["width"], scene_info["height"]
 
     for f, actor_frame in enumerate(actor_frames):
         if scene_frame is None:
             scene_frames = video_frames(scene_path, reader=video_reader)
             scene_frame = next(scene_frames)
+
+        if scene_w != w or scene_h != h:
+            scene_frame = cv2.resize(scene_frame, (w, h))
 
         actor_mask = mask_bundle[f]
 
@@ -94,30 +99,29 @@ if __name__ == "__main__":
 
     print("All checks passed.")
 
-    n_video_blacklist = len(conf.cutmix.input[conf.active.dataset].blacklist)
-    n_target_videos = (n_videos - n_video_blacklist) * conf.cutmix.multiplication
-    action_whitelist = conf.cutmix.action.whitelist
-    action_blacklist = conf.cutmix.action.blacklist
-    bar = tqdm(total=n_target_videos)
+    # n_video_blacklist = len(conf.cutmix.input[conf.active.dataset].blacklist)
+    # n_target_videos = (n_videos - n_video_blacklist) * conf.cutmix.multiplication
+    # n_target_videos = n_videos * conf.cutmix.multiplication
+    # action_whitelist = conf.cutmix.action.whitelist
+    # action_blacklist = conf.cutmix.action.blacklist
+    bar = tqdm(total=n_videos * conf.cutmix.multiplication)
     n_error = 0
 
     for action in video_in_dir.iterdir():
-        if (action_whitelist is not None and action.name not in action_whitelist) or (
-            action_blacklist is not None and action.name in action_blacklist
-        ):
-            continue
+        # if (action_whitelist is not None and action.name not in action_whitelist) or (
+        #     action_blacklist is not None and action.name in action_blacklist
+        # ):
+        #     continue
 
         output_action_dir = video_out_dir / action.name
 
-        n_video_blacklist = sum(
-            1
-            for v in conf.cutmix.input[conf.active.dataset].blacklist
-            if v.split("_")[1] == action.name
-        )
+        # n_video_blacklist = sum(
+        #     1
+        #     for v in conf.cutmix.input[conf.active.dataset].blacklist
+        #     if v.split("_")[1] == action.name
+        # )
 
-        n_target_videos = (
-            count_files(action) - n_video_blacklist
-        ) * conf.cutmix.multiplication
+        n_target_videos = count_files(action) * conf.cutmix.multiplication
 
         if output_action_dir.exists():
             if count_files(output_action_dir) == n_target_videos:
@@ -132,11 +136,11 @@ if __name__ == "__main__":
                 shutil.rmtree(output_action_dir)
 
         for file in action.iterdir():
-            if file.stem in conf.cutmix.input[conf.active.dataset].blacklist:
-                print(f"{file.name} skipped")
-                bar.update(1)
+            # if file.stem in conf.cutmix.input[conf.active.dataset].blacklist:
+            #     print(f"{file.name} skipped")
+            #     bar.update(1)
 
-                continue
+            #     continue
 
             mask_path = mask_dir / action.name / file.with_suffix(".npz").name
             fps = video_info(file)["fps"]
