@@ -290,13 +290,18 @@ There are two modes: `actorcutmix` and `intercutmix` (default) configurable in `
 
 Alternatively, download the results:
 ```shell
-mkdir -p data/ucf101/UniDet/select/actor/dump && cd "$_"
+mkdir -p data/ucf101/UniDet/select/actorcutmix/dump && cd "$_"
 gdown 1BW6AXE6glxkrdhucyTJAD9MYVTG2ZhU7
 tar -xzf ucf101-UniDet-dump-actor.tar.gz && rm "$_"
-mkdir -p ../../inter/dump && cd "$_"
+mkdir -p ../../intercutmix/dump && cd "$_"
 gdown 1rAhSitJpva-e3nkxOZAilkk4T6XHJhGS
 tar -xzf ucf101-UniDet-dump-inter.tar.gz && rm "$_"
-cd ../../../../../..
+mkdir ../../../../../hmdb51/UniDet/select/actorcutmix/dump && cd "$_"
+gdown 1_L5ipmMZzoNWtTMzqpngPfBu7u1A2za7
+tar -xzf hmdb51-UniDet-dump-actor.tar.gz && rm "$_"
+mkdir -p ../../intercutmix/dump && cd "$_"
+gdown 1Pjyw54ivdSKhmB0I4YoIcpt3wwZ0JCnu
+tar -xzf hmdb51-UniDet-dump-inter.tar.gz && rm "$_"
 ```
 
 ## G. Detection Post-processing
