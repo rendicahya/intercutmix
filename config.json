@@ -1,7 +1,7 @@
 {
   "active": {
-    "dataset": "ucf101",
-    "mode": "intercutmix",
+    "dataset": "hmdb51",
+    "mode": "actorcutmix",
     "detector": "UniDet",
     "video": {
       "reader": "opencv",
@@ -142,7 +142,6 @@
         }
       },
       "hmdb51": {
-        "blacklist": [],
         "scene": {
           "list": "data/hmdb51/mat/scene-list.json",
           "path": "data/hmdb51/mat/scene",
