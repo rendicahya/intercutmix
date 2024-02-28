@@ -170,7 +170,7 @@ gdown 10wGdKSUOie0XmCr8SQ2A2FeDe-mfn5w3 -O release_model/
 
 4. Generate videos.
 
-This step will take several hours and the resulting videos will be stored in `data/{dataset}/xgtf/scene`.
+This step will take several hours and the resulting videos will be stored in `data/{dataset}/{dir}/scene`.
 
 ```shell
 python3 batch.py
@@ -183,14 +183,14 @@ mkdir -p ../data/ucf101/xgtf/scene && cd "$_"
 gdown 1F53RbTXaWW-M6W5I7JDhRU73szm2GvWi
 tar -xzf ucf101-scene.tar.gz && rm "$_"
 mkdir -p ../../../hmdb51/mat/scene && cd "$_"
-gdown TODO
+gdown 1QqNGenFtKJzNu_xNCN5IpwknYYNPfQbD
 tar -xzf hmdb51-scene.tar.gz && rm "$_"
 cd ../../../../
 ```
 
 5. Make a list of the generated scene videos.
 
-The output will be stored in `data/{dataset}/xgtf/scene-list.json`.
+The output will be stored in `data/{dataset}/{dir}/scene-list.json`.
 
 ```shell
 cd ..
@@ -270,7 +270,10 @@ Alternatively, download the result:
 ```shell
 mkdir -p ../data/ucf101/UniDet/detect/json && cd "$_"
 gdown 1DPIVkNk36wn2fScwH02QHA3z-s9fc8hR
-tar -xzf ucf101-UniDet-json.tar && rm "$_"
+tar -xzf ucf101-UniDet-json.tar.gz && rm "$_"
+mkdir -p ../../../../hmdb51/UniDet/detect/json && cd "$_"
+gdown 1NTbVpps2CSs2RFxdpeNtr7xWF_sJSMLu
+tar -xzf hmdb51-UniDet-json.tar.gz && rm "$_"
 cd ../../../../..
 ```
 
@@ -289,10 +292,10 @@ Alternatively, download the results:
 ```shell
 mkdir -p data/ucf101/UniDet/select/actor/dump && cd "$_"
 gdown 1BW6AXE6glxkrdhucyTJAD9MYVTG2ZhU7
-tar -xzf ucf101-UniDet-dump-actor.tar && rm "$_"
+tar -xzf ucf101-UniDet-dump-actor.tar.gz && rm "$_"
 mkdir -p ../../inter/dump && cd "$_"
 gdown 1rAhSitJpva-e3nkxOZAilkk4T6XHJhGS
-tar -xzf ucf101-UniDet-dump-inter.tar && rm "$_"
+tar -xzf ucf101-UniDet-dump-inter.tar.gz && rm "$_"
 cd ../../../../../..
 ```
 
@@ -325,12 +328,12 @@ Alternatively, download the result:
 # Actor:
 mkdir -p ../data/ucf101/REPP/actor/mask && cd "$_"
 gdown 1Qhb64pXJPy8nUUfWSK0SHqTCSJLwsXcD
-tar -xzf ucf101-REPP-mask-actor.tar && rm "$_"
+tar -xzf ucf101-REPP-mask-actor.tar.gz && rm "$_"
 
 # Inter:
 mkdir -p ../../inter/mask && cd "$_"
 gdown 1oz6sos92T5fMxja1kgkvKTgyBXq8WO1P
-tar -xzf ucf101-REPP-mask-inter.tar && rm "$_"
+tar -xzf ucf101-REPP-mask-inter.tar.gz && rm "$_"
 ```
 
 ## H. CutMix
