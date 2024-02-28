@@ -120,7 +120,7 @@
     "configuration": "REPP_cfg/fgfa_repp_cfg.json",
     "output": {
       "video": {
-        "generate": true,
+        "generate": false,
         "ext": ".mp4"
       }
     }
