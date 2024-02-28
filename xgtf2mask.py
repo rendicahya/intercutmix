@@ -92,7 +92,7 @@ if __name__ == "__main__":
     assert_that(ucf101_dir).is_directory().is_readable()
 
     for xgtf in xgtf_dir.glob("**/*.xgtf"):
-        bar.set_description(xgtf.stem)
+        bar.set_description(xgtf.stem[:50].ljust(50))
 
         action = xgtf.parent.name
         people_bbox = parse_xgtf(xgtf, action_only=conf.ucf101.xgtf.mask.action_only)
