@@ -67,19 +67,17 @@ def cutmix(actor_path, scene_path, mask_path, video_reader):
 
 
 if __name__ == "__main__":
-    print("Performing checks...")
-
     conf = Config("config.json")
-    assert_that("config.json").is_file().is_readable()
-
     video_in_dir = Path(conf[conf.active.dataset].path)
     scene_dir = Path(conf.cutmix.input[conf.active.dataset].scene.path)
-    mask_dir = Path(conf.cutmix.input[conf.active.dataset].mask)
+    mask_dir = Path("data") / conf.active.dataset / "REPP" / conf.active.mode / "mask"
     video_out_dir = Path("data") / conf.active.dataset / "REPP" / conf.active.mode
     out_ext = conf.cutmix.output.ext
     scene_options = conf.cutmix.input[conf.active.dataset].scene.list
     n_videos = count_files(video_in_dir, ext=conf[conf.active.dataset].ext)
     n_scene_actions = count_dir(scene_dir)
+
+    print("Performing checks...")
 
     assert_that(video_in_dir).is_directory().is_readable()
     assert_that(scene_dir).is_directory().is_readable()
@@ -158,7 +156,7 @@ if __name__ == "__main__":
                     bar.update(1)
                     continue
 
-                bar.set_description(file.stem)
+                bar.set_description(file.stem[:50].ljust(50))
                 output_path.parent.mkdir(parents=True, exist_ok=True)
 
                 out_frames = cutmix(
