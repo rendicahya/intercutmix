@@ -71,7 +71,9 @@ if __name__ == "__main__":
     video_in_dir = Path(conf[conf.active.dataset].path)
     scene_dir = Path(conf.cutmix.input[conf.active.dataset].scene.path)
     mask_dir = Path("data") / conf.active.dataset / "REPP" / conf.active.mode / "mask"
-    video_out_dir = Path("data") / conf.active.dataset / "REPP" / conf.active.mode
+    video_out_dir = (
+        Path("data") / conf.active.dataset / "REPP" / conf.active.mode / "videos"
+    )
     out_ext = conf.cutmix.output.ext
     scene_options = conf.cutmix.input[conf.active.dataset].scene.list
     n_videos = count_files(video_in_dir, ext=conf[conf.active.dataset].ext)
@@ -170,7 +172,7 @@ if __name__ == "__main__":
                 frames_to_video(
                     out_frames,
                     output_path,
-                    writer=conf.video.writer,
+                    writer=conf.active.video.writer,
                     fps=fps,
                 )
 
