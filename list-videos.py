@@ -6,14 +6,15 @@ from python_config import Config
 from tqdm import tqdm
 
 conf = Config("config.json")
-video_root = Path(conf.cutmix.output.path).parent
+video_root = Path(conf[conf.active.dataset].path).parent / "REPP"
+ext = conf.cutmix.output.ext
 
 for mode in "actorcutmix", "intercutmix":
-    video_dir = video_root / mode
+    video_dir = video_root / mode / "videos"
 
     assert_that(video_dir).is_directory().is_readable()
 
-    n_actions = sum(1 for d in video_dir.iterdir() if d.is_dir())
+    n_actions = conf[conf.active.dataset].n_classes
     data = {}
     bar = tqdm(total=n_actions)
 
@@ -21,7 +22,7 @@ for mode in "actorcutmix", "intercutmix":
         files = [
             str(file.relative_to(video_dir))
             for file in action.iterdir()
-            if file.is_file() and file.suffix == conf.cutmix.input.scene.ext
+            if file.is_file() and file.suffix == ext
         ]
 
         data[action.name] = files
