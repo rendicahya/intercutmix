@@ -20,10 +20,11 @@ import click
 def main(directory):
     val = []
     test = []
+    root = pathlib.Path.cwd()
 
     click.echo("Reading train directory:")
     for var in (directory / "train").iterdir():
-        click.echo(var.relative_to(pathlib.Path.cwd()))
+        click.echo(var.relative_to(root))
 
         pth_file = list(var.glob("best_acc_top1_epoch_*.pth"))[0]
         best_epoch = pth_file.stem.split("_")[-1]
@@ -33,8 +34,9 @@ def main(directory):
         with open(scalars_file) as f:
             for line in f:
 
-                if line.strip().startswith('{"acc/top1":') and \
-                line.strip().endswith(f'"step": {best_epoch}}}'):
+                if line.strip().startswith('{"acc/top1":') and line.strip().endswith(
+                    f'"step": {best_epoch}}}'
+                ):
                     json_data = json.loads(line)
 
                     val.append(f"{json_data['acc/top1']},{json_data['acc/top5']}")
@@ -46,7 +48,7 @@ def main(directory):
 
     click.echo("\nReading test directory:")
     for var in (directory / "test").iterdir():
-        click.echo(var.relative_to(pathlib.Path.cwd()))
+        click.echo(var.relative_to(root))
 
         json_file = list(var.glob("**/*.json"))[0]
 
