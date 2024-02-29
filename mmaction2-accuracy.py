@@ -33,7 +33,6 @@ def main(directory):
 
         with open(scalars_file) as f:
             for line in f:
-
                 if line.strip().startswith('{"acc/top1":') and line.strip().endswith(
                     f'"step": {best_epoch}}}'
                 ):
