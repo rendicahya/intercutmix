@@ -1,7 +1,7 @@
 {
   "active": {
     "dataset": "hmdb51",
-    "mode": "actorcutmix",
+    "mode": "intercutmix",
     "detector": "UniDet",
     "video": {
       "reader": "opencv",
@@ -32,6 +32,7 @@
   "hmdb51": {
     "path": "data/hmdb51/videos",
     "ext": ".avi",
+    "split": 1,
     "n_videos": 6766,
     "n_classes": 51,
     "frames": "data/hmdb51/frames",
