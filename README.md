@@ -43,7 +43,7 @@ cd ../..
 
 ### b. HMDB51
 
-Download videos.
+1. Download videos.
 
 ```shell
 mkdir -p data/hmdb51/videos && cd "$_"
@@ -52,6 +52,13 @@ unrar x hmdb51_org.rar && rm "$_"
 for file in *.rar; do unrar x "$file"; done
 rm *.rar
 cd ../../..
+```
+
+2. Download annotations.
+
+```shell
+wget http://serre-lab.clps.brown.edu/wp-content/uploads/2013/10/test_train_splits.rar
+unrar x test_train_splits.rar && rm "$_"
 ```
 
 ## C. Generate mask images
