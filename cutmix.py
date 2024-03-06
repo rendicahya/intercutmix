@@ -78,10 +78,32 @@ if __name__ == "__main__":
     conf = Config("config.json")
     video_in_dir = Path(conf[conf.active.dataset].path)
     scene_dir = Path(conf.cutmix.input[conf.active.dataset].scene.path)
-    mask_dir = Path("data") / conf.active.dataset / "REPP" / conf.active.mode / "mask"
-    video_out_dir = (
-        Path("data") / conf.active.dataset / "REPP" / conf.active.mode / "videos"
-    )
+
+    if conf.cutmix.use_REPP:
+        mask_dir = (
+            Path("data") / conf.active.dataset / "REPP" / conf.active.mode / "mask"
+        )
+        video_out_dir = (
+            Path("data") / conf.active.dataset / "REPP" / conf.active.mode / "videos"
+        )
+    else:
+        mask_dir = (
+            Path("data")
+            / conf.active.dataset
+            / conf.active.detector
+            / "select"
+            / conf.active.mode
+            / "mask"
+        )
+        video_out_dir = (
+            Path("data")
+            / conf.active.dataset
+            / conf.active.detector
+            / "select"
+            / conf.active.mode
+            / "videos"
+        )
+
     out_ext = conf.cutmix.output.ext
     scene_options = conf.cutmix.input[conf.active.dataset].scene.list
     n_videos = count_files(video_in_dir, ext=conf[conf.active.dataset].ext)
