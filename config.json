@@ -1,6 +1,6 @@
 {
   "active": {
-    "dataset": "ucf101",
+    "dataset": "hmdb51",
     "mode": "actorcutmix",
     "detector": "UniDet",
     "video": {
@@ -128,7 +128,7 @@
   },
   "cutmix": {
     "multiplication": 10,
-    "use_REPP": "true",
+    "use_REPP": false,
     "input": {
       "ucf101": {
         "blacklist": [
