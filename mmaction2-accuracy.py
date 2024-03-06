@@ -22,7 +22,7 @@ def main(directory):
     test = []
     root = pathlib.Path.cwd()
 
-    click.echo("Reading train directory:")
+    click.echo("\nReading train directory:")
     for var in (directory / "train").iterdir():
         click.echo(var.relative_to(root))
 
