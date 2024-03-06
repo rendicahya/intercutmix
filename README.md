@@ -38,7 +38,7 @@ mv UCF-101 videos
 wget https://www.crcv.ucf.edu/data/UCF101/UCF101TrainTestSplits-RecognitionTask.zip --no-check-certificate
 unzip UCF101TrainTestSplits-RecognitionTask.zip && rm "$_"
 mv ucfTrainTestlist annotations
-cd ../..
+cd ../../
 ```
 
 ### b. HMDB51
@@ -51,7 +51,7 @@ wget --no-check-certificate http://serre-lab.clps.brown.edu/wp-content/uploads/2
 unrar x hmdb51_org.rar && rm "$_"
 for file in *.rar; do unrar x "$file"; done
 rm *.rar
-cd ../../..
+cd ../
 ```
 
 2. Download annotations.
@@ -59,6 +59,7 @@ cd ../../..
 ```shell
 wget http://serre-lab.clps.brown.edu/wp-content/uploads/2013/10/test_train_splits.rar
 unrar x test_train_splits.rar && rm "$_"
+cd ../../
 ```
 
 ## C. Generate mask images
