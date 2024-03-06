@@ -84,7 +84,7 @@ if __name__ == "__main__":
             Path("data") / conf.active.dataset / "REPP" / conf.active.mode / "mask"
         )
         video_out_dir = (
-            Path("data") / conf.active.dataset / "REPP" / conf.active.mode / "videos"
+            Path("data") / conf.active.dataset / "REPP" / conf.active.mode / "mix"
         )
     else:
         mask_dir = (
@@ -101,7 +101,7 @@ if __name__ == "__main__":
             / conf.active.detector
             / "select"
             / conf.active.mode
-            / "videos"
+            / "mix"
         )
 
     out_ext = conf.cutmix.output.ext
@@ -124,49 +124,26 @@ if __name__ == "__main__":
 
     print("All checks passed.")
 
-    # n_video_blacklist = len(conf.cutmix.input[conf.active.dataset].blacklist)
-    # n_target_videos = (n_videos - n_video_blacklist) * conf.cutmix.multiplication
-    # n_target_videos = n_videos * conf.cutmix.multiplication
-    # action_whitelist = conf.cutmix.action.whitelist
-    # action_blacklist = conf.cutmix.action.blacklist
     bar = tqdm(total=n_videos * conf.cutmix.multiplication)
     n_error = 0
 
     for action in video_in_dir.iterdir():
-        # if (action_whitelist is not None and action.name not in action_whitelist) or (
-        #     action_blacklist is not None and action.name in action_blacklist
-        # ):
-        #     continue
-
         output_action_dir = video_out_dir / action.name
-
-        # n_video_blacklist = sum(
-        #     1
-        #     for v in conf.cutmix.input[conf.active.dataset].blacklist
-        #     if v.split("_")[1] == action.name
-        # )
-
         n_target_videos = count_files(action) * conf.cutmix.multiplication
 
         if output_action_dir.exists():
             if count_files(output_action_dir) == n_target_videos:
-                print(f"Action {action.name} is complete. Skipping...")
+                print(f'Action "{action.name}" is complete. Skipping...')
                 bar.update(n_target_videos)
 
                 continue
             else:
                 print(
-                    f"Action {action.name} is partially complete. Deleting and remixing..."
+                    f'Action "{action.name}" is partially complete. Deleting and remixing...'
                 )
                 shutil.rmtree(output_action_dir)
 
         for file in action.iterdir():
-            # if file.stem in conf.cutmix.input[conf.active.dataset].blacklist:
-            #     print(f"{file.name} skipped")
-            #     bar.update(1)
-
-            #     continue
-
             mask_path = mask_dir / action.name / file.with_suffix(".npz").name
             fps = video_info(file)["fps"]
             scene_class_options = [s for s in scene_json.keys() if s != action.name]
