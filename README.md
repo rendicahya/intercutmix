@@ -28,7 +28,7 @@ pip install -U pip
 ```shell
 mkdir -p data/ucf101 && cd "$_"
 wget https://www.crcv.ucf.edu/datasets/human-actions/ucf101/UCF101.rar --no-check-certificate
-unrar x UCF101.rar -idq && rm "$_"
+unrar x UCF101.rar && rm "$_"
 mv UCF-101 videos
 ```
 
@@ -36,9 +36,40 @@ mv UCF-101 videos
 
 ```shell
 wget https://www.crcv.ucf.edu/data/UCF101/UCF101TrainTestSplits-RecognitionTask.zip --no-check-certificate
-unzip UCF101TrainTestSplits-RecognitionTask.zip && rm "$_"
+unzip -q UCF101TrainTestSplits-RecognitionTask.zip && rm "$_"
 mv ucfTrainTestlist annotations
 cd ../../
+```
+
+3. Check structure.
+
+```shell
+intercutmix/data/ucf101/
+│
+├── annotations/
+│   ├── classInd.txt
+│   ├── testlist01.txt
+│   ├── testlist02.txt
+│   ├── testlist03.txt
+│   ├── trainlist01.txt
+│   ├── trainlist02.txt
+│   └── trainlist03.txt
+│
+└── videos/
+    │
+    ├── ApplyEyeMakeup/
+    │   ├── v_ApplyEyeMakeup_g01_c01.avi
+    │   ├── v_ApplyEyeMakeup_g01_c02.avi
+    │   ├── v_ApplyEyeMakeup_g01_c03.avi
+    |   └── ...
+    │
+    ├── ApplyLipstick/
+    │   ├── v_ApplyLipstick_g01_c01.avi
+    │   ├── v_ApplyLipstick_g01_c02.avi
+    │   ├── v_ApplyLipstick_g01_c03.avi
+    |   └── ...
+    │
+    └── ...
 ```
 
 ### b. HMDB51
@@ -60,6 +91,34 @@ cd ../
 wget http://serre-lab.clps.brown.edu/wp-content/uploads/2013/10/test_train_splits.rar
 unrar x test_train_splits.rar && rm "$_"
 cd ../../
+```
+
+3. Check structure.
+
+```shell
+intercutmix/data/hmdb51/
+│
+├── testTrainMulti_7030_splits/
+│   ├── brush_hair_test_split1.txt
+│   ├── brush_hair_test_split2.txt
+│   ├── brush_hair_test_split3.txt
+|   └── ...
+|
+└── videos/
+    │
+    ├── brush_hair/
+    │   ├── April_09_brush_hair_u_nm_np1_ba_goo_0.avi
+    │   ├── April_09_brush_hair_u_nm_np1_ba_goo_1.avi
+    │   ├── April_09_brush_hair_u_nm_np1_ba_goo_2.avi
+    |   └── ...
+    │
+    ├── cartwheel/
+    │   ├── (Rad)Schlag_die_Bank!_cartwheel_f_cm_np1_le_med_0.avi
+    │   ├── Acrobacias_de_un_fenomeno_cartwheel_f_cm_np1_ba_bad_8.avi
+    │   ├── Acrobacias_de_un_fenomeno_cartwheel_f_cm_np1_fr_bad_3.avi
+    |   └── ...
+    │
+    └── ...
 ```
 
 ## C. Generate mask images
@@ -97,6 +156,57 @@ The results will be stored in `data/ucf101/xgtf/mask`.
 
 ```shell
 python3 xgtf2mask.py
+```
+
+4. Check structure.
+
+```shell
+intercutmix/data/hmdb51/
+│
+├── annotations/...
+|
+├── videos/...
+|
+└── xgtf/
+    │
+    ├── files/
+    │   ├── Basketball/
+    |   |   ├── v_Basketball_g01_c01.xgtf
+    |   |   ├── v_Basketball_g01_c02.xgtf
+    |   |   └── ...
+    │   |
+    │   ├── BasketballDunk/
+    |   |   ├── v_BasketballDunk_g01_c01.xgtf
+    |   |   ├── v_BasketballDunk_g01_c02.xgtf
+    |   |   └── ...
+    |   └── ...
+    │
+    ├── mask/
+    │   ├── Basketball/
+    |   |   ├── v_Basketball_g01_c01/
+    |   |   |   ├── 0000.png
+    |   |   |   ├── 0001.png
+    |   |   |   └── ...
+    |   |   |
+    |   |   ├── v_Basketball_g01_c02/
+    |   |   |   ├── 0000.png
+    |   |   |   ├── 0001.png
+    |   |   |   └── ...
+    |   |   └── ...
+    │   |
+    │   ├── BasketballDunk/
+    |   |   ├── v_BasketballDunk_g01_c01/
+    |   |   |   ├── 0000.png
+    |   |   |   ├── 0001.png
+    |   |   |   └── ...
+    |   |   |
+    |   |   ├── v_Basketball_g01_c02/
+    |   |   |   ├── 0000.png
+    |   |   |   ├── 0001.png
+    |   |   |   └── ...
+    |   |   └── ...
+    |   └── ...
+    └── ...
 ```
 
 ### b. HMDB51
