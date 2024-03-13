@@ -1,7 +1,8 @@
 {
+  "random_seed": 0,
   "active": {
-    "dataset": "hmdb51",
-    "mode": "actorcutmix",
+    "dataset": "ucf101",
+    "mode": "intercutmix",
     "detector": "UniDet",
     "video": {
       "reader": "opencv",

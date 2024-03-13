@@ -124,6 +124,8 @@ if __name__ == "__main__":
 
     print("All checks passed.")
 
+    random.seed(conf.random_seed)
+
     bar = tqdm(total=n_videos * conf.cutmix.multiplication)
     n_error = 0
 
