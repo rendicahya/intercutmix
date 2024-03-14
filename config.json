@@ -129,15 +129,9 @@
   },
   "cutmix": {
     "multiplication": 10,
-    "use_REPP": false,
+    "use_REPP": true,
     "input": {
       "ucf101": {
-        "blacklist": [
-          "v_PommelHorse_g05_c01",
-          "v_PommelHorse_g05_c02",
-          "v_PommelHorse_g05_c03",
-          "v_PommelHorse_g05_c04"
-        ],
         "scene": {
           "list": "data/ucf101/xgtf/scene-list.json",
           "path": "data/ucf101/xgtf/scene",
