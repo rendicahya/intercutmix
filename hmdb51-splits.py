@@ -1,9 +1,7 @@
+import random
 from pathlib import Path
-from random import seed, shuffle
 
 from python_config import Config
-
-seed(46)
 
 conf = Config("config.json")
 hmdb51_dir = Path(conf.hmdb51.path)
@@ -12,6 +10,8 @@ split_no = conf.hmdb51.split
 action_list = []
 train_list = []
 test_list = []
+
+random.seed(conf.random_seed)
 
 for file in raw_split_dir.iterdir():
     ending = f"_test_split{split_no}.txt"
@@ -35,8 +35,8 @@ for file in raw_split_dir.iterdir():
             elif int(category) == 2:
                 test_list.append(new_line)
 
-shuffle(train_list)
-shuffle(test_list)
+random.shuffle(train_list)
+random.shuffle(test_list)
 
 with open(hmdb51_dir.parent / "train.txt", "w") as f:
     f.write("\n".join(train_list))
