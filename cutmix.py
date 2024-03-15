@@ -79,30 +79,20 @@ if __name__ == "__main__":
     video_in_dir = Path(conf[conf.active.dataset].path)
     scene_dir = Path(conf.cutmix.input[conf.active.dataset].scene.path)
 
+    dataset = conf.active.dataset
+    detector = conf.active.detector
+    mode = conf.active.mode
+
+    print("Dataset:", dataset)
+    print("Mode:", mode)
+    print("REPP:", conf.cutmix.use_REPP)
+
     if conf.cutmix.use_REPP:
-        mask_dir = (
-            Path("data") / conf.active.dataset / "REPP" / conf.active.mode / "mask"
-        )
-        video_out_dir = (
-            Path("data") / conf.active.dataset / "REPP" / conf.active.mode / "mix"
-        )
+        mask_dir = Path("data") / dataset / "REPP" / mode / "mask"
+        video_out_dir = Path("data") / dataset / "REPP" / mode / "mix"
     else:
-        mask_dir = (
-            Path("data")
-            / conf.active.dataset
-            / conf.active.detector
-            / "select"
-            / conf.active.mode
-            / "mask"
-        )
-        video_out_dir = (
-            Path("data")
-            / conf.active.dataset
-            / conf.active.detector
-            / "select"
-            / conf.active.mode
-            / "mix"
-        )
+        mask_dir = Path("data") / dataset / detector / "select" / mode / "mask"
+        video_out_dir = Path("data") / dataset / detector / "select" / mode / "mix"
 
     out_ext = conf.cutmix.output.ext
     scene_options = conf.cutmix.input[conf.active.dataset].scene.list
