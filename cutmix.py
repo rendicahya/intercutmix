@@ -82,17 +82,53 @@ if __name__ == "__main__":
     dataset = conf.active.dataset
     detector = conf.active.detector
     mode = conf.active.mode
+    relevancy_model = conf.relevancy.active.method
+    relevancy_threshold = conf.relevancy.active.threshold
 
     print("Dataset:", dataset)
     print("Mode:", mode)
     print("REPP:", conf.cutmix.use_REPP)
 
     if conf.cutmix.use_REPP:
-        mask_dir = Path("data") / dataset / "REPP" / mode / "mask"
-        video_out_dir = Path("data") / dataset / "REPP" / mode / "mix"
+        mask_dir = (
+            Path("data")
+            / dataset
+            / "REPP"
+            / mode
+            / "mask"
+            / relevancy_model
+            / str(relevancy_threshold)
+        )
+        video_out_dir = (
+            Path("data")
+            / dataset
+            / "REPP"
+            / mode
+            / "mix"
+            / relevancy_model
+            / str(relevancy_threshold)
+        )
     else:
-        mask_dir = Path("data") / dataset / detector / "select" / mode / "mask"
-        video_out_dir = Path("data") / dataset / detector / "select" / mode / "mix"
+        mask_dir = (
+            Path("data")
+            / dataset
+            / detector
+            / "select"
+            / mode
+            / "mask"
+            / relevancy_model
+            / str(relevancy_threshold)
+        )
+        video_out_dir = (
+            Path("data")
+            / dataset
+            / detector
+            / "select"
+            / mode
+            / "mix"
+            / relevancy_model
+            / str(relevancy_threshold)
+        )
 
     out_ext = conf.cutmix.output.ext
     scene_options = conf.cutmix.input[conf.active.dataset].scene.list

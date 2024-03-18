@@ -6,11 +6,13 @@ from python_config import Config
 from tqdm import tqdm
 
 conf = Config("config.json")
+relevancy_model = conf.relevancy.active.method
+relevancy_threshold = conf.relevancy.active.threshold
 video_root = Path(conf[conf.active.dataset].path).parent / "REPP"
 ext = conf.cutmix.output.ext
 
 for mode in "actorcutmix", "intercutmix":
-    video_dir = video_root / mode / "mix"
+    video_dir = video_root / mode / "mix" / relevancy_model / str(relevancy_threshold)
 
     assert_that(video_dir).is_directory().is_readable()
 
