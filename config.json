@@ -2,7 +2,7 @@
   "random_seed": 0,
   "active": {
     "dataset": "ucf101",
-    "mode": "actorcutmix",
+    "mode": "intercutmix",
     "detector": "UniDet",
     "video": {
       "reader": "opencv",
@@ -61,7 +61,7 @@
     },
     "active": {
       "method": "all-mpnet-base-v2",
-      "threshold": 0.4
+      "threshold": 0.5
     },
     "avail_methods": [
       "all-mpnet-base-v2",
