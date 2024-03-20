@@ -25,7 +25,7 @@ def load_image_dir(dir_path, n_frames):
         )
 
 
-def cutmix(actor_path, scene_path, mask_path, video_reader):
+def cutmix(actor_path, scene_path, mask_bundle, video_reader):
     if not actor_path.is_file() or not actor_path.exists():
         print("Not a file or not exists:", actor_path)
         return None
@@ -42,7 +42,6 @@ def cutmix(actor_path, scene_path, mask_path, video_reader):
     info = video_info(actor_path)
     w, h = info["width"], info["height"]
     blank = np.zeros((h, w), np.uint8)
-    mask_bundle = np.load(mask_path)["arr_0"]
     scene_frame = None
     scene_info = video_info(scene_path)
     scene_w, scene_h = scene_info["width"], scene_info["height"]
@@ -84,10 +83,8 @@ if __name__ == "__main__":
     mode = conf.active.mode
     relevancy_model = conf.relevancy.active.method
     relevancy_threshold = conf.relevancy.active.threshold
-
-    print("Dataset:", dataset)
-    print("Mode:", mode)
-    print("REPP:", conf.cutmix.use_REPP)
+    min_mask_ratio = conf.cutmix.min_mask_ratio
+    multiplication = conf.cutmix.multiplication
 
     if conf.cutmix.use_REPP:
         mask_dir = (
@@ -105,6 +102,7 @@ if __name__ == "__main__":
             / "REPP"
             / mode
             / "mix"
+            / str(min_mask_ratio)
             / relevancy_model
             / str(relevancy_threshold)
         )
@@ -126,9 +124,20 @@ if __name__ == "__main__":
             / "select"
             / mode
             / "mix"
+            / str(min_mask_ratio)
             / relevancy_model
             / str(relevancy_threshold)
         )
+
+    print("Dataset:", dataset)
+    print("Mode:", mode)
+    print("REPP:", conf.cutmix.use_REPP)
+    print("Min. mask ratio:", min_mask_ratio)
+    print("Multiplication:", multiplication)
+    print("Relevancy model:", relevancy_model)
+    print("Relevancy thresh.:", relevancy_threshold)
+    print("Input mask:", mask_dir)
+    print("Output dir:", video_out_dir)
 
     out_ext = conf.cutmix.output.ext
     scene_options = conf.cutmix.input[conf.active.dataset].scene.list
@@ -152,65 +161,68 @@ if __name__ == "__main__":
 
     random.seed(conf.random_seed)
 
-    bar = tqdm(total=n_videos * conf.cutmix.multiplication)
-    n_error = 0
+    bar = tqdm(total=n_videos * multiplication)
+    n_skipped = 0
+    n_written = 0
 
     for action in video_in_dir.iterdir():
         output_action_dir = video_out_dir / action.name
-        n_target_videos = count_files(action) * conf.cutmix.multiplication
-
-        if output_action_dir.exists():
-            if count_files(output_action_dir) == n_target_videos:
-                print(f'Action "{action.name}" is complete. Skipping...')
-                bar.update(n_target_videos)
-
-                continue
-            else:
-                print(
-                    f'Action "{action.name}" is partially complete. Deleting and remixing...'
-                )
-                shutil.rmtree(output_action_dir)
+        n_target_videos = count_files(action) * multiplication
 
         for file in action.iterdir():
             mask_path = mask_dir / action.name / file.with_suffix(".npz").name
+
+            if not mask_path.is_file() or not mask_path.exists():
+                continue
+
+            mask_bundle = np.load(mask_path)["arr_0"]
+            mask_ratio = np.count_nonzero(mask_bundle) / mask_bundle.size
+
+            if mask_ratio < min_mask_ratio:
+                n_skipped += multiplication
+                bar.update(multiplication)
+                continue
+
             fps = video_info(file)["fps"]
             scene_class_options = [s for s in scene_json.keys() if s != action.name]
 
-            for i in range(conf.cutmix.multiplication):
+            for i in range(multiplication):
                 scene_class_pick = random.choice(scene_class_options)
                 scene_options = scene_json[scene_class_pick]
                 scene_pick = random.choice(scene_options)
                 scene_path = scene_dir / scene_pick
+                bar_description = f"{file.stem[:50].ljust(50)} [{i}/{multiplication}]"
                 output_path = (
                     video_out_dir / action.name / f"{file.stem}-{scene_class_pick}"
                 ).with_suffix(out_ext)
 
                 scene_class_options.remove(scene_class_pick)
+                bar.set_description(bar_description)
 
-                if output_path.exists():
-                    bar.set_description("Skipping finished videos...")
+                if output_path.exists() and video_info(output_path)["n_frames"] > 0:
                     bar.update(1)
                     continue
 
-                bar.set_description(file.stem[:50].ljust(50))
                 output_path.parent.mkdir(parents=True, exist_ok=True)
 
                 out_frames = cutmix(
-                    file, scene_path, mask_path, conf.active.video.reader
+                    file, scene_path, mask_bundle, conf.active.video.reader
                 )
 
-                if not out_frames:
-                    n_error += 1
-                    continue
+                if out_frames:
+                    frames_to_video(
+                        out_frames,
+                        output_path,
+                        writer=conf.active.video.writer,
+                        fps=fps,
+                    )
 
-                frames_to_video(
-                    out_frames,
-                    output_path,
-                    writer=conf.active.video.writer,
-                    fps=fps,
-                )
+                    n_written += 1
+                else:
+                    print('out_frames None')
 
                 bar.update(1)
 
     bar.close()
-    print("Errors:", n_error)
+    print("Written videos:", n_written)
+    print("Skipped videos:", n_skipped)
