@@ -112,8 +112,8 @@
       "common_objects": ["Person", "Man", "Woman"],
       "output": {
         "video": false,
-        "mask": false,
-        "dump": true
+        "mask": true,
+        "dump": false
       }
     }
   },
