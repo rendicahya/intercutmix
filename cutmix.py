@@ -12,19 +12,6 @@ from python_video import frames_to_video, video_frames, video_info
 from tqdm import tqdm
 
 
-def load_image_dir(dir_path, n_frames):
-    assert_that(dir_path).is_directory().is_readable()
-
-    for i in range(n_frames):
-        file_path = dir_path / f"{i:05}.png"
-
-        yield (
-            cv2.imread(str(file_path), cv2.IMREAD_GRAYSCALE)
-            if file_path.exists()
-            else None
-        )
-
-
 def cutmix(actor_path, scene_path, mask_bundle, video_reader):
     if not actor_path.is_file() or not actor_path.exists():
         print("Not a file or not exists:", actor_path)
@@ -83,61 +70,24 @@ if __name__ == "__main__":
     mode = conf.active.mode
     relevancy_model = conf.relevancy.active.method
     relevancy_threshold = conf.relevancy.active.threshold
-    min_mask_ratio = conf.cutmix.min_mask_ratio
     multiplication = conf.cutmix.multiplication
 
     if conf.cutmix.use_REPP:
-        mask_dir = (
-            Path("data")
-            / dataset
-            / "REPP"
-            / mode
-            / "mask"
-            / relevancy_model
-            / str(relevancy_threshold)
-        )
-        video_out_dir = (
-            Path("data")
-            / dataset
-            / "REPP"
-            / mode
-            / "mix"
-            / str(min_mask_ratio)
-            / relevancy_model
-            / str(relevancy_threshold)
-        )
+        mode_dir = Path("data") / dataset / "REPP" / mode
     else:
-        mask_dir = (
-            Path("data")
-            / dataset
-            / detector
-            / "select"
-            / mode
-            / "mask"
-            / relevancy_model
-            / str(relevancy_threshold)
-        )
-        video_out_dir = (
-            Path("data")
-            / dataset
-            / detector
-            / "select"
-            / mode
-            / "mix"
-            / str(min_mask_ratio)
-            / relevancy_model
-            / str(relevancy_threshold)
-        )
+        mode_dir = Path("data") / dataset / detector / "select" / mode
+
+    mask_dir = mode_dir / "mask" / relevancy_model / str(relevancy_threshold)
+    video_out_dir = mode_dir / "mix" / relevancy_model / str(relevancy_threshold)
 
     print("Dataset:", dataset)
     print("Mode:", mode)
     print("REPP:", conf.cutmix.use_REPP)
-    print("Min. mask ratio:", min_mask_ratio)
     print("Multiplication:", multiplication)
     print("Relevancy model:", relevancy_model)
     print("Relevancy thresh.:", relevancy_threshold)
-    print("Input mask:", mask_dir)
-    print("Output dir:", video_out_dir)
+    print("Input:", mask_dir)
+    print("Output:", video_out_dir)
 
     out_ext = conf.cutmix.output.ext
     scene_options = conf.cutmix.input[conf.active.dataset].scene.list
@@ -176,13 +126,6 @@ if __name__ == "__main__":
                 continue
 
             mask_bundle = np.load(mask_path)["arr_0"]
-            mask_ratio = np.count_nonzero(mask_bundle) / mask_bundle.size
-
-            if mask_ratio < min_mask_ratio:
-                n_skipped += multiplication
-                bar.update(multiplication)
-                continue
-
             fps = video_info(file)["fps"]
             scene_class_options = [s for s in scene_json.keys() if s != action.name]
 
@@ -219,7 +162,7 @@ if __name__ == "__main__":
 
                     n_written += 1
                 else:
-                    print('out_frames None')
+                    print("out_frames None: ", file.name)
 
                 bar.update(1)
 
