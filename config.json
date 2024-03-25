@@ -2,7 +2,7 @@
   "random_seed": 0,
   "active": {
     "dataset": "ucf101",
-    "mode": "intercutmix",
+    "mode": "actorcutmix",
     "detector": "UniDet",
     "video": {
       "reader": "opencv",
@@ -144,10 +144,6 @@
           "ext": ".mp4"
         }
       }
-    },
-    "action": {
-      "whitelist": null,
-      "blacklist": null
     },
     "output": {
       "ext": ".mp4"
