@@ -45,7 +45,6 @@ cd ../../
 
 ```shell
 intercutmix/data/ucf101/
-│
 ├── annotations/
 │   ├── classInd.txt
 │   ├── testlist01.txt
@@ -54,21 +53,17 @@ intercutmix/data/ucf101/
 │   ├── trainlist01.txt
 │   ├── trainlist02.txt
 │   └── trainlist03.txt
-│
 └── videos/
-    │
     ├── ApplyEyeMakeup/
     │   ├── v_ApplyEyeMakeup_g01_c01.avi
     │   ├── v_ApplyEyeMakeup_g01_c02.avi
     │   ├── v_ApplyEyeMakeup_g01_c03.avi
     |   └── ...
-    │
     ├── ApplyLipstick/
     │   ├── v_ApplyLipstick_g01_c01.avi
     │   ├── v_ApplyLipstick_g01_c02.avi
     │   ├── v_ApplyLipstick_g01_c03.avi
     |   └── ...
-    │
     └── ...
 ```
 
@@ -97,13 +92,11 @@ cd ../../
 
 ```shell
 intercutmix/data/hmdb51/
-│
 ├── testTrainMulti_7030_splits/
 │   ├── brush_hair_test_split1.txt
 │   ├── brush_hair_test_split2.txt
 │   ├── brush_hair_test_split3.txt
 |   └── ...
-|
 └── videos/
     │
     ├── brush_hair/
@@ -111,13 +104,11 @@ intercutmix/data/hmdb51/
     │   ├── April_09_brush_hair_u_nm_np1_ba_goo_1.avi
     │   ├── April_09_brush_hair_u_nm_np1_ba_goo_2.avi
     |   └── ...
-    │
     ├── cartwheel/
     │   ├── (Rad)Schlag_die_Bank!_cartwheel_f_cm_np1_le_med_0.avi
     │   ├── Acrobacias_de_un_fenomeno_cartwheel_f_cm_np1_ba_bad_8.avi
     │   ├── Acrobacias_de_un_fenomeno_cartwheel_f_cm_np1_fr_bad_3.avi
     |   └── ...
-    │
     └── ...
 ```
 
@@ -162,25 +153,19 @@ python3 xgtf2mask.py
 
 ```shell
 intercutmix/data/hmdb51/
-│
 ├── annotations/...
-|
 ├── videos/...
-|
 └── xgtf/
-    │
     ├── files/
     │   ├── Basketball/
     |   |   ├── v_Basketball_g01_c01.xgtf
     |   |   ├── v_Basketball_g01_c02.xgtf
     |   |   └── ...
-    │   |
     │   ├── BasketballDunk/
     |   |   ├── v_BasketballDunk_g01_c01.xgtf
     |   |   ├── v_BasketballDunk_g01_c02.xgtf
     |   |   └── ...
     |   └── ...
-    │
     ├── mask/
     │   ├── Basketball/
     |   |   ├── v_Basketball_g01_c01/
@@ -193,7 +178,6 @@ intercutmix/data/hmdb51/
     |   |   |   ├── 0001.png
     |   |   |   └── ...
     |   |   └── ...
-    │   |
     │   ├── BasketballDunk/
     |   |   ├── v_BasketballDunk_g01_c01/
     |   |   |   ├── 0000.png
