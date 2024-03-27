@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 from assertpy.assertpy import assert_that
 from bs4 import BeautifulSoup
-from python_config import Config
+from config import settings as conf
 from python_file import count_files
 from python_video import video_info
 from tqdm import tqdm
@@ -81,7 +81,6 @@ def parse_xgtf(path: Union[Path, str], action_only: bool = False):
 
 
 if __name__ == "__main__":
-    conf = Config("config.json")
     xgtf_dir = Path(conf.ucf101.xgtf.path)
     ucf101_dir = Path(conf.ucf101.path)
     ucf101_ext = conf.ucf101.ext

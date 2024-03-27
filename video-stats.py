@@ -1,13 +1,12 @@
 from collections import Counter
 from pathlib import Path
 
+from config import settings as conf
 from prettytable import PrettyTable
-from python_config import Config
 from python_file import count_files
 from python_video import video_info
 from tqdm import tqdm
 
-conf = Config("config.json")
 video_dir = Path(conf[conf.active.dataset].path)
 ext = conf[conf.active.dataset].ext
 counter = Counter()

@@ -1,9 +1,8 @@
 import random
 from pathlib import Path
 
-from python_config import Config
+from config import settings as conf
 
-conf = Config("config.json")
 hmdb51_dir = Path(conf.hmdb51.path)
 raw_split_dir = hmdb51_dir.parent / "testTrainMulti_7030_splits"
 split_no = conf.hmdb51.split

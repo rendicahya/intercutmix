@@ -6,7 +6,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 from assertpy.assertpy import assert_that
-from python_config import Config
+from config import settings as conf
 from python_file import count_dir, count_files
 from python_video import frames_to_video, video_frames, video_info
 from tqdm import tqdm
@@ -61,7 +61,6 @@ def cutmix(actor_path, scene_path, mask_bundle, video_reader):
 
 
 if __name__ == "__main__":
-    conf = Config("config.json")
     video_in_dir = Path(conf[conf.active.dataset].path)
     scene_dir = Path(conf.cutmix.input[conf.active.dataset].scene.path)
 

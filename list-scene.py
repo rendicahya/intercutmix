@@ -2,17 +2,16 @@ import json
 from pathlib import Path
 
 from assertpy.assertpy import assert_that
-from python_config import Config
+from config import settings as conf
 from tqdm import tqdm
 
-conf = Config("config.json")
 scene_dir = Path(conf.cutmix.input[conf.active.dataset].scene.path)
 scene_ext = conf.cutmix.input[conf.active.dataset].scene.ext
 json_out_path = conf.cutmix.input[conf.active.dataset].scene.list
+n_actions = conf[conf.active.dataset].n_classes
 
 assert_that(scene_dir).is_directory().is_readable()
 
-n_actions = sum(1 for d in scene_dir.iterdir() if d.is_dir())
 data = {}
 bar = tqdm(total=n_actions)
 

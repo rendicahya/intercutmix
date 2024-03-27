@@ -3,12 +3,11 @@ from pathlib import Path
 import cv2
 import numpy as np
 from assertpy.assertpy import assert_that
-from python_config import Config
+from config import settings as conf
 from python_file import count_files
 from scipy.io import loadmat
 from tqdm import tqdm
 
-conf = Config("config.json")
 mat_dir = Path(conf.hmdb51.mat.path)
 hmdb51_dir = Path(conf.hmdb51.path)
 hmdb51_ext = conf.hmdb51.ext

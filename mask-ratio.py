@@ -3,10 +3,9 @@ from pathlib import Path
 
 import numpy as np
 from assertpy.assertpy import assert_that
-from python_config import Config
+from config import settings as conf
 from tqdm import tqdm
 
-conf = Config("config.json")
 dataset = conf.active.dataset
 mode = conf.active.mode
 relevancy_model = conf.relevancy.active.method

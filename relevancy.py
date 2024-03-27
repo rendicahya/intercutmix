@@ -10,7 +10,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from assertpy.assertpy import assert_that
-from python_config import Config
+from config import settings as conf
 from sentence_transformers import SentenceTransformer, util
 from tqdm import tqdm
 
@@ -30,7 +30,6 @@ def calc_similarity(phrase1, phrase2, model):
     return float(util.cos_sim(emb1, emb2))
 
 
-conf = Config("config.json")
 dataset_dir = Path(conf[conf.active.dataset].path)
 classnames_path = Path(conf.relevancy.detector[conf.active.detector].classnames)
 output_dir = Path(conf.relevancy.output) / conf.active.detector / conf.active.dataset

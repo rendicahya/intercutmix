@@ -117,7 +117,7 @@ intercutmix/data/hmdb51/
 Install packages.
 
 ```shell
-pip install beautifulsoup4 lxml tqdm opencv-python av decord moviepy scipy gdown
+pip install beautifulsoup4 lxml tqdm opencv-python av decord moviepy scipy gdown dynaconf
 ```
 
 ### a. UCF101
@@ -458,7 +458,7 @@ pip install -v -e mmaction2
 3. Generate file list.
 
 ```shell
-python3 mmaction2/tools/data/build_file_list.py ucf101 data/ucf101/videos --level 2 --format videos --shuffle
+python3 mmaction2/tools/data/build_file_list.py ucf101 data/ucf101/videos --level 2 --format videos --shuffle --seed 0
 ```
 
 4. Train.
