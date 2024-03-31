@@ -1,6 +1,3 @@
-[submodule "python_config"]
-	path = python_config
-	url = https://github.com/rendicahya/python_config.git
 [submodule "python_file"]
 	path = python_file
 	url = https://github.com/rendicahya/python_file.git
@@ -25,3 +22,6 @@
 [submodule "mmaction2"]
 	path = mmaction2
 	url = https://github.com/rendicahya/mmaction2.git
+[submodule "VideoSSL"]
+	path = VideoSSL
+	url = https://github.com/LongLong-Jing/VideoSSL.git
