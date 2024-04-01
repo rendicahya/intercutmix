@@ -77,7 +77,12 @@ if __name__ == "__main__":
         mode_dir = Path("data") / dataset / detector / "select" / mode
 
     mask_dir = mode_dir / "mask" / relevancy_model / str(relevancy_threshold)
-    video_out_dir = mode_dir / "mix" / relevancy_model / str(relevancy_threshold)
+    video_out_dir = (
+        mode_dir
+        / ("mix" if conf.random_seed else "mix-noseed")
+        / relevancy_model
+        / str(relevancy_threshold)
+    )
 
     print("Dataset:", dataset)
     print("Mode:", mode)
@@ -108,7 +113,8 @@ if __name__ == "__main__":
 
     print("All checks passed.")
 
-    random.seed(conf.random_seed)
+    if conf.random_seed:
+        random.seed(conf.random_seed)
 
     bar = tqdm(total=n_videos * multiplication)
     n_skipped = 0
@@ -133,13 +139,13 @@ if __name__ == "__main__":
                 scene_options = scene_json[scene_class_pick]
                 scene_pick = random.choice(scene_options)
                 scene_path = scene_dir / scene_pick
-                bar_description = f"{file.stem[:50].ljust(50)} [{i}/{multiplication}]"
+                # bar_description = f"{file.stem[:50].ljust(50)} [{i}/{multiplication}]"
                 output_path = (
                     video_out_dir / action.name / f"{file.stem}-{scene_class_pick}"
                 ).with_suffix(out_ext)
 
                 scene_class_options.remove(scene_class_pick)
-                bar.set_description(bar_description)
+                # bar.set_description(bar_description)
 
                 if output_path.exists() and video_info(output_path)["n_frames"] > 0:
                     bar.update(1)
