@@ -112,6 +112,22 @@ intercutmix/data/hmdb51/
     └── ...
 ```
 
+c. Kinetics-100
+
+1. Download Kinetics-400 using the provided `k400_downloader.sh` and `k400_extractor.sh` in https://github.com/cvdfoundation/kinetics-dataset.git.
+
+2. Make Kinetics-400 file list.
+
+```shell
+python3 k400-list.py
+```
+
+3. Build Kinetics-100 by creating symlinks from Kinetics-400.
+
+```shell
+python3 k100-make.py
+```
+
 ## C. Generate mask images
 
 Install packages.
@@ -143,11 +159,11 @@ cd ../../../../..
 
 3. Generate mask images from .xgtf files.
 
-The results will be stored in `data/ucf101/xgtf/mask`.
-
 ```shell
 python3 xgtf2mask.py
 ```
+
+The results will be stored in `data/ucf101/xgtf/mask`.
 
 4. Check structure.
 
@@ -236,13 +252,31 @@ python3 hmdb51-frames.py
 
 The results will be stored in `data/hmdb51/frames`.
 
-4. Generate mask images from .mat files.
+4. Generate mask images from the .mat files.
 
 ```shell
 python3 mat2mask.py
 ```
 
 The results will be stored in `data/hmdb51/mat/mask`.
+
+### c. Kinetics-100
+
+1. Download AVA-Kinetics.
+
+```shell
+cd data/kinetics100
+wget https://storage.googleapis.com/deepmind-media/Datasets/ava_kinetics_v1_0.tar.gz
+unzip ava_kinetics_v1_0.tar.gz
+```
+
+2. Generate mask images.
+
+```shell
+# TODO
+```
+
+The results will be stored in `data/kinetics100/ava/mask`.
 
 ## D. Generate scene-only videos
 
