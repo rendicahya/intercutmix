@@ -79,7 +79,7 @@ if __name__ == "__main__":
     mask_dir = mode_dir / "mask" / relevancy_model / str(relevancy_threshold)
     video_out_dir = (
         mode_dir
-        / ("mix" if conf.random_seed else "mix-noseed")
+        / ("mix" if conf.random_seed is not None else "mix-noseed")
         / relevancy_model
         / str(relevancy_threshold)
     )
@@ -90,6 +90,7 @@ if __name__ == "__main__":
     print("Multiplication:", multiplication)
     print("Relevancy model:", relevancy_model)
     print("Relevancy thresh.:", relevancy_threshold)
+    print("Seed:", conf.random_seed)
     print("Input:", mask_dir)
     print("Output:", video_out_dir)
 
@@ -113,7 +114,7 @@ if __name__ == "__main__":
 
     print("All checks passed.")
 
-    if conf.random_seed:
+    if conf.random_seed is not None:
         random.seed(conf.random_seed)
 
     bar = tqdm(total=n_videos * multiplication)
