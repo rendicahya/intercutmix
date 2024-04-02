@@ -267,7 +267,7 @@ The results will be stored in `data/hmdb51/mat/mask`.
 ```shell
 cd data/kinetics100
 wget https://storage.googleapis.com/deepmind-media/Datasets/ava_kinetics_v1_0.tar.gz
-unzip ava_kinetics_v1_0.tar.gz
+tar -xzf ava_kinetics_v1_0.tar.gz && rm "$_"
 ```
 
 2. Generate mask images.

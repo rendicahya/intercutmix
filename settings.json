@@ -2,7 +2,7 @@
   "random_seed": 0,
   "active": {
     "dataset": "hmdb51",
-    "mode": "intercutmix",
+    "mode": "actorcutmix",
     "detector": "UniDet",
     "video": {
       "reader": "opencv",
@@ -76,7 +76,7 @@
       }
     },
     "active": {
-      "method": "all-mpnet-base-v2",
+      "method": "multi-qa-mpnet-base-dot-v1",
       "threshold": 0.5
     },
     "avail_methods": [
@@ -128,8 +128,8 @@
       "common_objects": ["Person", "Man", "Woman"],
       "output": {
         "video": false,
-        "mask": true,
-        "dump": false
+        "mask": false,
+        "dump": true
       }
     }
   },
