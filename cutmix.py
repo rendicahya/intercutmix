@@ -62,33 +62,34 @@ def cutmix(actor_path, scene_path, mask_bundle, video_reader):
 if __name__ == "__main__":
     video_in_dir = Path(conf[conf.active.dataset].path)
     scene_dir = Path(conf.cutmix.input[conf.active.dataset].scene.path)
-
     dataset = conf.active.dataset
     detector = conf.active.detector
     mode = conf.active.mode
+    bypass_object_selection = conf.active.bypass_object_selection
     relevancy_model = conf.relevancy.active.method
     relevancy_threshold = conf.relevancy.active.threshold
     multiplication = conf.cutmix.multiplication
     use_smooth_mask = conf.active.smooth_mask.enabled
 
+    if bypass_object_selection:
+        mask_dir = Path(f"data/{dataset}/{detector}/detect/mask")
+        video_out_dir = mask_dir.parent / "mix"
     if conf.cutmix.use_REPP:
-        mode_dir = Path("data") / dataset / "REPP" / mode
+        mask_dir = Path(
+            f"data/{dataset}/REPP/{mode}/mask/{relevancy_model}/{relevancy_threshold}"
+        )
+
+        video_out_dir = Path(
+            f"data/{dataset}/REPP/{mode}/mix/{relevancy_model}/{relevancy_threshold}"
+        )
     else:
-        mode_dir = Path("data") / dataset / detector / "select" / mode
+        mask_dir = Path(
+            f"data/{dataset}/{detector}/select/{mode}/mask/{relevancy_model}/{relevancy_threshold}"
+        )
 
-    mask_dir = (
-        mode_dir
-        / ("mask-smooth" if use_smooth_mask else "mask")
-        / relevancy_model
-        / str(relevancy_threshold)
-    )
-
-    video_out_dir = (
-        mode_dir
-        / ("mix" if conf.random_seed is not None else "mix-noseed")
-        / relevancy_model
-        / str(relevancy_threshold)
-    )
+        mask_dir = Path(
+            f"data/{dataset}/{detector}/select/{mode}/mix/{relevancy_model}/{relevancy_threshold}"
+        )
 
     print("Dataset:", dataset)
     print("Mode:", mode)
@@ -106,7 +107,7 @@ if __name__ == "__main__":
     n_videos = count_files(video_in_dir, ext=conf[conf.active.dataset].ext)
     n_scene_actions = count_dir(scene_dir)
 
-    print("Performing checks...")
+    print("Checking files...")
 
     assert_that(video_in_dir).is_directory().is_readable()
     assert_that(scene_dir).is_directory().is_readable()
@@ -119,7 +120,7 @@ if __name__ == "__main__":
         for file in files:
             assert_that(scene_dir / file).is_file().is_readable()
 
-    print("All checks passed.")
+    print("File checked.")
 
     if conf.random_seed is not None:
         random.seed(conf.random_seed)
