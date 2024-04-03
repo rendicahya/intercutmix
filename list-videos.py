@@ -1,7 +1,6 @@
 import json
 from pathlib import Path
 
-import numpy as np
 from assertpy.assertpy import assert_that
 from config import settings as conf
 from tqdm import tqdm
