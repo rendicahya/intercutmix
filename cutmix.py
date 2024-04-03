@@ -1,6 +1,5 @@
 import json
 import random
-import shutil
 from pathlib import Path
 
 import cv2
@@ -70,13 +69,20 @@ if __name__ == "__main__":
     relevancy_model = conf.relevancy.active.method
     relevancy_threshold = conf.relevancy.active.threshold
     multiplication = conf.cutmix.multiplication
+    use_smooth_mask = conf.active.smooth_mask.enabled
 
     if conf.cutmix.use_REPP:
         mode_dir = Path("data") / dataset / "REPP" / mode
     else:
         mode_dir = Path("data") / dataset / detector / "select" / mode
 
-    mask_dir = mode_dir / "mask" / relevancy_model / str(relevancy_threshold)
+    mask_dir = (
+        mode_dir
+        / ("mask-smooth" if use_smooth_mask else "mask")
+        / relevancy_model
+        / str(relevancy_threshold)
+    )
+
     video_out_dir = (
         mode_dir
         / ("mix" if conf.random_seed is not None else "mix-noseed")
@@ -90,6 +96,7 @@ if __name__ == "__main__":
     print("Multiplication:", multiplication)
     print("Relevancy model:", relevancy_model)
     print("Relevancy thresh.:", relevancy_threshold)
+    print("Use smooth mask:", use_smooth_mask)
     print("Seed:", conf.random_seed)
     print("Input:", mask_dir)
     print("Output:", video_out_dir)
@@ -140,13 +147,11 @@ if __name__ == "__main__":
                 scene_options = scene_json[scene_class_pick]
                 scene_pick = random.choice(scene_options)
                 scene_path = scene_dir / scene_pick
-                # bar_description = f"{file.stem[:50].ljust(50)} [{i}/{multiplication}]"
                 output_path = (
                     video_out_dir / action.name / f"{file.stem}-{scene_class_pick}"
                 ).with_suffix(out_ext)
 
                 scene_class_options.remove(scene_class_pick)
-                # bar.set_description(bar_description)
 
                 if output_path.exists() and video_info(output_path)["n_frames"] > 0:
                     bar.update(1)
