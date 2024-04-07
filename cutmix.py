@@ -67,39 +67,37 @@ if __name__ == "__main__":
     mode = conf.active.mode
     bypass_object_selection = conf.active.bypass_object_selection
     relevancy_model = conf.relevancy.active.method
-    relevancy_threshold = conf.relevancy.active.threshold
+    relevancy_thresh = str(conf.relevancy.active.threshold)
     multiplication = conf.cutmix.multiplication
     use_smooth_mask = conf.active.smooth_mask.enabled
+    use_REPP = conf.cutmix.use_REPP
 
-    if bypass_object_selection:
-        mask_dir = Path(f"data/{dataset}/{detector}/detect/mask")
-        video_out_dir = mask_dir.parent / "mix"
-    if conf.cutmix.use_REPP:
-        mask_dir = Path(
-            f"data/{dataset}/REPP/{mode}/mask/{relevancy_model}/{relevancy_threshold}"
-        )
+    method = "detect" if bypass_object_selection else "select"
+    method_dir = Path("data") / dataset / detector / method
+    mix_mode = f"mix-{conf.random_seed}" if conf.random_seed is not None else "mix"
 
-        video_out_dir = Path(
-            f"data/{dataset}/REPP/{mode}/mix/{relevancy_model}/{relevancy_threshold}"
-        )
-    else:
-        mask_dir = Path(
-            f"data/{dataset}/{detector}/select/{mode}/mask/{relevancy_model}/{relevancy_threshold}"
+    if method == "detect":
+        mask_in_dir = method_dir / ("REPP/mask" if use_REPP else "mask")
+        video_out_dir = method_dir / (f"REPP/{mix_mode}" if use_REPP else mix_mode)
+    elif method == "select":
+        mask_in_dir = method_dir / mode / ("REPP/mask" if use_REPP else "mask")
+        video_out_dir = (
+            method_dir / mode / (f"REPP/{mix_mode}" if use_REPP else mix_mode)
         )
 
-        mask_dir = Path(
-            f"data/{dataset}/{detector}/select/{mode}/mix/{relevancy_model}/{relevancy_threshold}"
-        )
+        if mode == "intercutmix":
+            mask_in_dir = mask_in_dir / relevancy_model / relevancy_thresh
+            video_out_dir = video_out_dir / relevancy_model / relevancy_thresh
 
     print("Dataset:", dataset)
     print("Mode:", mode)
     print("REPP:", conf.cutmix.use_REPP)
     print("Multiplication:", multiplication)
     print("Relevancy model:", relevancy_model)
-    print("Relevancy thresh.:", relevancy_threshold)
+    print("Relevancy thresh.:", relevancy_thresh)
     print("Use smooth mask:", use_smooth_mask)
     print("Seed:", conf.random_seed)
-    print("Input:", mask_dir)
+    print("Input:", mask_in_dir)
     print("Output:", video_out_dir)
 
     out_ext = conf.cutmix.output.ext
@@ -120,8 +118,6 @@ if __name__ == "__main__":
         for file in files:
             assert_that(scene_dir / file).is_file().is_readable()
 
-    print("File checked.")
-
     if conf.random_seed is not None:
         random.seed(conf.random_seed)
 
@@ -134,7 +130,7 @@ if __name__ == "__main__":
         n_target_videos = count_files(action) * multiplication
 
         for file in action.iterdir():
-            mask_path = mask_dir / action.name / file.with_suffix(".npz").name
+            mask_path = mask_in_dir / action.name / file.with_suffix(".npz").name
 
             if not mask_path.is_file() or not mask_path.exists():
                 continue
