@@ -6,7 +6,7 @@ from config import settings as conf
 from tqdm import tqdm
 
 relevancy_model = conf.relevancy.active.method
-relevancy_threshold = conf.relevancy.active.threshold
+relevancy_thresh = str(conf.relevancy.active.threshold)
 dataset = conf.active.dataset
 detector = conf.active.detector
 mode = conf.active.mode
@@ -16,19 +16,25 @@ n_videos = conf[conf.active.dataset].n_videos * multiplication
 n_actions = conf[conf.active.dataset].n_classes
 use_REPP = conf.cutmix.use_REPP
 video_root = Path(conf[dataset].path).parent
+bypass_object_selection = conf.active.bypass_object_selection
 
-if use_REPP:
-    mode_dir = video_root / "REPP" / mode
-else:
-    mode_dir = video_root / detector / "select" / mode
+method = "detect" if bypass_object_selection else "select"
+method_dir = Path("data") / dataset / detector / method
+mix_mode = "mix" if conf.random_seed is None else f"mix-{conf.random_seed}"
 
-video_dir = mode_dir / "mix" / relevancy_model / str(relevancy_threshold)
+if method == "detect":
+    video_dir = method_dir / (f"REPP/{mix_mode}" if use_REPP else mix_mode)
+elif method == "select":
+    video_dir = method_dir / mode / (f"REPP/{mix_mode}" if use_REPP else mix_mode)
+
+    if mode == "intercutmix":
+        video_dir = video_dir / relevancy_model / relevancy_thresh
 
 print("Dataset:", dataset)
 print("Mode:", mode)
 print("REPP:", use_REPP)
 print("Relevancy model:", relevancy_model)
-print("Relevancy thresh.:", relevancy_threshold)
+print("Relevancy thresh.:", relevancy_thresh)
 print("N videos:", n_videos)
 print("Input:", video_dir)
 print("Output:", video_dir / "list.json")
