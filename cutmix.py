@@ -74,7 +74,7 @@ if __name__ == "__main__":
 
     method = "detect" if bypass_object_selection else "select"
     method_dir = Path("data") / dataset / detector / method
-    mix_mode = f"mix-{conf.random_seed}" if conf.random_seed is not None else "mix"
+    mix_mode = "mix" if conf.random_seed is None else f"mix-{conf.random_seed}"
 
     if method == "detect":
         mask_in_dir = method_dir / ("REPP/mask" if use_REPP else "mask")
