@@ -7,24 +7,32 @@ from config import settings as conf
 from tqdm import tqdm
 
 dataset = conf.active.dataset
+detector = conf.active.detector
 mode = conf.active.mode
 relevancy_model = conf.relevancy.active.method
-relevancy_threshold = conf.relevancy.active.threshold
+relevancy_thresh = str(conf.relevancy.active.threshold)
 n_files = conf[conf.active.dataset].n_videos
+use_REPP = conf.cutmix.use_REPP
+bypass_object_selection = conf.active.bypass_object_selection
 
-if conf.cutmix.use_REPP:
-    mode_dir = Path("data") / dataset / "REPP" / mode
-else:
-    mode_dir = Path("data") / dataset / detector / "select" / mode
+method = "detect" if bypass_object_selection else "select"
+method_dir = Path("data") / dataset / detector / method
 
-mask_dir = mode_dir / "mask" / relevancy_model / str(relevancy_threshold)
+if method == "detect":
+    mask_dir = method_dir / ("REPP/mask" if use_REPP else "mask")
+elif method == "select":
+    mask_dir = method_dir / mode / ("REPP/mask" if use_REPP else "mask")
+
+    if mode == "intercutmix":
+        mask_dir = mask_dir / relevancy_model / relevancy_thresh
+
 out_path = mask_dir / "ratio.json"
 
 print("Dataset:", dataset)
 print("Mode:", mode)
 print("REPP:", conf.cutmix.use_REPP)
 print("Relevancy model:", relevancy_model)
-print("Relevancy thresh.:", relevancy_threshold)
+print("Relevancy thresh.:", relevancy_thresh)
 print("N videos:", n_files)
 print("Input:", mask_dir)
 print("Output:", out_path)
