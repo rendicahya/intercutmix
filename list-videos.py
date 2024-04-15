@@ -17,6 +17,7 @@ n_actions = conf[conf.active.dataset].n_classes
 use_REPP = conf.active.use_REPP
 video_root = Path(conf[dataset].path).parent
 object_selection = conf.active.object_selection
+json_out_path = video_dir / "list.json"
 
 method = "select" if object_selection else "detect"
 method_dir = Path("data") / dataset / detector / method
@@ -36,11 +37,11 @@ print("Mode:", mode)
 print("REPP:", use_REPP)
 print("Relevancy model:", relevancy_model)
 print("Relevancy thresh.:", relevancy_thresh)
-print("N videos:", n_videos)
+print("Σ videos:", n_videos)
 print("Input:", video_dir)
-print("Output:", video_dir / "list.json")
+print("Output:", json_out_path)
 
-if not click.confirm("Do you want to continue?", show_default=True):
+if not click.confirm("\nDo you want to continue?", show_default=True):
     exit("Aborted.")
 
 assert_that(video_dir).is_directory().is_readable()
@@ -63,5 +64,5 @@ for action in sorted(video_dir.iterdir()):
 
 bar.close()
 
-with open(video_dir / "list.json", "w") as f:
+with open(json_out_path, "w") as f:
     json.dump(data, f, indent=2)

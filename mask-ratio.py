@@ -9,44 +9,46 @@ from tqdm import tqdm
 
 dataset = conf.active.dataset
 detector = conf.active.detector
+object_selection = conf.active.object_selection
 mode = conf.active.mode
+use_REPP = conf.active.use_REPP
 relevancy_model = conf.relevancy.active.method
 relevancy_thresh = str(conf.relevancy.active.threshold)
 n_files = conf[conf.active.dataset].n_videos
-use_REPP = conf.active.use_REPP
-object_selection = conf.active.object_selection
 
 method = "select" if object_selection else "detect"
 method_dir = Path("data") / dataset / detector / method
 
 if method == "detect":
-    mask_dir = method_dir / ("REPP/mask" if use_REPP else "mask")
+    mask_in_dir = method_dir / ("REPP/mask" if use_REPP else "mask")
 elif method == "select":
-    mask_dir = method_dir / mode / ("REPP/mask" if use_REPP else "mask")
+    mask_in_dir = method_dir / mode / ("REPP/mask" if use_REPP else "mask")
 
     if mode == "intercutmix":
-        mask_dir = mask_dir / relevancy_model / relevancy_thresh
+        mask_in_dir = mask_in_dir / relevancy_model / relevancy_thresh
 
-out_path = mask_dir / "ratio.json"
+json_out_path = mask_in_dir / "ratio.json"
 
 print("Dataset:", dataset)
+print("Detector:", detector)
+print("Object selection:", object_selection)
 print("Mode:", mode)
-print("REPP:", conf.active.use_REPP)
+print("REPP:", use_REPP)
 print("Relevancy model:", relevancy_model)
 print("Relevancy threshold:", relevancy_thresh)
 print("Σ videos:", n_files)
-print("Input:", mask_dir)
-print("Output:", out_path)
+print("Input:", mask_in_dir)
+print("Output:", json_out_path)
 
-if not click.confirm("Do you want to continue?", show_default=True):
+if not click.confirm("\nDo you want to continue?", show_default=True):
     exit("Aborted.")
 
-assert_that(mask_dir).is_directory().is_readable()
+assert_that(mask_in_dir).is_directory().is_readable()
 
 data = {}
 bar = tqdm(total=n_files)
 
-for mask_path in mask_dir.glob("**/*.npz"):
+for mask_path in mask_in_dir.glob("**/*.npz"):
     mask_bundle = np.load(mask_path)["arr_0"]
     mask_ratio = round(np.count_nonzero(mask_bundle) / mask_bundle.size, 3)
     data[mask_path.stem] = mask_ratio
@@ -55,5 +57,5 @@ for mask_path in mask_dir.glob("**/*.npz"):
 
 bar.close()
 
-with open(out_path, "w") as f:
+with open(json_out_path, "w") as f:
     json.dump(data, f)

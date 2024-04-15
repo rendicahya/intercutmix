@@ -61,17 +61,18 @@ def cutmix(actor_path, scene_path, mask_bundle, video_reader):
 
 
 if __name__ == "__main__":
-    video_in_dir = Path(conf[conf.active.dataset].path)
-    scene_dir = Path(conf.cutmix.input[conf.active.dataset].scene.path)
     dataset = conf.active.dataset
     detector = conf.active.detector
-    mode = conf.active.mode
     object_selection = conf.active.object_selection
+    mode = conf.active.mode
+    use_REPP = conf.active.use_REPP
     relevancy_model = conf.relevancy.active.method
     relevancy_thresh = str(conf.relevancy.active.threshold)
+    video_in_dir = Path(conf[dataset].path)
+    scene_dir = Path(conf.cutmix.input[dataset].scene.path)
     multiplication = conf.cutmix.multiplication
     use_smooth_mask = conf.active.smooth_mask.enabled
-    use_REPP = conf.active.use_REPP
+    n_videos = count_files(video_in_dir, ext=conf[dataset].ext)
 
     method = "select" if object_selection else "detect"
     method_dir = Path("data") / dataset / detector / method
@@ -91,22 +92,24 @@ if __name__ == "__main__":
             video_out_dir = video_out_dir / relevancy_model / relevancy_thresh
 
     print("Dataset:", dataset)
+    print("Detector:", detector)
+    print("Object selection:", object_selection)
     print("Mode:", mode)
     print("REPP:", conf.active.use_REPP)
-    print("Multiplication:", multiplication)
     print("Relevancy model:", relevancy_model)
     print("Relevancy threshold:", relevancy_thresh)
+    print("Σ videos:", n_videos)
+    print("Multiplication:", multiplication)
     print("Use smooth mask:", use_smooth_mask)
     print("Seed:", conf.random_seed)
     print("Input:", mask_in_dir)
     print("Output:", video_out_dir)
 
-    if not click.confirm("Do you want to continue?", show_default=True):
+    if not click.confirm("\nDo you want to continue?", show_default=True):
         exit("Aborted.")
 
     out_ext = conf.cutmix.output.ext
-    scene_options = conf.cutmix.input[conf.active.dataset].scene.list
-    n_videos = count_files(video_in_dir, ext=conf[conf.active.dataset].ext)
+    scene_options = conf.cutmix.input[dataset].scene.list
     n_scene_actions = count_dir(scene_dir)
 
     print("Checking files...")
