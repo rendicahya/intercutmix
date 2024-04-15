@@ -1,11 +1,11 @@
 {
-  "random_seed": null,
   "active": {
     "dataset": "ucf101",
-    "mode": "intercutmix",
+    "mode": "actorcutmix",
     "detector": "UniDet",
     "object_selection": true,
     "use_REPP": false,
+    "random_seed": 0,
     "smooth_mask": {
       "enabled": false,
       "gaussian_size": 35
@@ -83,7 +83,7 @@
     },
     "active": {
       "method": "all-mpnet-base-v2",
-      "threshold": 0.4
+      "threshold": 0.5
     },
     "avail_methods": [
       "all-mpnet-base-v2",
