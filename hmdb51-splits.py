@@ -10,7 +10,7 @@ action_list = []
 train_list = []
 test_list = []
 
-random.seed(conf.random_seed)
+random.seed(conf.active.random_seed)
 
 for file in raw_split_dir.iterdir():
     ending = f"_test_split{split_no}.txt"
