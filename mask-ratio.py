@@ -14,7 +14,7 @@ mode = conf.active.mode
 use_REPP = conf.active.use_REPP
 relevancy_model = conf.relevancy.active.method
 relevancy_thresh = str(conf.relevancy.active.threshold)
-n_files = conf[conf.active.dataset].n_videos
+n_files = conf[dataset].n_videos
 
 method = "select" if object_selection else "detect"
 method_dir = Path("data") / dataset / detector / method

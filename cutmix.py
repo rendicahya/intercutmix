@@ -73,10 +73,11 @@ if __name__ == "__main__":
     multiplication = conf.cutmix.multiplication
     use_smooth_mask = conf.active.smooth_mask.enabled
     n_videos = count_files(video_in_dir, ext=conf[dataset].ext)
+    random_seed = conf.active.random_seed
 
     method = "select" if object_selection else "detect"
     method_dir = Path("data") / dataset / detector / method
-    mix_mode = "mix" if conf.random_seed is None else f"mix-{conf.random_seed}"
+    mix_mode = "mix" if random_seed is None else f"mix-{random_seed}"
 
     if method == "detect":
         mask_in_dir = method_dir / ("REPP/mask" if use_REPP else "mask")
@@ -95,13 +96,13 @@ if __name__ == "__main__":
     print("Detector:", detector)
     print("Object selection:", object_selection)
     print("Mode:", mode)
-    print("REPP:", conf.active.use_REPP)
+    print("REPP:", use_REPP)
     print("Relevancy model:", relevancy_model)
     print("Relevancy threshold:", relevancy_thresh)
     print("Σ videos:", n_videos)
     print("Multiplication:", multiplication)
     print("Use smooth mask:", use_smooth_mask)
-    print("Seed:", conf.random_seed)
+    print("Seed:", random_seed)
     print("Input:", mask_in_dir)
     print("Output:", video_out_dir)
 
@@ -125,8 +126,8 @@ if __name__ == "__main__":
         for file in files:
             assert_that(scene_dir / file).is_file().is_readable()
 
-    if conf.random_seed is not None:
-        random.seed(conf.random_seed)
+    if random_seed is not None:
+        random.seed(random_seed)
 
     bar = tqdm(total=n_videos * multiplication)
     n_skipped = 0

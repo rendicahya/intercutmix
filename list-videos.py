@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 
+import click
 from assertpy.assertpy import assert_that
 from config import settings as conf
 from tqdm import tqdm
@@ -17,11 +18,11 @@ n_actions = conf[conf.active.dataset].n_classes
 use_REPP = conf.active.use_REPP
 video_root = Path(conf[dataset].path).parent
 object_selection = conf.active.object_selection
-json_out_path = video_dir / "list.json"
+random_seed = conf.active.random_seed
 
 method = "select" if object_selection else "detect"
 method_dir = Path("data") / dataset / detector / method
-mix_part = "mix" if conf.random_seed is None else f"mix-{conf.random_seed}"
+mix_part = "mix" if random_seed is None else f"mix-{random_seed}"
 repp_part = f"REPP/{mix_part}" if use_REPP else mix_part
 
 if method == "detect":
@@ -31,6 +32,8 @@ elif method == "select":
 
     if mode == "intercutmix":
         video_dir = video_dir / relevancy_model / relevancy_thresh
+
+json_out_path = video_dir / "list.json"
 
 print("Dataset:", dataset)
 print("Mode:", mode)
