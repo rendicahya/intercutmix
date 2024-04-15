@@ -14,18 +14,19 @@ ext = conf.cutmix.output.ext
 multiplication = conf.cutmix.multiplication
 n_videos = conf[conf.active.dataset].n_videos * multiplication
 n_actions = conf[conf.active.dataset].n_classes
-use_REPP = conf.cutmix.use_REPP
+use_REPP = conf.active.use_REPP
 video_root = Path(conf[dataset].path).parent
-bypass_object_selection = conf.active.bypass_object_selection
+object_selection = conf.active.object_selection
 
-method = "detect" if bypass_object_selection else "select"
+method = "select" if object_selection else "detect"
 method_dir = Path("data") / dataset / detector / method
-mix_mode = "mix" if conf.random_seed is None else f"mix-{conf.random_seed}"
+mix_part = "mix" if conf.random_seed is None else f"mix-{conf.random_seed}"
+repp_part = f"REPP/{mix_part}" if use_REPP else mix_part
 
 if method == "detect":
-    video_dir = method_dir / (f"REPP/{mix_mode}" if use_REPP else mix_mode)
+    video_dir = method_dir / repp_part
 elif method == "select":
-    video_dir = method_dir / mode / (f"REPP/{mix_mode}" if use_REPP else mix_mode)
+    video_dir = method_dir / mode / repp_part
 
     if mode == "intercutmix":
         video_dir = video_dir / relevancy_model / relevancy_thresh
@@ -39,12 +40,18 @@ print("N videos:", n_videos)
 print("Input:", video_dir)
 print("Output:", video_dir / "list.json")
 
+if not click.confirm("Do you want to continue?", show_default=True):
+    exit("Aborted.")
+
 assert_that(video_dir).is_directory().is_readable()
 
 data = {}
 bar = tqdm(total=n_actions)
 
 for action in sorted(video_dir.iterdir()):
+    if action.is_file():
+        continue
+
     files = [
         str(file.relative_to(video_dir))
         for file in action.iterdir()

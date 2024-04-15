@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 
+import click
 import numpy as np
 from assertpy.assertpy import assert_that
 from config import settings as conf
@@ -12,10 +13,10 @@ mode = conf.active.mode
 relevancy_model = conf.relevancy.active.method
 relevancy_thresh = str(conf.relevancy.active.threshold)
 n_files = conf[conf.active.dataset].n_videos
-use_REPP = conf.cutmix.use_REPP
-bypass_object_selection = conf.active.bypass_object_selection
+use_REPP = conf.active.use_REPP
+object_selection = conf.active.object_selection
 
-method = "detect" if bypass_object_selection else "select"
+method = "select" if object_selection else "detect"
 method_dir = Path("data") / dataset / detector / method
 
 if method == "detect":
@@ -30,12 +31,15 @@ out_path = mask_dir / "ratio.json"
 
 print("Dataset:", dataset)
 print("Mode:", mode)
-print("REPP:", conf.cutmix.use_REPP)
+print("REPP:", conf.active.use_REPP)
 print("Relevancy model:", relevancy_model)
-print("Relevancy thresh.:", relevancy_thresh)
-print("N videos:", n_files)
+print("Relevancy threshold:", relevancy_thresh)
+print("Σ videos:", n_files)
 print("Input:", mask_dir)
 print("Output:", out_path)
+
+if not click.confirm("Do you want to continue?", show_default=True):
+    exit("Aborted.")
 
 assert_that(mask_dir).is_directory().is_readable()
 

@@ -2,6 +2,7 @@ import json
 import random
 from pathlib import Path
 
+import click
 import cv2
 import numpy as np
 from assertpy.assertpy import assert_that
@@ -65,14 +66,14 @@ if __name__ == "__main__":
     dataset = conf.active.dataset
     detector = conf.active.detector
     mode = conf.active.mode
-    bypass_object_selection = conf.active.bypass_object_selection
+    object_selection = conf.active.object_selection
     relevancy_model = conf.relevancy.active.method
     relevancy_thresh = str(conf.relevancy.active.threshold)
     multiplication = conf.cutmix.multiplication
     use_smooth_mask = conf.active.smooth_mask.enabled
-    use_REPP = conf.cutmix.use_REPP
+    use_REPP = conf.active.use_REPP
 
-    method = "detect" if bypass_object_selection else "select"
+    method = "select" if object_selection else "detect"
     method_dir = Path("data") / dataset / detector / method
     mix_mode = "mix" if conf.random_seed is None else f"mix-{conf.random_seed}"
 
@@ -91,14 +92,17 @@ if __name__ == "__main__":
 
     print("Dataset:", dataset)
     print("Mode:", mode)
-    print("REPP:", conf.cutmix.use_REPP)
+    print("REPP:", conf.active.use_REPP)
     print("Multiplication:", multiplication)
     print("Relevancy model:", relevancy_model)
-    print("Relevancy thresh.:", relevancy_thresh)
+    print("Relevancy threshold:", relevancy_thresh)
     print("Use smooth mask:", use_smooth_mask)
     print("Seed:", conf.random_seed)
     print("Input:", mask_in_dir)
     print("Output:", video_out_dir)
+
+    if not click.confirm("Do you want to continue?", show_default=True):
+        exit("Aborted.")
 
     out_ext = conf.cutmix.output.ext
     scene_options = conf.cutmix.input[conf.active.dataset].scene.list
