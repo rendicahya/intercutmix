@@ -7,6 +7,7 @@ import json
 import re
 from pathlib import Path
 
+import click
 import numpy as np
 import pandas as pd
 from assertpy.assertpy import assert_that
@@ -30,9 +31,18 @@ def calc_similarity(phrase1, phrase2, model):
     return float(util.cos_sim(emb1, emb2))
 
 
-dataset_dir = Path(conf[conf.active.dataset].path)
-classnames_path = Path(conf.relevancy.detector[conf.active.detector].classnames)
-output_dir = Path(conf.relevancy.output) / conf.active.detector / conf.active.dataset
+dataset = conf.active.dataset
+detector = conf.active.detector
+dataset_dir = Path(conf[dataset].path)
+classnames_path = Path(conf.relevancy.detector[detector].classnames)
+output_dir = Path(conf.relevancy.output) / detector / dataset
+
+print("Dataset:", dataset)
+print("Detector:", detector)
+print("Output:", output_dir)
+
+if not click.confirm("\nDo you want to continue?", show_default=True):
+    exit("Aborted.")
 
 assert_that(dataset_dir).is_directory().is_readable()
 assert_that(classnames_path).is_file().is_readable()
