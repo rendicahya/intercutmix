@@ -1,9 +1,15 @@
 {
-  "random_seed": 0,
+  "random_seed": null,
   "active": {
-    "dataset": "hmdb51",
-    "mode": "actorcutmix",
+    "dataset": "ucf101",
+    "mode": "intercutmix",
     "detector": "UniDet",
+    "object_selection": true,
+    "use_REPP": false,
+    "smooth_mask": {
+      "enabled": false,
+      "gaussian_size": 35
+    },
     "video": {
       "reader": "opencv",
       "writer": "moviepy"
@@ -53,10 +59,10 @@
     }
   },
   "kinetics100": {
-    "path": "data/kinetics100/videos",
+    "path": "data/kinetics100_p10",
     "ext": ".mp4",
     "n_classes": 100,
-    "partition": "20p",
+    "partition": "10p",
     "make": "symlink"
   },
   "kinetics400": {
@@ -76,8 +82,8 @@
       }
     },
     "active": {
-      "method": "multi-qa-mpnet-base-dot-v1",
-      "threshold": 0.5
+      "method": "all-mpnet-base-v2",
+      "threshold": 0.4
     },
     "avail_methods": [
       "all-mpnet-base-v2",
@@ -121,15 +127,15 @@
       "checkpoint": "models/Unified_learned_OCIM_RS200_6x+2x.pth",
       "confidence": 0.5,
       "parallel": false,
-      "generate_videos": true
+      "generate_videos": false
     },
     "select": {
       "confidence": 0.5,
       "common_objects": ["Person", "Man", "Woman"],
       "output": {
-        "video": false,
-        "mask": false,
-        "dump": true
+        "mask": true,
+        "dump": true,
+        "video": false
       }
     }
   },
@@ -144,7 +150,6 @@
   },
   "cutmix": {
     "multiplication": 10,
-    "use_REPP": true,
     "input": {
       "ucf101": {
         "scene": {
