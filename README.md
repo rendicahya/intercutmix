@@ -133,7 +133,7 @@ python3 k100-make.py
 Install packages.
 
 ```shell
-pip install beautifulsoup4 lxml tqdm opencv-python av decord moviepy scipy gdown dynaconf
+pip install beautifulsoup4 lxml tqdm opencv-python av decord moviepy scipy gdown dynaconf click
 ```
 
 ### a. UCF101
