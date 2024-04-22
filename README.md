@@ -98,7 +98,6 @@ intercutmix/data/hmdb51/
 │   ├── brush_hair_test_split3.txt
 |   └── ...
 └── videos/
-    │
     ├── brush_hair/
     │   ├── April_09_brush_hair_u_nm_np1_ba_goo_0.avi
     │   ├── April_09_brush_hair_u_nm_np1_ba_goo_1.avi
@@ -188,7 +187,6 @@ intercutmix/data/hmdb51/
     |   |   |   ├── 0000.png
     |   |   |   ├── 0001.png
     |   |   |   └── ...
-    |   |   |
     |   |   ├── v_Basketball_g01_c02/
     |   |   |   ├── 0000.png
     |   |   |   ├── 0001.png
@@ -199,7 +197,6 @@ intercutmix/data/hmdb51/
     |   |   |   ├── 0000.png
     |   |   |   ├── 0001.png
     |   |   |   └── ...
-    |   |   |
     |   |   ├── v_Basketball_g01_c02/
     |   |   |   ├── 0000.png
     |   |   |   ├── 0001.png
@@ -492,7 +489,7 @@ pip install -v -e mmaction2
 3. Generate file list.
 
 ```shell
-python3 mmaction2/tools/data/build_file_list.py ucf101 data/ucf101/videos --level 2 --format videos --shuffle --seed 0
+python3 mmaction2/tools/data/build_file_list.py ucf101 data/ucf101/videos --format videos --shuffle --seed 0
 ```
 
 4. Train.
