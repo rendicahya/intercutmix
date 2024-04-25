@@ -483,7 +483,7 @@ mim install mmengine mmcv
 2. Install mmaction2.
 
 ```shell
-pip install -v -e mmaction2
+pip install -v -e mmaction2/
 ```
 
 3. Generate file list.
