@@ -489,7 +489,7 @@ pip install -v -e mmaction2/
 3. Generate file list.
 
 ```shell
-python3 mmaction2/tools/data/build_file_list.py ucf101 data/ucf101/videos --format videos --shuffle --num-split 1 --seed 0
+python3 mmaction2/tools/data/build_file_list.py ucf101 data/ucf101/videos --format videos --shuffle --seed 0
 ```
 
 4. Train.
@@ -504,7 +504,7 @@ python3 mmaction2/tools/train.py mmaction2/configs/<config>.py --work-dir mmacti
 python3 mmaction2/tools/test.py mmaction2/configs/<config>.py work_dirs/<checkpoint>.pth
 ```
 
-# Citation
+<!-- # Citation
 
 If you find our code useful for your research, please consider citing our paper:
 
@@ -515,4 +515,4 @@ If you find our code useful for your research, please consider citing our paper:
    booktitle={European Conference on Computer Vision (ECCV)},
    year={2024}
 }
-```
+``` -->
