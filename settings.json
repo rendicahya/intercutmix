@@ -1,10 +1,10 @@
 {
   "active": {
-    "dataset": "ucf101",
+    "dataset": "hmdb51",
     "mode": "actorcutmix",
     "detector": "UniDet",
     "object_selection": true,
-    "use_REPP": false,
+    "use_REPP": true,
     "random_seed": 0,
     "smooth_mask": {
       "enabled": false,
@@ -21,12 +21,9 @@
     "class_index": "data/ucf101/annotations/classInd.txt",
     "n_videos": 13320,
     "n_classes": 101,
-    "xgtf": {
-      "path": "data/ucf101/xgtf/files",
-      "mask": {
-        "path": "data/ucf101/xgtf/mask",
-        "action_only": false
-      }
+    "scene": {
+      "path": "data/ucf101/UniDet/select/intercutmix/REPP/scene",
+      "ext": ".mp4"
     },
     "annotation": {
       "path": "data/ucf101/xgtf/files",
@@ -43,12 +40,9 @@
     "n_videos": 6766,
     "n_classes": 51,
     "frames": "data/hmdb51/frames",
-    "mat": {
-      "path": "data/hmdb51/mat/files",
-      "mask": {
-        "box": true,
-        "path": "data/hmdb51/mat/mask"
-      }
+    "scene": {
+      "path": "data/hmdb51/UniDet/select/intercutmix/REPP/scene",
+      "ext": ".mp4"
     },
     "annotation": {
       "path": "data/hmdb51/mat/files",
@@ -101,7 +95,7 @@
   "e2fgvi": {
     "input": {
       "ucf101": {
-        "type": "video",
+        "type": "videos",
         "video": {
           "max_len": 400
         }
@@ -114,12 +108,7 @@
       }
     },
     "model": "model.e2fgvi_hq",
-    "checkpoint": "release_model/E2FGVI-HQ-CVPR22.pth",
-    "output": {
-      "ucf101": "data/ucf101/xgtf/scene",
-      "hmdb51": "data/hmdb51/mat/scene",
-      "ext": ".mp4"
-    }
+    "checkpoint": "release_model/E2FGVI-HQ-CVPR22.pth"
   },
   "unidet": {
     "detect": {
@@ -150,22 +139,7 @@
   },
   "cutmix": {
     "multiplication": 10,
-    "input": {
-      "ucf101": {
-        "scene": {
-          "list": "data/ucf101/xgtf/scene-list.json",
-          "path": "data/ucf101/xgtf/scene",
-          "ext": ".mp4"
-        }
-      },
-      "hmdb51": {
-        "scene": {
-          "list": "data/hmdb51/mat/scene-list.json",
-          "path": "data/hmdb51/mat/scene",
-          "ext": ".mp4"
-        }
-      }
-    },
+    "from_dump": true,
     "output": {
       "ext": ".mp4"
     }
