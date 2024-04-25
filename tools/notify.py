@@ -1,3 +1,7 @@
+import sys
+
+sys.path.append(".")
+
 import click
 import requests
 from config import settings as conf

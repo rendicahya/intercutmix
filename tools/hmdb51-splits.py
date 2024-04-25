@@ -1,3 +1,7 @@
+import sys
+
+sys.path.append(".")
+
 import random
 from pathlib import Path
 

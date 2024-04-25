@@ -1,3 +1,7 @@
+import sys
+
+sys.path.append(".")
+
 from collections import Counter
 from pathlib import Path
 

@@ -1,3 +1,7 @@
+import sys
+
+sys.path.append(".")
+
 import json
 import random
 from pathlib import Path
@@ -69,7 +73,8 @@ if __name__ == "__main__":
     relevancy_model = conf.relevancy.active.method
     relevancy_thresh = str(conf.relevancy.active.threshold)
     video_in_dir = Path(conf[dataset].path)
-    scene_dir = Path(conf.cutmix.input[dataset].scene.path)
+    scene_dir = Path(conf[dataset].scene.path)
+    scene_options = scene_dir / "list.json"
     multiplication = conf.cutmix.multiplication
     use_smooth_mask = conf.active.smooth_mask.enabled
     n_videos = count_files(video_in_dir, ext=conf[dataset].ext)
@@ -110,7 +115,6 @@ if __name__ == "__main__":
         exit("Aborted.")
 
     out_ext = conf.cutmix.output.ext
-    scene_options = conf.cutmix.input[dataset].scene.list
     n_scene_actions = count_dir(scene_dir)
 
     print("Checking files...")

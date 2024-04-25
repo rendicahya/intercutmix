@@ -1,3 +1,7 @@
+import sys
+
+sys.path.append(".")
+
 from pathlib import Path
 from typing import Union
 
