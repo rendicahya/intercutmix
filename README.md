@@ -489,7 +489,7 @@ pip install -v -e mmaction2/
 3. Generate file list.
 
 ```shell
-python3 mmaction2/tools/data/build_file_list.py ucf101 data/ucf101/videos --format videos --shuffle --seed 0
+python3 mmaction2/tools/data/build_file_list.py ucf101 data/ucf101/videos --format videos --shuffle --num-split 1 --seed 0
 ```
 
 4. Train.
