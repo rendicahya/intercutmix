@@ -43,12 +43,6 @@ def main(path, output_path, fps):
         np.repeat(np.expand_dims(frame, axis=2), 3, axis=2) for frame in mask_bundle
     ]
 
-    # print(out_frames[0].min())
-    # print(out_frames[0].max())
-    # print(out_frames[0].shape)
-    # print(out_frames[0].dtype)
-    # exit()
-
     frames_to_video(
         out_frames,
         output_path,
