@@ -1,9 +1,9 @@
 {
   "active": {
-    "dataset": "hmdb51",
-    "mode": "actorcutmix",
+    "dataset": "ucf101",
+    "mode": "intercutmix",
     "detector": "UniDet",
-    "object_selection": true,
+    "object_selection": false,
     "use_REPP": true,
     "random_seed": 0,
     "smooth_mask": {
