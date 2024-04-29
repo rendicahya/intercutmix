@@ -130,6 +130,8 @@ if __name__ == "__main__":
         for file in files:
             assert_that(scene_dir / file).is_file().is_readable()
 
+    print("File checks completed.")
+
     if random_seed is not None:
         random.seed(random_seed)
 
