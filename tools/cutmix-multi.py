@@ -162,7 +162,6 @@ if __name__ == "__main__":
     n_skipped = 0
     n_written = 0
     executor = ThreadPoolExecutor(max_workers=n_threads)
-    futures = []
 
     for action in video_in_dir.iterdir():
         output_action_dir = video_out_dir / action.name
@@ -193,7 +192,7 @@ if __name__ == "__main__":
 
                 output_path.parent.mkdir(parents=True, exist_ok=True)
 
-                future = executor.submit(
+                executor.submit(
                     thread_job,
                     file,
                     scene_path,
@@ -204,11 +203,6 @@ if __name__ == "__main__":
                     output_path,
                     bar,
                 )
-
-                futures.append(future)
-
-    for future in futures:
-        future.result()
 
     executor.shutdown()
 
