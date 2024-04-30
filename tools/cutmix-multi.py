@@ -5,6 +5,7 @@ sys.path.append(".")
 import json
 import random
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 import click
@@ -15,6 +16,24 @@ from config import settings as conf
 from python_file import count_dir, count_files
 from python_video import frames_to_video, video_frames, video_info
 from tqdm import tqdm
+
+
+def thread_job(
+    file, scene_path, mask_bundle, video_reader, video_writer, fps, output_path, bar
+):
+    out_frames = cutmix(file, scene_path, mask_bundle, video_reader)
+
+    if out_frames:
+        frames_to_video(
+            out_frames,
+            output_path,
+            writer=video_writer,
+            fps=fps,
+        )
+    else:
+        print("out_frames None: ", file.name)
+
+    bar.update(1)
 
 
 def cutmix(actor_path, scene_path, mask_bundle, video_reader):
@@ -80,6 +99,7 @@ if __name__ == "__main__":
     use_smooth_mask = conf.active.smooth_mask.enabled
     n_videos = count_files(video_in_dir, ext=conf[dataset].ext)
     random_seed = conf.active.random_seed
+    n_threads = conf.cutmix.n_threads
 
     method = "select" if object_selection else "detect"
     method_dir = Path("data") / dataset / detector / method
@@ -109,6 +129,7 @@ if __name__ == "__main__":
     print("Multiplication:", multiplication)
     print("Use smooth mask:", use_smooth_mask)
     print("Seed:", random_seed)
+    print("Threads:", n_threads)
     print("Input:", mask_in_dir)
     print("Output:", video_out_dir)
 
@@ -131,7 +152,8 @@ if __name__ == "__main__":
             action, filename = line.split()[0].split("/")
 
             scene_dict[action].append(filename)
-            assert_that(scene_dir / action / filename).is_file().is_readable()
+
+        assert_that(scene_dir / action / filename).is_file().is_readable()
 
     if random_seed is not None:
         random.seed(random_seed)
@@ -139,10 +161,11 @@ if __name__ == "__main__":
     bar = tqdm(total=n_videos * multiplication)
     n_skipped = 0
     n_written = 0
+    executor = ThreadPoolExecutor(max_workers=n_threads)
+    futures = []
 
     for action in video_in_dir.iterdir():
         output_action_dir = video_out_dir / action.name
-        # n_target_videos = count_files(action) * multiplication
 
         for file in action.iterdir():
             mask_path = mask_in_dir / action.name / file.with_suffix(".npz").name
@@ -166,29 +189,27 @@ if __name__ == "__main__":
                 scene_class_options.remove(scene_class_pick)
 
                 if output_path.exists() and video_info(output_path)["n_frames"] > 0:
-                    bar.update(1)
                     continue
 
                 output_path.parent.mkdir(parents=True, exist_ok=True)
 
-                out_frames = cutmix(
-                    file, scene_path, mask_bundle, conf.active.video.reader
+                future = executor.submit(
+                    thread_job,
+                    file,
+                    scene_path,
+                    mask_bundle,
+                    conf.active.video.reader,
+                    conf.active.video.writer,
+                    fps,
+                    output_path,
+                    bar,
                 )
 
-                if out_frames:
-                    frames_to_video(
-                        out_frames,
-                        output_path,
-                        writer=conf.active.video.writer,
-                        fps=fps,
-                    )
+                futures.append(future)
 
-                    n_written += 1
-                else:
-                    print("out_frames None: ", file.name)
+    for future in futures:
+        future.result()
 
-                bar.update(1)
+    executor.shutdown()
 
     bar.close()
-    print("Written videos:", n_written)
-    print("Skipped videos:", n_skipped)
