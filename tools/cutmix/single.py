@@ -3,69 +3,37 @@ import sys
 sys.path.append(".")
 
 import json
+import pickle
 import random
 from collections import defaultdict
 from pathlib import Path
 
 import click
 import cv2
+import mmcv
 import numpy as np
 from assertpy.assertpy import assert_that
 from config import settings as conf
+from cutmix import cutmix
 from python_file import count_dir, count_files
-from python_video import frames_to_video, video_frames, video_info
+from python_video import frames_to_video
 from tqdm import tqdm
 
 
-def cutmix(actor_path, scene_path, mask_bundle, video_reader):
-    if not actor_path.is_file() or not actor_path.exists():
-        print("Not a file or not exists:", actor_path)
-        return None
-
-    if not scene_path.is_file() or not scene_path.exists():
-        print("Not a file or not exists:", scene_path)
-        return None
-
-    if not mask_path.is_file() or not mask_path.exists():
-        print("Not a file or not exists:", mask_path)
-        return None
-
-    actor_frames = video_frames(actor_path, reader=video_reader)
-    info = video_info(actor_path)
-    w, h = info["width"], info["height"]
-    blank = np.zeros((h, w), np.uint8)
-    scene_frame = None
-    scene_info = video_info(scene_path)
-    scene_w, scene_h = scene_info["width"], scene_info["height"]
-
-    for f, actor_frame in enumerate(actor_frames):
-        if f == len(mask_bundle) - 1:
-            return
-
-        if scene_frame is None:
-            scene_frames = video_frames(scene_path, reader=video_reader)
-            scene_frame = next(scene_frames)
-
-        if scene_w != w or scene_h != h:
-            scene_frame = cv2.resize(scene_frame, (w, h))
-
-        actor_mask = mask_bundle[f]
-
-        if actor_mask is None:
-            actor_mask = blank
-
-        scene_mask = 255 - actor_mask
-
-        actor = cv2.bitwise_and(actor_frame, actor_frame, mask=actor_mask)
-        scene = cv2.bitwise_and(scene_frame, scene_frame, mask=scene_mask)
-
-        mix = actor + scene
-        scene_frame = next(scene_frames, None)
-
-        yield mix
-
-
-if __name__ == "__main__":
+@click.command()
+@click.option(
+    "-d",
+    "--from-dump",
+    nargs=1,
+    type=click.Path(
+        exists=True,
+        readable=True,
+        file_okay=True,
+        dir_okay=False,
+        path_type=Path,
+    ),
+)
+def main(from_dump):
     dataset = conf.active.dataset
     detector = conf.active.detector
     object_selection = conf.active.object_selection
@@ -98,8 +66,12 @@ if __name__ == "__main__":
             mask_in_dir = mask_in_dir / relevancy_model / relevancy_thresh
             video_out_dir = video_out_dir / relevancy_model / relevancy_thresh
 
+    if from_dump:
+        video_out_dir = Path("data/mix2train")
+
     print("Dataset:", dataset)
     print("Detector:", detector)
+    print("Method:", method)
     print("Object selection:", object_selection)
     print("Mode:", mode)
     print("REPP:", use_REPP)
@@ -109,6 +81,7 @@ if __name__ == "__main__":
     print("Multiplication:", multiplication)
     print("Use smooth mask:", use_smooth_mask)
     print("Seed:", random_seed)
+    print("From dump:", from_dump)
     print("Input:", mask_in_dir)
     print("Output:", video_out_dir)
 
@@ -142,7 +115,6 @@ if __name__ == "__main__":
 
     for action in video_in_dir.iterdir():
         output_action_dir = video_out_dir / action.name
-        # n_target_videos = count_files(action) * multiplication
 
         for file in action.iterdir():
             mask_path = mask_in_dir / action.name / file.with_suffix(".npz").name
@@ -151,7 +123,7 @@ if __name__ == "__main__":
                 continue
 
             mask_bundle = np.load(mask_path)["arr_0"]
-            fps = video_info(file)["fps"]
+            fps = mmcv.VideoReader(str(file)).fps
             scene_class_options = [s for s in scene_dict.keys() if s != action.name]
 
             for i in range(multiplication):
@@ -165,15 +137,16 @@ if __name__ == "__main__":
 
                 scene_class_options.remove(scene_class_pick)
 
-                if output_path.exists() and video_info(output_path)["n_frames"] > 0:
+                if (
+                    output_path.exists()
+                    and mmcv.VideoReader(str(output_path)).frame_cnt > 0
+                ):
                     bar.update(1)
                     continue
 
                 output_path.parent.mkdir(parents=True, exist_ok=True)
 
-                out_frames = cutmix(
-                    file, scene_path, mask_bundle, conf.active.video.reader
-                )
+                out_frames = cutmix(file, scene_path, mask_bundle)
 
                 if out_frames:
                     frames_to_video(
@@ -192,3 +165,7 @@ if __name__ == "__main__":
     bar.close()
     print("Written videos:", n_written)
     print("Skipped videos:", n_skipped)
+
+
+if __name__ == "__main__":
+    main()
