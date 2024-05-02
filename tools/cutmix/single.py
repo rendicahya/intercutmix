@@ -20,20 +20,7 @@ from python_video import frames_to_video
 from tqdm import tqdm
 
 
-@click.command()
-@click.option(
-    "-d",
-    "--from-dump",
-    nargs=1,
-    type=click.Path(
-        exists=True,
-        readable=True,
-        file_okay=True,
-        dir_okay=False,
-        path_type=Path,
-    ),
-)
-def main(from_dump):
+if __name__ == "__main__":
     dataset = conf.active.dataset
     detector = conf.active.detector
     object_selection = conf.active.object_selection
@@ -46,7 +33,8 @@ def main(from_dump):
     scene_options = scene_dir / "list.txt"
     multiplication = conf.cutmix.multiplication
     use_smooth_mask = conf.active.smooth_mask.enabled
-    n_videos = count_files(video_in_dir, ext=conf[dataset].ext)
+    video_ext = conf[dataset].ext
+    n_videos = count_files(video_in_dir, ext=video_ext)
     random_seed = conf.active.random_seed
 
     method = "select" if object_selection else "detect"
@@ -66,9 +54,6 @@ def main(from_dump):
             mask_in_dir = mask_in_dir / relevancy_model / relevancy_thresh
             video_out_dir = video_out_dir / relevancy_model / relevancy_thresh
 
-    if from_dump:
-        video_out_dir = Path("data/mix2train")
-
     print("Dataset:", dataset)
     print("Detector:", detector)
     print("Method:", method)
@@ -81,7 +66,6 @@ def main(from_dump):
     print("Multiplication:", multiplication)
     print("Use smooth mask:", use_smooth_mask)
     print("Seed:", random_seed)
-    print("From dump:", from_dump)
     print("Input:", mask_in_dir)
     print("Output:", video_out_dir)
 
@@ -113,59 +97,54 @@ def main(from_dump):
     n_skipped = 0
     n_written = 0
 
-    for action in video_in_dir.iterdir():
-        output_action_dir = video_out_dir / action.name
+    for file in video_in_dir.glob(f"**/*{video_ext}"):
+        action = file.parent.name
+        output_action_dir = video_out_dir / action
+        mask_path = mask_in_dir / action / file.with_suffix(".npz").name
 
-        for file in action.iterdir():
-            mask_path = mask_in_dir / action.name / file.with_suffix(".npz").name
+        if not mask_path.is_file() or not mask_path.exists():
+            continue
 
-            if not mask_path.is_file() or not mask_path.exists():
+        mask_bundle = np.load(mask_path)["arr_0"]
+        fps = mmcv.VideoReader(str(file)).fps
+        scene_class_options = [s for s in scene_dict.keys() if s != action]
+
+        for i in range(multiplication):
+            scene_class_pick = random.choice(scene_class_options)
+            scene_options = scene_dict[scene_class_pick]
+            scene_pick = random.choice(scene_options)
+            scene_path = scene_dir / scene_class_pick / scene_pick
+            output_path = (
+                video_out_dir / action / f"{file.stem}-{scene_class_pick}"
+            ).with_suffix(out_ext)
+
+            scene_class_options.remove(scene_class_pick)
+
+            if (
+                output_path.exists()
+                and mmcv.VideoReader(str(output_path)).frame_cnt > 0
+            ):
+                bar.update(1)
                 continue
 
-            mask_bundle = np.load(mask_path)["arr_0"]
-            fps = mmcv.VideoReader(str(file)).fps
-            scene_class_options = [s for s in scene_dict.keys() if s != action.name]
+            output_path.parent.mkdir(parents=True, exist_ok=True)
 
-            for i in range(multiplication):
-                scene_class_pick = random.choice(scene_class_options)
-                scene_options = scene_dict[scene_class_pick]
-                scene_pick = random.choice(scene_options)
-                scene_path = scene_dir / scene_class_pick / scene_pick
-                output_path = (
-                    video_out_dir / action.name / f"{file.stem}-{scene_class_pick}"
-                ).with_suffix(out_ext)
+            out_frames = cutmix(file, scene_path, mask_bundle)
 
-                scene_class_options.remove(scene_class_pick)
+            if out_frames:
+                frames_to_video(
+                    out_frames,
+                    output_path,
+                    writer=conf.active.video.writer,
+                    fps=fps,
+                )
 
-                if (
-                    output_path.exists()
-                    and mmcv.VideoReader(str(output_path)).frame_cnt > 0
-                ):
-                    bar.update(1)
-                    continue
+                n_written += 1
+            else:
+                print("out_frames None: ", file.name)
 
-                output_path.parent.mkdir(parents=True, exist_ok=True)
-
-                out_frames = cutmix(file, scene_path, mask_bundle)
-
-                if out_frames:
-                    frames_to_video(
-                        out_frames,
-                        output_path,
-                        writer=conf.active.video.writer,
-                        fps=fps,
-                    )
-
-                    n_written += 1
-                else:
-                    print("out_frames None: ", file.name)
-
-                bar.update(1)
+            bar.update(1)
 
     bar.close()
     print("Written videos:", n_written)
     print("Skipped videos:", n_skipped)
-
-
-if __name__ == "__main__":
-    main()
