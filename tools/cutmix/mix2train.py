@@ -45,8 +45,9 @@ def main(dump_path):
     random_seed = conf.active.random_seed
     action_dir = Path(conf[dataset].path)
     action_list = action_dir / "list.txt"
-    video_out_dir = Path("data") / str(
-        dump_path.parent.parent.relative_to(Path.cwd() / "mmaction2/work_dirs")
+    work_dir = Path.cwd() / "mmaction2/work_dirs"
+    video_out_dir = Path("data") / (
+        str(dump_path.parent.parent.relative_to(work_dir)) + "---"
     )
     action_ext = conf[dataset].ext
     scene_ext = conf.cutmix.output.ext
@@ -152,7 +153,9 @@ def main(dump_path):
             action_pick = random.choice(action_options)
             action_path = action_dir / action_class_pick / action_pick
             output_path = (
-                video_out_dir / scene_action / f"{scene_video}-{action_pick}"
+                video_out_dir
+                / scene_action
+                / f"{scene_video.split('.')[0]}-{action_pick.split('.')[0]}"
             ).with_suffix(out_ext)
 
             action_class_options.remove(action_class_pick)
