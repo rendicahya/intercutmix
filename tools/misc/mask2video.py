@@ -12,7 +12,7 @@ from python_video import frames_to_video
 
 @click.command()
 @click.argument(
-    "path",
+    "mask-path",
     nargs=1,
     required=True,
     type=click.Path(
@@ -37,8 +37,8 @@ from python_video import frames_to_video
     help="Frames per second (FPS) for the output video.",
     type=int,
 )
-def main(path, output_path, fps):
-    mask_bundle = np.load(path)["arr_0"]
+def main(mask_path, output_path, fps):
+    mask_bundle = np.load(mask_path)["arr_0"]
     out_frames = [
         np.repeat(np.expand_dims(frame, axis=2), 3, axis=2) for frame in mask_bundle
     ]
