@@ -1,9 +1,9 @@
 {
   "active": {
     "dataset": "ucf101",
-    "mode": "intercutmix",
+    "mode": "actorcutmix",
     "detector": "UniDet",
-    "object_selection": false,
+    "object_selection": true,
     "use_REPP": true,
     "random_seed": 0,
     "smooth_mask": {
@@ -139,9 +139,14 @@
   },
   "cutmix": {
     "multiplication": 10,
+    "n_threads": 4,
     "from_dump": true,
     "output": {
       "ext": ".mp4"
+    },
+    "mix2train": {
+      "test_mode": "scene",
+      "multiplication": 10
     }
   }
 }
