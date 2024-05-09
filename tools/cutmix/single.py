@@ -54,9 +54,6 @@ if __name__ == "__main__":
             mask_in_dir = mask_in_dir / relevancy_model / relevancy_thresh
             video_out_dir = video_out_dir / relevancy_model / relevancy_thresh
 
-    print("Dataset:", dataset)
-    print("Detector:", detector)
-    print("Method:", method)
     print("Object selection:", object_selection)
     print("Mode:", mode)
     print("REPP:", use_REPP)
