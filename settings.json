@@ -1,9 +1,9 @@
 {
   "active": {
-    "dataset": "ucf101",
-    "mode": "actorcutmix",
+    "dataset": "hmdb51",
+    "mode": "intercutmix",
     "detector": "UniDet",
-    "object_selection": true,
+    "object_selection": false,
     "use_REPP": true,
     "random_seed": 0,
     "smooth_mask": {
@@ -122,14 +122,14 @@
       "confidence": 0.5,
       "common_objects": ["Person", "Man", "Woman"],
       "output": {
-        "mask": true,
+        "mask": false,
         "dump": true,
         "video": false
       }
     }
   },
   "repp": {
-    "configuration": "REPP_cfg/fgfa_repp_cfg.json",
+    "configuration": "REPP/REPP_cfg/fgfa_repp_cfg.json",
     "output": {
       "video": {
         "generate": false,
