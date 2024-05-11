@@ -33,16 +33,9 @@ elif method == "select":
 
 json_out_path = mask_in_dir / "ratio.json"
 
-print("Dataset:", dataset)
-print("Detector:", detector)
-print("Object selection:", object_selection)
-print("Mode:", mode)
-print("REPP:", use_REPP)
-print("Relevancy model:", relevancy_model)
-print("Relevancy threshold:", relevancy_thresh)
-print("Σ videos:", n_files)
 print("Input:", mask_in_dir)
 print("Output:", json_out_path)
+print("Σ videos:", n_files)
 
 if not click.confirm("\nDo you want to continue?", show_default=True):
     exit("Aborted.")
