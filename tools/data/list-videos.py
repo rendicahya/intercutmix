@@ -57,9 +57,9 @@ def main(click_path):
     out_file_path = video_in_dir / "list.txt"
     n_videos = count_files(video_in_dir)
 
-    print("Σ videos:", n_videos)
     print("Input:", video_in_dir)
     print("Output:", out_file_path)
+    print("Σ videos:", n_videos)
 
     if not click.confirm("\nDo you want to continue?", show_default=True):
         exit("Aborted.")
