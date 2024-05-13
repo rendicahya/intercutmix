@@ -77,8 +77,7 @@ with open(scene_options) as file:
         scene_dict[action].append(filename)
         assert_that(scene_dir / action / filename).is_file().is_readable()
 
-if random_seed is not None:
-    random.seed(random_seed)
+random.seed(random_seed)
 
 bar = tqdm(total=n_videos * multiplication)
 n_skipped = 0
