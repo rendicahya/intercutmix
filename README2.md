@@ -4,7 +4,7 @@
 
 ## A. Preparation
 
-1. Clone this repository and the submodules.
+1. Clone this repository.
 
 ```shell
 git clone --recursive https://github.com/rendicahya/intercutmix.git
@@ -28,7 +28,7 @@ pip install openmim
 mim install mmengine mmcv
 ```
 
-2. Install mmaction2.
+2. Install MMAction2.
 
 ```shell
 pip install -v -e mmaction2/
@@ -65,13 +65,7 @@ bash download_annotations.sh
 python3 mmaction2/tools/data/build_file_list.py ucf101 data/ucf101/videos/ --format videos --shuffle --seed 0
 ```
 
-4. List all videos.
-
-```shell
-python3 tools/data/list-videos.py
-```
-
-5. Check structure.
+4. Check structure.
 
 ```shell
 intercutmix/data/ucf101/
