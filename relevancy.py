@@ -37,15 +37,15 @@ dataset_dir = Path(conf[dataset].path)
 classnames_path = Path(conf.relevancy.detector[detector].classnames)
 output_dir = Path(conf.relevancy.output) / detector / dataset
 
+assert_that(dataset_dir).is_directory().is_readable()
+assert_that(classnames_path).is_file().is_readable()
+
 print("Dataset:", dataset)
 print("Detector:", detector)
 print("Output:", output_dir)
 
 if not click.confirm("\nDo you want to continue?", show_default=True):
     exit("Aborted.")
-
-assert_that(dataset_dir).is_directory().is_readable()
-assert_that(classnames_path).is_file().is_readable()
 
 camelcase_tokenizer = re.compile(r"(?<!^)(?=[A-Z])")
 n_subdir = sum([1 for d in dataset_dir.iterdir() if d.is_dir()])
