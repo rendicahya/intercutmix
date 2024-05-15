@@ -25,6 +25,6 @@
 [submodule "VideoSSL"]
 	path = VideoSSL
 	url = https://github.com/LongLong-Jing/VideoSSL.git
-[submodule "kinetics100"]
-	path = kinetics100
-	url = https://github.com/rendicahya/kinetics100.git
+[submodule "kinetics-dataset"]
+	path = kinetics-dataset
+	url = https://github.com/rendicahya/kinetics-dataset.git
