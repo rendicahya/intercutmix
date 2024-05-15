@@ -1,6 +1,6 @@
 {
   "active": {
-    "dataset": "hmdb51",
+    "dataset": "ucf101",
     "mode": "intercutmix",
     "detector": "UniDet",
     "object_selection": false,
@@ -53,20 +53,17 @@
     }
   },
   "kinetics100": {
-    "path": "data/kinetics100_p10",
+    "path": "data/kinetics100",
     "ext": ".mp4",
     "n_classes": 100,
     "partition": "10p",
     "make": "symlink"
   },
   "kinetics400": {
-    "path": "../../datasets/kinetics400",
+    "path": "data/kinetics400",
     "ext": ".mp4",
-    "filelist": "k400-filelist.json",
-    "replacements": {
-      "list": "k400-replacements.json",
-      "dir": "replacement/replacement_for_corrupted_k400"
-    }
+    "file_list": "list.txt",
+    "replacement_list": "replacement.txt"
   },
   "relevancy": {
     "output": "data/relevancy",

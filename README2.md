@@ -1,7 +1,5 @@
 # InterCutMix
 
-# Steps
-
 ## A. Preparation
 
 1. Clone this repository.
@@ -57,6 +55,7 @@ bash download_videos.sh
 
 ```shell
 bash download_annotations.sh
+cd -
 ```
 
 3. Generate splits.
@@ -105,6 +104,7 @@ bash download_videos.sh
 
 ```shell
 bash download_annotations.sh
+cd -
 ```
 
 3. Extract frames.
@@ -150,4 +150,33 @@ intercutmix/data/hmdb51/
 ├── hmdb51_val_split_1_videos.txt
 ├── hmdb51_val_split_2_videos.txt
 └── hmdb51_val_split_3_videos.txt
+```
+
+### c. Kinetics-100
+
+1. Download videos.
+
+```shell
+bash kinetics-dataset/k400_downloader.sh
+bash kinetics-dataset/k400_extractor.sh
+```
+
+2. Remove .tar.gz files.
+
+```shell
+rm -rf data/kinetics400/targz/
+```
+
+- Symlink
+```shell
+ln -s /nas.dbms/randy/datasets/kinetics400/train/ /nas.dbms/randy/projects/intercutmix/data/kinetics400
+ln -s /nas.dbms/randy/datasets/kinetics400/val/ /nas.dbms/randy/projects/intercutmix/data/kinetics400
+ln -s /nas.dbms/randy/datasets/kinetics400/test/ /nas.dbms/randy/projects/intercutmix/data/kinetics400
+ln -s /nas.dbms/randy/datasets/kinetics400/replacement/replacement_for_corrupted_k400/ /nas.dbms/randy/projects/intercutmix/data/kinetics400/replacement
+```
+
+3. Build Kinetics-100 from Kinetics-400.
+
+```shell
+python3 tools/data/kinetics100/make.py
 ```
