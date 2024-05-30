@@ -47,7 +47,7 @@ bar = tqdm(total=n_files)
 
 for mask_path in mask_in_dir.glob("**/*.npz"):
     mask_bundle = np.load(mask_path)["arr_0"]
-    mask_ratio = round(np.count_nonzero(mask_bundle) / mask_bundle.size, 3)
+    mask_ratio = np.count_nonzero(mask_bundle) / mask_bundle.size
     data[mask_path.stem] = mask_ratio
 
     bar.update(1)
