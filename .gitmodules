@@ -28,3 +28,6 @@
 [submodule "kinetics-dataset"]
 	path = kinetics-dataset
 	url = https://github.com/rendicahya/kinetics-dataset.git
+[submodule "Detic"]
+	path = Detic
+	url = https://github.com/facebookresearch/Detic.git
