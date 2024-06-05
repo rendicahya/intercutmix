@@ -1,10 +1,10 @@
 {
   "active": {
-    "dataset": "ucf101",
+    "dataset": "kinetics100",
     "mode": "intercutmix",
     "detector": "UniDet",
-    "object_selection": false,
-    "use_REPP": true,
+    "object_selection": true,
+    "use_REPP": false,
     "random_seed": 0,
     "smooth_mask": {
       "enabled": false,
@@ -53,7 +53,7 @@
     }
   },
   "kinetics100": {
-    "path": "data/kinetics100",
+    "path": "data/kinetics100/videos",
     "ext": ".mp4",
     "n_classes": 100,
     "partition": "10p",
@@ -104,6 +104,9 @@
         }
       }
     },
+    "output": {
+      "ext": ".mp4"
+    },
     "model": "model.e2fgvi_hq",
     "checkpoint": "release_model/E2FGVI-HQ-CVPR22.pth"
   },
@@ -113,7 +116,7 @@
       "checkpoint": "models/Unified_learned_OCIM_RS200_6x+2x.pth",
       "confidence": 0.5,
       "parallel": false,
-      "generate_videos": false
+      "generate_videos": true
     },
     "select": {
       "confidence": 0.5,
@@ -123,6 +126,11 @@
         "dump": true,
         "video": false
       }
+    }
+  },
+  "detic": {
+    "detect": {
+      
     }
   },
   "repp": {
@@ -144,6 +152,45 @@
     "mix2train": {
       "test_mode": "scene",
       "multiplication": 10
+    }
+  },
+  "cam": {
+    "target_layer": "backbone/conv5b",
+    "colormap": "turbo",
+    "alpha": 0.9,
+    "ucf101": {
+      "video_list": "data/ucf101/videos/list.txt",
+      "A": {
+        "config": "mmaction2/configs/recognition/c3d-ucf101/c3d_sports1m-pretrained_8xb64-16x1x1-100e_ucf101-rgb-actorcutmix-p0.5-mmr0.0.py",
+        "checkpoint": "mmaction2/work_dirs/ucf101/all-mpnet-base-v2/0.5/UniDet/REPP/actorcutmix/c3d/100e-16x1x1-p0.5-mmr0.0/train/0/best_acc_top1_epoch_29.pth",
+        "dump": "mmaction2/work_dirs/ucf101/test-all/all-mpnet-base-v2/0.5/UniDet/REPP/actorcutmix/c3d/100e-16x1x1-p0.5-mmr0.0/test/0/dump.pkl"
+      },
+      "B": {
+        "config": "mmaction2/configs/recognition/c3d-ucf101/c3d_sports1m-pretrained_8xb64-16x1x1-100e_ucf101-rgb-intercutmix-p0.5-mmr0.05.py",
+        "checkpoint": "mmaction2/work_dirs/ucf101/all-mpnet-base-v2/0.5/UniDet/REPP/intercutmix/c3d/100e-16x1x1-p0.5-mmr0.05/train/0/best_acc_top1_epoch_50.pth",
+        "dump": "mmaction2/work_dirs/ucf101/test-all/all-mpnet-base-v2/0.5/UniDet/REPP/intercutmix/c3d/100e-16x1x1-p0.5-mmr0.05/test/0/dump.pkl"
+      },
+      "output": {
+        "resolution": [320, -1],
+        "dir": "data/ucf101/cam"
+      }
+    },
+    "hmdb51": {
+      "video_list": "data/hmdb51/videos/list.txt",
+      "A": {
+        "config": "mmaction2/configs/recognition/c3d-hmdb51/c3d_sports1m-pretrained_8xb64-16x1x1-100e_hmdb51-rgb-actorcutmix-p0.5-mmr0.0.py",
+        "checkpoint": "mmaction2/work_dirs/hmdb51/all-mpnet-base-v2/0.5/UniDet/REPP/actorcutmix/c3d/100e-16x1x1-p0.5-mmr0.0/train/0/best_acc_top1_epoch_83.pth",
+        "dump": "mmaction2/work_dirs/hmdb51/all-mpnet-base-v2/0.5/UniDet/REPP/actorcutmix/c3d/100e-16x1x1-p0.5-mmr0.0/test/0/dump.pkl"
+      },
+      "B": {
+        "config": "mmaction2/configs/recognition/c3d-hmdb51/c3d_sports1m-pretrained_8xb64-16x1x1-100e_hmdb51-rgb-intercutmix-p0.5-mmr0.05.py",
+        "checkpoint": "mmaction2/work_dirs/hmdb51/all-mpnet-base-v2/0.5/UniDet/REPP/intercutmix/c3d/100e-16x1x1-p0.5-mmr0.05/train/0/best_acc_top1_epoch_37.pth",
+        "dump": "mmaction2/work_dirs/hmdb51/all-mpnet-base-v2/0.5/UniDet/REPP/intercutmix/c3d/100e-16x1x1-p0.5-mmr0.05/test/0/dump.pkl"
+      },
+      "output": {
+        "resolution": [320, -1],
+        "dir": "data/hmdb51/cam"
+      }
     }
   }
 }

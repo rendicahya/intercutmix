@@ -11,8 +11,8 @@ from assertpy.assertpy import assert_that
 from config import settings as conf
 from tqdm import tqdm
 
-k400_dir = Path(conf.kinetics400.path)
-k100_dir = Path(conf.kinetics100.path)
+k400_dir = Path.cwd() / conf.kinetics400.path
+k100_dir = Path.cwd() / conf.kinetics100.path
 k400_filelist_path = k400_dir / conf.kinetics400.file_list
 k400_replacements = k400_dir / conf.kinetics400.replacement_list
 n_classes = conf.kinetics100.n_classes
@@ -59,7 +59,7 @@ for part in "labeled0", "unlabeled0", "val0":
         if split == "Val":
             split = "test"
 
-        dst = k100_dir / split.lower() / action / filename
+        dst = k100_dir / action / filename
         n_files[part] += 1
 
         if stem in replacements:
