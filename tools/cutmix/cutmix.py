@@ -12,22 +12,21 @@ def cutmix(actor_path, scene_path, mask_bundle):
         print("Not a file or not exists:", scene_path)
         return None
 
-    actor_frames = mmcv.VideoReader(str(actor_path))
-    w, h = actor_frames.resolution
-    blank = np.zeros((h, w), np.uint8)
+    actor_reader = mmcv.VideoReader(str(actor_path))
+    w, h = actor_reader.resolution
     scene_frame = None
     scene_info = mmcv.VideoReader(str(scene_path))
-    scene_w, scene_h = scene_info.resolution
+    blank = np.zeros((h, w), np.uint8)
 
-    for f, actor_frame in enumerate(actor_frames):
+    for f, actor_frame in enumerate(actor_reader):
         if f == len(mask_bundle) - 1:
             return
 
         if scene_frame is None:
-            scene_frames = mmcv.VideoReader(str(scene_path))
-            scene_frame = scene_frames.read()
+            scene_reader = mmcv.VideoReader(str(scene_path))
+            scene_frame = scene_reader.read()
 
-        if scene_w != w or scene_h != h:
+        if scene_frame.shape[:2] != (h, w):
             scene_frame = cv2.resize(scene_frame, (w, h))
 
         actor_mask = mask_bundle[f]
@@ -40,7 +39,7 @@ def cutmix(actor_path, scene_path, mask_bundle):
         actor = cv2.bitwise_and(actor_frame, actor_frame, mask=actor_mask)
         scene = cv2.bitwise_and(scene_frame, scene_frame, mask=scene_mask)
 
-        mix = actor + scene
-        scene_frame = scene_frames.read()
+        mix = cv2.add(actor, scene)
+        scene_frame = scene_reader.read()
 
         yield cv2.cvtColor(mix, cv2.COLOR_BGR2RGB)
