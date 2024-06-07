@@ -1,3 +1,7 @@
+"""
+This code counts the number of rejected videos by the specified mask ratio threshold.
+"""
+
 import sys
 
 sys.path.append(".")

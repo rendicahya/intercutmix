@@ -1,3 +1,7 @@
+"""
+This code calculates the average mask ratio of a list of generated videos.
+"""
+
 import sys
 
 sys.path.append(".")
