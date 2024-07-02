@@ -45,8 +45,8 @@ elif method == "select":
     video_out_dir = method_dir / mode / (f"REPP/{mix_mode}" if use_REPP else mix_mode)
 
     if mode == "intercutmix":
-        relevancy_model = conf.relevancy.active.method
-        relevancy_thresh = str(conf.relevancy.active.threshold)
+        relevancy_model = conf.active.relevancy.method
+        relevancy_thresh = str(conf.active.relevancy.threshold)
         mask_in_dir = mask_in_dir / relevancy_model / relevancy_thresh
         video_out_dir = video_out_dir / relevancy_model / relevancy_thresh
 
