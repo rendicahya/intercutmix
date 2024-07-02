@@ -1,11 +1,15 @@
 {
   "active": {
-    "dataset": "kinetics100",
+    "dataset": "hmdb51",
     "mode": "intercutmix",
     "detector": "UniDet",
     "object_selection": true,
-    "use_REPP": false,
+    "use_REPP": true,
     "random_seed": 0,
+    "relevancy": {
+      "method": "all-mpnet-base-v2",
+      "threshold": 0.7
+    },
     "smooth_mask": {
       "enabled": false,
       "gaussian_size": 35
@@ -72,10 +76,6 @@
         "classnames": "UniDet/classnames.json"
       }
     },
-    "active": {
-      "method": "all-mpnet-base-v2",
-      "threshold": 0.5
-    },
     "avail_methods": [
       "all-mpnet-base-v2",
       "multi-qa-mpnet-base-dot-v1",
@@ -130,7 +130,6 @@
   },
   "detic": {
     "detect": {
-      
     }
   },
   "repp": {
