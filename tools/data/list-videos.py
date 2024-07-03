@@ -32,8 +32,8 @@ def main(click_path):
     random_seed = conf.active.random_seed
     object_selection = conf.active.object_selection
     use_REPP = conf.active.use_REPP
-    relevancy_model = conf.relevancy.active.method
-    relevancy_thresh = str(conf.relevancy.active.threshold)
+    relevancy_model = conf.active.relevancy.method
+    relevancy_thresh = str(conf.active.relevancy.threshold)
 
     if click_path:
         video_in_dir = click_path
