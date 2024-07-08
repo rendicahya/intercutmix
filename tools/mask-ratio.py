@@ -16,8 +16,8 @@ detector = conf.active.detector
 object_selection = conf.active.object_selection
 mode = conf.active.mode
 use_REPP = conf.active.use_REPP
-relevancy_model = conf.relevancy.active.method
-relevancy_thresh = str(conf.relevancy.active.threshold)
+relevancy_model = conf.active.relevancy.method
+relevancy_thresh = str(conf.active.relevancy.threshold)
 n_files = conf[dataset].n_videos
 
 method = "select" if object_selection else "detect"
