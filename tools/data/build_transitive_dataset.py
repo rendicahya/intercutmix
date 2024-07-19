@@ -9,6 +9,7 @@ from shutil import copy2
 
 import click
 from config import settings as conf
+from tqdm import tqdm
 
 
 @click.command()
@@ -55,7 +56,7 @@ def main(actorcutmix_mask_dir, intercutmix_mask_dir):
 
         file_index.update({file.stem: action})
 
-    for file in acm_ratio_json.keys():
+    for file in tqdm(acm_ratio_json.keys()):
         acm_ratio = acm_ratio_json[file]
         icm_ratio = icm_ratio_json[file]
 
@@ -68,7 +69,7 @@ def main(actorcutmix_mask_dir, intercutmix_mask_dir):
         count += 1
 
         dst.parent.mkdir(parents=True, exist_ok=True)
-        symlink(src, dst)
+        copy2(src, dst)
 
     print(f"Built {count} files.")
 
