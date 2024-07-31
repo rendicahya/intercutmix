@@ -348,7 +348,7 @@ pip install -U pip
 2. Install packages.
 
 ```shell
-pip install sentence-transformers pandas pyarrow
+pip install sentence-transformers pandas pyarrow click dynaconf
 ```
 
 3. Generate relevancy lists. This will generate relevancy files in JSON format in `data/relevancy/{detector}/{dataset}/ids` and `data/relevancy/{detector}/{dataset}/names`.
