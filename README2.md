@@ -51,20 +51,28 @@ cd mmaction2/tools/data/ucf101/
 bash download_videos.sh
 ```
 
-2. Download annotations.
+2. Verify.
+
+```shell
+find videos/ -type f | wc -l
+```
+
+Expected: 13,320.
+
+3. Download annotations.
 
 ```shell
 bash download_annotations.sh
 cd -
 ```
 
-3. Generate splits.
+4. Generate splits.
 
 ```shell
 python3 mmaction2/tools/data/build_file_list.py ucf101 data/ucf101/videos/ --format videos --shuffle --seed 0
 ```
 
-4. Check structure.
+5. Verify structure.
 
 ```shell
 intercutmix/data/ucf101/
