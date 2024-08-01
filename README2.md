@@ -57,7 +57,7 @@ bash download_videos.sh
 find videos/ -type f | wc -l
 ```
 
-Expected: 13,320.
+Expected: `13,320`.
 
 3. Download annotations.
 
