@@ -51,7 +51,7 @@ cd mmaction2/tools/data/ucf101/
 bash download_videos.sh
 ```
 
-2. Verify.
+2. Verify the number of videos.
 
 ```shell
 find videos/ -type f | wc -l
@@ -108,26 +108,34 @@ cd mmaction2/tools/data/hmdb51/
 bash download_videos.sh
 ```
 
-2. Download annotations.
+2. Verify the number of videos.
+
+```shell
+find videos/ -type f | wc -l
+```
+
+Expected: `6,766`.
+
+3. Download annotations.
 
 ```shell
 bash download_annotations.sh
 cd -
 ```
 
-3. Extract frames.
+4. Extract frames.
 
 ```shell
 python mmaction2/tools/data/build_rawframes.py data/hmdb51/videos/ data/hmdb51/frames/ --task rgb --num-worker 16 --out-format png --use-opencv
 ```
 
-4. Generate file list.
+5. Generate file list.
 
 ```shell
 python3 mmaction2/tools/data/build_file_list.py hmdb51 data/hmdb51/videos/ --format videos --shuffle --seed 0
 ```
 
-5. Check structure.
+6. Verify structure.
 
 ```shell
 intercutmix/data/hmdb51/
