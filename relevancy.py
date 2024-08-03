@@ -40,8 +40,6 @@ output_dir = Path(conf.relevancy.output) / detector / dataset
 assert_that(dataset_dir).is_directory().is_readable()
 assert_that(classnames_path).is_file().is_readable()
 
-print("Dataset:", dataset)
-print("Detector:", detector)
 print("Output:", output_dir)
 
 if not click.confirm("\nDo you want to continue?", show_default=True):
