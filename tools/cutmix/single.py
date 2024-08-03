@@ -2,8 +2,6 @@ import sys
 
 sys.path.append(".")
 
-import json
-import pickle
 import random
 from collections import defaultdict
 from pathlib import Path
@@ -19,13 +17,14 @@ from python_file import count_dir, count_files
 from python_video import frames_to_video
 from tqdm import tqdm
 
+root = Path.cwd()
 dataset = conf.active.dataset
 detector = conf.active.detector
 object_selection = conf.active.object_selection
 mode = conf.active.mode
 use_REPP = conf.active.use_REPP
-video_in_dir = Path(conf[dataset].path)
-scene_dir = Path(conf[dataset].scene.path)
+video_in_dir = root / conf[dataset].path
+scene_dir = root / conf[dataset].scene.path
 scene_options = scene_dir / "list.txt"
 multiplication = conf.cutmix.multiplication
 use_smooth_mask = conf.active.smooth_mask.enabled
@@ -34,7 +33,7 @@ n_videos = count_files(video_in_dir, ext=video_ext)
 random_seed = conf.active.random_seed
 
 method = "select" if object_selection else "detect"
-method_dir = Path("data") / dataset / detector / method
+method_dir = root / "data" / dataset / detector / method
 mix_mode = "mix" if random_seed is None else f"mix-{random_seed}"
 
 if method == "detect":
@@ -54,8 +53,9 @@ print("Σ videos:", n_videos)
 print("Multiplication:", multiplication)
 print("Smooth mask:", use_smooth_mask)
 print("Seed:", random_seed)
-print("Input:", mask_in_dir)
-print("Output:", video_out_dir)
+print("Input:", mask_in_dir.relative_to(root))
+print("Scene:", scene_dir.relative_to(root))
+print("Output:", video_out_dir.relative_to(root))
 
 out_ext = conf.cutmix.output.ext
 
