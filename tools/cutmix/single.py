@@ -53,7 +53,7 @@ print("Σ videos:", n_videos)
 print("Multiplication:", multiplication)
 print("Smooth mask:", use_smooth_mask)
 print("Seed:", random_seed)
-print("Input:", mask_in_dir.relative_to(root))
+print("Mask:", mask_in_dir.relative_to(root))
 print("Scene:", scene_dir.relative_to(root))
 print("Output:", video_out_dir.relative_to(root))
 
