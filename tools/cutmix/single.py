@@ -7,13 +7,12 @@ from collections import defaultdict
 from pathlib import Path
 
 import click
-import cv2
 import mmcv
 import numpy as np
 from assertpy.assertpy import assert_that
 from config import settings as conf
 from cutmix import cutmix
-from python_file import count_dir, count_files
+from python_file import count_files
 from python_video import frames_to_video
 from tqdm import tqdm
 
