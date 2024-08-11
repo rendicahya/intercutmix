@@ -1,6 +1,6 @@
 # InterCutMix
 
-## A. Preparation
+## 1. Preparation
 
 1. Clone this repository.
 
@@ -17,7 +17,7 @@ source ~/venv/intercutmix/bin/activate
 pip install -U pip
 ```
 
-## B. Install mmaction2
+## 2. Install mmaction2
 
 1. Install dependencies.
 
@@ -32,7 +32,7 @@ mim install mmengine mmcv
 pip install -v -e mmaction2/
 ```
 
-## C. Download datasets
+## 3. Download datasets
 
 Link project's `data/` directory with MMAction2's `data/` directory.
 
@@ -129,7 +129,7 @@ cd -
 python mmaction2/tools/data/build_rawframes.py data/hmdb51/videos/ data/hmdb51/frames/ --task rgb --num-worker 16 --out-format png --use-opencv
 ```
 
-5. Generate file list.
+5. Generate splits.
 
 ```shell
 python3 mmaction2/tools/data/build_file_list.py hmdb51 data/hmdb51/videos/ --format videos --shuffle --seed 0
