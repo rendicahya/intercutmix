@@ -17,22 +17,15 @@ source ~/venv/intercutmix/bin/activate
 pip install -U pip
 ```
 
-## 2. Install mmaction2
-
-1. Install dependencies.
+3. Install MMAction2.
 
 ```shell
 pip install openmim
 mim install mmengine mmcv
-```
-
-2. Install MMAction2.
-
-```shell
 pip install -v -e mmaction2/
 ```
 
-## 3. Download datasets
+## 2. Download datasets
 
 Link project's `data/` directory with MMAction2's `data/` directory.
 
@@ -162,23 +155,26 @@ intercutmix/data/hmdb51/
 └── hmdb51_val_split_3_videos.txt
 ```
 
-## 4. Inference
+## 3. Inference
 
 1. Download checkpoints.
 
 ```shell
 pip install gdown
 mkdir checkpoints/
-gdown -O checkpoints/ 1Aynmc64VpLJEXBeNe-Bq_u787h5pX2aq
+gdown -O checkpoints/ <download-key>
 ```
+
+| **Dataset** | **Top-1** | **Top-5** | **Download Key** |
+|-------------|-----------|-----------|------------------|
+| UCF101      | xxxx%     | xxxx%     | xxxx             |
+| HMDB51      | xxxx%     | xxxx%     | xxxx             |
 
 2. Run inference.
 
 ```shell
 python <config> <checkpoint>
 ```
-
-3. Configs and Checkpoints.
 
 | **Dataset** | **Config**                                                                                                                        | **Checkpoint**                             |
 |-------------|-----------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------|
