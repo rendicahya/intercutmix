@@ -2,14 +2,12 @@ import sys
 
 sys.path.append(".")
 
-import json
 import pickle
 import random
 from collections import defaultdict
 from pathlib import Path
 
 import click
-import cv2
 import mmcv
 import numpy as np
 from assertpy.assertpy import assert_that
