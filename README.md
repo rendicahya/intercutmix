@@ -167,18 +167,13 @@ mkdir checkpoints/
 gdown -O checkpoints/ <download-key>
 ```
 
-| **Dataset** | **Top-1** | **Top-5** | **Download Key** |
-|-------------|-----------|-----------|------------------|
-| UCF101      | xxxx%     | xxxx%     | xxxx             |
-| HMDB51      | xxxx%     | xxxx%     | xxxx             |
+| **Dataset** | **Top-1** | **Top-5** | **Config Path**                                                                                                                   | **Checkpoint Path**                        | **Download Key**                  |
+|-------------|-----------|-----------|-----------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------|-----------------------------------|
+| UCF101      | 87.84%    | 97.12%    | mmaction2/configs/recognition/c3d-ucf101-soft/c3d_sports1m-pretrained_8xb64-16x1x1-100e_ucf101-rgb-intercutmix-p0.5-mmr0.05-a2.py | checkpoints/ucf101-icm-p0.5-mmr0.05-a2.pth | 1Aynmc64VpLJEXBeNe-Bq_u787h5pX2aq |
+| HMDB51      | 55.75%    | 85.49%    | mmaction2/configs/recognition/c3d-hmdb51-soft/c3d_sports1m-pretrained_8xb64-16x1x1-100e_hmdb51-rgb-intercutmix-p0.5-mmr0.05-a2.py | checkpoints/hmdb51-icm-p0.5-mmr0.05.pth    | 1cb3gfG3qJUAAsrMSXcXm0LKHLSuuDGd6 |
 
 2. Run inference.
 
 ```shell
-python <config> <checkpoint>
+python3 mmaction/tools/test.py <config-path> <checkpoint-path>
 ```
-
-| **Dataset** | **Config**                                                                                                                        | **Checkpoint**                             |
-|-------------|-----------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------|
-| UCF101      | mmaction2/configs/recognition/c3d-ucf101-soft/c3d_sports1m-pretrained_8xb64-16x1x1-100e_ucf101-rgb-intercutmix-p0.5-mmr0.05-a2.py | checkpoints/ucf101-icm-0.5-mmr-0.05-a2.pth |
-| HMDB51      | mmaction2/configs/recognition/c3d-hmdb51-soft/c3d_sports1m-pretrained_8xb64-16x1x1-100e_hmdb51-rgb-intercutmix-p0.5-mmr0.05-a2.py | checkpoints/hmdb51-icm-0.5-mmr-0.05-a2.pth |
