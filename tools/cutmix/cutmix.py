@@ -15,7 +15,6 @@ def cutmix(actor_path, scene_path, mask_bundle):
     actor_reader = mmcv.VideoReader(str(actor_path))
     w, h = actor_reader.resolution
     scene_frame = None
-    scene_info = mmcv.VideoReader(str(scene_path))
     blank = np.zeros((h, w), np.uint8)
 
     for f, actor_frame in enumerate(actor_reader):
