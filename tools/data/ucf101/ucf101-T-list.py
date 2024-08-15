@@ -2,7 +2,6 @@ import sys
 
 sys.path.append(".")
 
-import os
 from pathlib import Path
 
 from config import settings as conf
