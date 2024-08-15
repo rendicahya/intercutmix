@@ -19,12 +19,3 @@
 [submodule "mmaction2"]
 	path = mmaction2
 	url = https://github.com/rendicahya/mmaction2.git
-[submodule "VideoSSL"]
-	path = VideoSSL
-	url = https://github.com/LongLong-Jing/VideoSSL.git
-[submodule "kinetics-dataset"]
-	path = kinetics-dataset
-	url = https://github.com/rendicahya/kinetics-dataset.git
-[submodule "Detic"]
-	path = Detic
-	url = https://github.com/rendicahya/Detic.git
