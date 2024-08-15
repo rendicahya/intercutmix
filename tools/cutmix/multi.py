@@ -2,7 +2,6 @@ import sys
 
 sys.path.append(".")
 
-import json
 import random
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
