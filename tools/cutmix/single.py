@@ -20,7 +20,8 @@ root = Path.cwd()
 dataset = conf.active.dataset
 detector = conf.active.detector
 object_selection = conf.active.object_selection
-mode = conf.active.mode
+object_conf = str(conf.unidet.detect.confidence)
+method = conf.active.mode
 use_REPP = conf.active.use_REPP
 video_in_dir = root / conf[dataset].path
 scene_dir = root / conf[dataset].scene.path
@@ -31,27 +32,34 @@ video_ext = conf[dataset].ext
 n_videos = count_files(video_in_dir, ext=video_ext)
 random_seed = conf.active.random_seed
 
-method = "select" if object_selection else "detect"
-method_dir = root / "data" / dataset / detector / method
-mix_mode = "mix" if random_seed is None else f"mix-{random_seed}"
+mode = "select" if object_selection else "detect"
+mid_dir = root / "data" / dataset / detector / object_conf / method
+mix_dir = "mix" if random_seed is None else f"mix-{random_seed}"
 
-if method == "detect":
-    mask_in_dir = method_dir / ("REPP/mask" if use_REPP else "mask")
-    video_out_dir = method_dir / (f"REPP/{mix_mode}" if use_REPP else mix_mode)
-elif method == "select":
-    mask_in_dir = method_dir / mode / ("REPP/mask" if use_REPP else "mask")
-    video_out_dir = method_dir / mode / (f"REPP/{mix_mode}" if use_REPP else mix_mode)
+if method in ("allcutmix", "actorcutmix"):
+    mask_in_dir = mid_dir / ("REPP/mask" if use_REPP else "mask")
+    video_out_dir = mid_dir / (f"REPP/{mix_dir}" if use_REPP else mix_dir)
+elif method == "intercutmix":
+    relevancy_method = conf.active.relevancy.method
+    relevancy_thresh = str(conf.active.relevancy.threshold)
 
-    if mode == "intercutmix":
-        relevancy_model = conf.active.relevancy.method
-        relevancy_thresh = str(conf.active.relevancy.threshold)
-        mask_in_dir = mask_in_dir / relevancy_model / relevancy_thresh
-        video_out_dir = video_out_dir / relevancy_model / relevancy_thresh
+    mask_in_dir = (
+        mid_dir
+        / ("REPP/mask" if use_REPP else "mask")
+        / relevancy_method
+        / relevancy_thresh
+    )
+    video_out_dir = (
+        mid_dir
+        / (f"REPP/{mix_dir}" if use_REPP else mix_dir)
+        / relevancy_method
+        / relevancy_thresh
+    )
 
 print("Σ videos:", n_videos)
 print("Multiplication:", multiplication)
 print("Smooth mask:", use_smooth_mask)
-print("Seed:", random_seed)
+print("Random seed:", random_seed)
 print("Mask:", mask_in_dir.relative_to(root))
 print("Scene:", scene_dir.relative_to(root))
 print("Output:", video_out_dir.relative_to(root))
