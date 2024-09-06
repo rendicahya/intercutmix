@@ -8,7 +8,7 @@
     "random_seed": 0,
     "relevancy": {
       "method": "all-mpnet-base-v2",
-      "threshold": 0.7
+      "threshold": 0.5
     },
     "smooth_mask": {
       "enabled": false,
@@ -37,6 +37,9 @@
       }
     }
   },
+  "ucf101-T": {
+    "path": "data/ucf101-T/videos"
+  },
   "hmdb51": {
     "path": "data/hmdb51/videos",
     "ext": ".avi",
@@ -45,7 +48,7 @@
     "n_classes": 51,
     "frames": "data/hmdb51/frames",
     "scene": {
-      "path": "data/hmdb51/UniDet/select/intercutmix/REPP/scene",
+      "path": "data/hmdb51/UniDet/0.5/intercutmix/REPP/scene",
       "ext": ".mp4"
     },
     "annotation": {
@@ -55,6 +58,9 @@
         "path": "data/hmdb51/mat/mask"
       }
     }
+  },
+  "hmdb51-T": {
+    "path": "data/hmdb51-T/videos"
   },
   "kinetics100": {
     "path": "data/kinetics100/videos",
@@ -68,6 +74,24 @@
     "ext": ".mp4",
     "file_list": "list.txt",
     "replacement_list": "replacement.txt"
+  },
+  "unidet": {
+    "detect": {
+      "config": "configs/Unified_learned_OCIM_RS200_6x+2x.yaml",
+      "checkpoint": "models/Unified_learned_OCIM_RS200_6x+2x.pth",
+      "confidence": 0.4,
+      "parallel": false,
+      "generate_videos": true
+    },
+    "select": {
+      "confidence": 0.5,
+      "common_objects": ["Person", "Man", "Woman"],
+      "output": {
+        "mask": true,
+        "dump": true,
+        "video": true
+      }
+    }
   },
   "relevancy": {
     "output": "data/relevancy",
@@ -110,27 +134,8 @@
     "model": "model.e2fgvi_hq",
     "checkpoint": "release_model/E2FGVI-HQ-CVPR22.pth"
   },
-  "unidet": {
-    "detect": {
-      "config": "configs/Unified_learned_OCIM_RS200_6x+2x.yaml",
-      "checkpoint": "models/Unified_learned_OCIM_RS200_6x+2x.pth",
-      "confidence": 0.5,
-      "parallel": false,
-      "generate_videos": true
-    },
-    "select": {
-      "confidence": 0.5,
-      "common_objects": ["Person", "Man", "Woman"],
-      "output": {
-        "mask": false,
-        "dump": true,
-        "video": false
-      }
-    }
-  },
   "detic": {
-    "detect": {
-    }
+    "detect": {}
   },
   "repp": {
     "configuration": "REPP/REPP_cfg/fgfa_repp_cfg.json",
@@ -145,6 +150,7 @@
     "multiplication": 10,
     "n_threads": 4,
     "from_dump": true,
+    "scene_mode": "inpaint",
     "output": {
       "ext": ".mp4"
     },
@@ -161,13 +167,13 @@
       "video_list": "data/ucf101/videos/list.txt",
       "A": {
         "config": "mmaction2/configs/recognition/c3d-ucf101/c3d_sports1m-pretrained_8xb64-16x1x1-100e_ucf101-rgb-actorcutmix-p0.5-mmr0.0.py",
-        "checkpoint": "mmaction2/work_dirs/ucf101/all-mpnet-base-v2/0.5/UniDet/REPP/actorcutmix/c3d/100e-16x1x1-p0.5-mmr0.0/train/0/best_acc_top1_epoch_29.pth",
-        "dump": "mmaction2/work_dirs/ucf101/test-all/all-mpnet-base-v2/0.5/UniDet/REPP/actorcutmix/c3d/100e-16x1x1-p0.5-mmr0.0/test/0/dump.pkl"
+        "checkpoint": "mmaction2/work_dirs-hard/ucf101/all-mpnet-base-v2/0.5/UniDet/REPP/actorcutmix/c3d/100e-16x1x1-p0.5-mmr0.0/train/0/best_acc_top1_epoch_29.pth",
+        "dump": "mmaction2/work_dirs-hard/ucf101/test-all/all-mpnet-base-v2/0.5/UniDet/REPP/actorcutmix/c3d/100e-16x1x1-p0.5-mmr0.0/test/0/dump.pkl"
       },
       "B": {
         "config": "mmaction2/configs/recognition/c3d-ucf101/c3d_sports1m-pretrained_8xb64-16x1x1-100e_ucf101-rgb-intercutmix-p0.5-mmr0.05.py",
-        "checkpoint": "mmaction2/work_dirs/ucf101/all-mpnet-base-v2/0.5/UniDet/REPP/intercutmix/c3d/100e-16x1x1-p0.5-mmr0.05/train/0/best_acc_top1_epoch_50.pth",
-        "dump": "mmaction2/work_dirs/ucf101/test-all/all-mpnet-base-v2/0.5/UniDet/REPP/intercutmix/c3d/100e-16x1x1-p0.5-mmr0.05/test/0/dump.pkl"
+        "checkpoint": "mmaction2/work_dirs-hard/ucf101/all-mpnet-base-v2/0.5/UniDet/REPP/intercutmix/c3d/100e-16x1x1-p0.5-mmr0.05/train/0/best_acc_top1_epoch_50.pth",
+        "dump": "mmaction2/work_dirs-hard/ucf101/test-all/all-mpnet-base-v2/0.5/UniDet/REPP/intercutmix/c3d/100e-16x1x1-p0.5-mmr0.05/test/0/dump.pkl"
       },
       "output": {
         "resolution": [320, -1],
@@ -178,13 +184,13 @@
       "video_list": "data/hmdb51/videos/list.txt",
       "A": {
         "config": "mmaction2/configs/recognition/c3d-hmdb51/c3d_sports1m-pretrained_8xb64-16x1x1-100e_hmdb51-rgb-actorcutmix-p0.5-mmr0.0.py",
-        "checkpoint": "mmaction2/work_dirs/hmdb51/all-mpnet-base-v2/0.5/UniDet/REPP/actorcutmix/c3d/100e-16x1x1-p0.5-mmr0.0/train/0/best_acc_top1_epoch_83.pth",
-        "dump": "mmaction2/work_dirs/hmdb51/all-mpnet-base-v2/0.5/UniDet/REPP/actorcutmix/c3d/100e-16x1x1-p0.5-mmr0.0/test/0/dump.pkl"
+        "checkpoint": "mmaction2/work_dirs-hard/hmdb51/all-mpnet-base-v2/0.5/UniDet/REPP/actorcutmix/c3d/100e-16x1x1-p0.5-mmr0.0/train/0/best_acc_top1_epoch_83.pth",
+        "dump": "mmaction2/work_dirs-hard/hmdb51/all-mpnet-base-v2/0.5/UniDet/REPP/actorcutmix/c3d/100e-16x1x1-p0.5-mmr0.0/test/0/dump.pkl"
       },
       "B": {
         "config": "mmaction2/configs/recognition/c3d-hmdb51/c3d_sports1m-pretrained_8xb64-16x1x1-100e_hmdb51-rgb-intercutmix-p0.5-mmr0.05.py",
-        "checkpoint": "mmaction2/work_dirs/hmdb51/all-mpnet-base-v2/0.5/UniDet/REPP/intercutmix/c3d/100e-16x1x1-p0.5-mmr0.05/train/0/best_acc_top1_epoch_37.pth",
-        "dump": "mmaction2/work_dirs/hmdb51/all-mpnet-base-v2/0.5/UniDet/REPP/intercutmix/c3d/100e-16x1x1-p0.5-mmr0.05/test/0/dump.pkl"
+        "checkpoint": "mmaction2/work_dirs-hard/hmdb51/all-mpnet-base-v2/0.5/UniDet/REPP/intercutmix/c3d/100e-16x1x1-p0.5-mmr0.05/train/0/best_acc_top1_epoch_37.pth",
+        "dump": "mmaction2/work_dirs-hard/hmdb51/all-mpnet-base-v2/0.5/UniDet/REPP/intercutmix/c3d/100e-16x1x1-p0.5-mmr0.05/test/0/dump.pkl"
       },
       "output": {
         "resolution": [320, -1],
