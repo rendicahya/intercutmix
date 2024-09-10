@@ -9,12 +9,12 @@ from pathlib import Path
 import click
 import mmcv
 import numpy as np
+from cutmix import cutmix
+from tqdm import tqdm
+
 from assertpy.assertpy import assert_that
 from config import settings as conf
-from cutmix import cutmix
-from python_file import count_files
 from python_video import frames_to_video
-from tqdm import tqdm
 
 root = Path.cwd()
 dataset = conf.active.dataset
@@ -27,9 +27,8 @@ video_in_dir = root / conf[dataset].path
 scene_dir = root / conf[dataset].scene.path
 scene_options = scene_dir / "list.txt"
 multiplication = conf.cutmix.multiplication
-use_smooth_mask = conf.active.smooth_mask.enabled
 video_ext = conf[dataset].ext
-n_videos = count_files(video_in_dir, ext=video_ext)
+n_videos = conf[dataset].n_videos
 random_seed = conf.active.random_seed
 
 mode = "select" if object_selection else "detect"
