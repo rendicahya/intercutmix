@@ -43,7 +43,7 @@ if not click.confirm("\nDo you want to continue?", show_default=True):
 assert_that(mask_in_dir).is_directory().is_readable()
 
 data = {}
-bar = tqdm(total=n_files)
+bar = tqdm(total=n_files, dynamic_ncols=True)
 
 for mask_path in mask_in_dir.glob("**/*.npz"):
     mask_bundle = np.load(mask_path)["arr_0"]

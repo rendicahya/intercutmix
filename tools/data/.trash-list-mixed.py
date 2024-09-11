@@ -54,7 +54,7 @@ if not click.confirm("\nDo you want to continue?", show_default=True):
 assert_that(video_dir).is_directory().is_readable()
 
 data = {}
-bar = tqdm(total=n_actions)
+bar = tqdm(total=n_actions, dynamic_ncols=True)
 
 for action in sorted(video_dir.iterdir()):
     if action.is_file():

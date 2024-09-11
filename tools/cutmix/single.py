@@ -85,7 +85,7 @@ with open(scene_options) as file:
 
 random.seed(random_seed)
 
-bar = tqdm(total=n_videos * multiplication)
+bar = tqdm(total=n_videos * multiplication, dynamic_ncols=True)
 n_skipped = 0
 n_written = 0
 

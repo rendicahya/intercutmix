@@ -49,7 +49,7 @@ for part in "labeled0", "unlabeled0", "val0":
     with open(file_list_path) as file:
         file_list = file.readlines()
 
-    bar = tqdm(total=len(file_list))
+    bar = tqdm(total=len(file_list), dynamic_ncols=True)
 
     for file in file_list:
         split, action, filename = file.strip().split("/")

@@ -56,7 +56,7 @@ def main(actorcutmix_mask_dir, intercutmix_mask_dir):
 
         file_index.update({file.stem: action})
 
-    for file in tqdm(acm_ratio_json.keys()):
+    for file in tqdm(acm_ratio_json.keys(), dynamic_ncols=True):
         acm_ratio = acm_ratio_json[file]
         icm_ratio = icm_ratio_json[file]
 

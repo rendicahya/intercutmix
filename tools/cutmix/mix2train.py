@@ -130,7 +130,7 @@ def main(dump_path):
 
     random.seed(random_seed)
 
-    bar = tqdm(total=len(dump_data) * multiplication)
+    bar = tqdm(total=len(dump_data) * multiplication, dynamic_ncols=True)
     n_skipped = 0
     n_written = 0
 

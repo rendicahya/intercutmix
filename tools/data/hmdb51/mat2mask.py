@@ -16,7 +16,7 @@ mat_dir = Path(conf.hmdb51.mat.path)
 hmdb51_dir = Path(conf.hmdb51.path)
 hmdb51_ext = conf.hmdb51.ext
 out_dir = Path(conf.hmdb51.mat.mask.path)
-bar = tqdm(total=count_files(mat_dir))
+bar = tqdm(total=count_files(mat_dir), dynamic_ncols=True)
 
 assert_that(hmdb51_dir).is_directory().is_readable()
 assert_that(mat_dir).is_directory().is_readable()

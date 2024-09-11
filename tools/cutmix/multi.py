@@ -157,7 +157,7 @@ if __name__ == "__main__":
     if random_seed is not None:
         random.seed(random_seed)
 
-    bar = tqdm(total=n_videos * multiplication)
+    bar = tqdm(total=n_videos * multiplication, dynamic_ncols=True)
     n_skipped = 0
     n_written = 0
     executor = ThreadPoolExecutor(max_workers=n_threads)

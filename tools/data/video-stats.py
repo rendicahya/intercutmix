@@ -14,7 +14,7 @@ from tqdm import tqdm
 video_dir = Path(conf[conf.active.dataset].path)
 ext = conf[conf.active.dataset].ext
 counter = Counter()
-bar = tqdm(total=count_files(video_dir))
+bar = tqdm(total=count_files(video_dir), dynamic_ncols=True)
 
 for file in video_dir.glob(f"**/*{ext}"):
     info = video_info(file)

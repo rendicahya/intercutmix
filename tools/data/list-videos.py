@@ -35,7 +35,7 @@ def main(video_path):
         exit("Aborted.")
 
     data = []
-    bar = tqdm(total=n_videos)
+    bar = tqdm(total=n_videos, dynamic_ncols=True)
     class_id = 0
 
     for action in sorted(video_path.iterdir()):

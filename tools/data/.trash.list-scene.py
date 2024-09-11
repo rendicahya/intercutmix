@@ -28,7 +28,7 @@ if not click.confirm("\nDo you want to continue?", show_default=True):
     exit("Aborted.")
 
 data = []
-bar = tqdm(total=n_videos)
+bar = tqdm(total=n_videos, dynamic_ncols=True)
 class_id = 0
 
 for action in sorted(video_in_dir.iterdir()):
