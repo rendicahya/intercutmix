@@ -61,7 +61,7 @@ for model_name in avail_methods:
     embed_bank = {}
     df_data = []
 
-    for subdir in tqdm(dataset_dir.iterdir(), total=n_subdir):
+    for subdir in tqdm(dataset_dir.iterdir(), total=n_subdir, dynamic_ncols=True):
         action = camelcase_tokenizer.sub(" ", subdir.name)
         row = [
             calc_similarity(action.lower(), obj.lower(), model) for obj in classnames

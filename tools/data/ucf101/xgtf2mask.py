@@ -89,7 +89,7 @@ if __name__ == "__main__":
     ucf101_dir = Path(conf.ucf101.path)
     ucf101_ext = conf.ucf101.ext
     output_root = Path(conf.ucf101.xgtf.mask.path)
-    bar = tqdm(total=count_files(xgtf_dir))
+    bar = tqdm(total=count_files(xgtf_dir), dynamic_ncols=True)
 
     assert_that(xgtf_dir).is_directory().is_readable()
     assert_that(ucf101_dir).is_directory().is_readable()
