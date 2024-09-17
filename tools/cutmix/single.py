@@ -30,6 +30,7 @@ multiplication = conf.cutmix.multiplication
 video_ext = conf[dataset].ext
 n_videos = conf[dataset].n_videos
 random_seed = conf.active.random_seed
+out_ext = conf.cutmix.output_ext
 
 mode = "select" if object_selection else "detect"
 mid_dir = root / "data" / dataset / detector / object_conf / method
@@ -55,17 +56,15 @@ elif method == "intercutmix":
         / relevancy_thresh
     )
 
-print("Σ videos:", n_videos)
+print("n videos:", n_videos)
 print("Multiplication:", multiplication)
-print("Smooth mask:", use_smooth_mask)
 print("Random seed:", random_seed)
 print("Mask:", mask_in_dir.relative_to(root))
 print("Scene:", scene_dir.relative_to(root))
 print("Output:", video_out_dir.relative_to(root))
 
-out_ext = conf.cutmix.output.ext
-
 assert_that(video_in_dir).is_directory().is_readable()
+assert_that(mask_in_dir).is_directory().is_readable()
 assert_that(scene_dir).is_directory().is_readable()
 assert_that(scene_options).is_file().is_readable()
 
