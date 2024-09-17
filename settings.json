@@ -1,6 +1,6 @@
 {
   "active": {
-    "dataset": "hmdb51",
+    "dataset": "kinetics100",
     "mode": "intercutmix",
     "detector": "UniDet",
     "object_selection": true,
@@ -66,20 +66,13 @@
     "path": "data/kinetics100/videos",
     "ext": ".mp4",
     "n_classes": 100,
-    "partition": "10p",
-    "make": "symlink"
-  },
-  "kinetics400": {
-    "path": "data/kinetics400",
-    "ext": ".mp4",
-    "file_list": "list.txt",
-    "replacement_list": "replacement.txt"
+    "n_videos": 9999
   },
   "unidet": {
     "detect": {
       "config": "configs/Unified_learned_OCIM_RS200_6x+2x.yaml",
       "checkpoint": "models/Unified_learned_OCIM_RS200_6x+2x.pth",
-      "confidence": 0.4,
+      "confidence": 0.3,
       "parallel": false,
       "generate_videos": true
     },
@@ -151,9 +144,7 @@
     "n_threads": 4,
     "from_dump": true,
     "scene_mode": "inpaint",
-    "output": {
-      "ext": ".mp4"
-    },
+    "output_ext": ".mp4",
     "mix2train": {
       "test_mode": "scene",
       "multiplication": 10
