@@ -10,6 +10,8 @@ import json
 from pathlib import Path
 
 import click
+
+from assertpy.assertpy import assert_that
 from config import settings as conf
 
 
@@ -21,26 +23,31 @@ from config import settings as conf
     type=float,
 )
 def main(mask_ratio):
+    root = Path.cwd()
     dataset = conf.active.dataset
     detector = conf.active.detector
-    object_selection = conf.active.object_selection
-    mode = conf.active.mode
+    object_conf = str(conf.unidet.detect.confidence)
+    method = conf.active.mode
     use_REPP = conf.active.use_REPP
-    relevancy_model = conf.relevancy.active.method
-    relevancy_thresh = str(conf.relevancy.active.threshold)
-    method = "select" if object_selection else "detect"
-    method_dir = Path("data") / dataset / detector / method
+    mid_dir = root / "data" / dataset / detector / object_conf / method
+
+    assert_that(method).is_in("allcutmix", "actorcutmix", "intercutmix")
 
     print("Dataset:", dataset)
-    print("Mode:", mode)
+    print("Method:", method)
 
-    if method == "detect":
-        mask_in_dir = method_dir / ("REPP/mask" if use_REPP else "mask")
-    elif method == "select":
-        mask_in_dir = method_dir / mode / ("REPP/mask" if use_REPP else "mask")
+    if method in ("allcutmix", "actorcutmix"):
+        mask_in_dir = mid_dir / ("REPP/mask" if use_REPP else "mask")
+    else:
+        relevancy_method = conf.active.relevancy.method
+        relevancy_thresh = str(conf.active.relevancy.threshold)
 
-        if mode == "intercutmix":
-            mask_in_dir = mask_in_dir / relevancy_model / relevancy_thresh
+        mask_in_dir = (
+            mid_dir
+            / ("REPP/mask" if use_REPP else "mask")
+            / relevancy_method
+            / relevancy_thresh
+        )
 
     with open(mask_in_dir / "ratio.json", "r") as file:
         data = json.load(file)
