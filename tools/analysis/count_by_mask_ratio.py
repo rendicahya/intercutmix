@@ -31,25 +31,24 @@ def main(mask_ratio):
     use_REPP = conf.active.use_REPP
     mid_dir = root / "data" / dataset / detector / object_conf / method
 
-    assert_that(method).is_in("allcutmix", "actorcutmix", "intercutmix")
-
-    print("Dataset:", dataset)
-    print("Method:", method)
-
     if method in ("allcutmix", "actorcutmix"):
-        mask_in_dir = mid_dir / ("REPP/mask" if use_REPP else "mask")
+        mask_dir = mid_dir / ("REPP/mask" if use_REPP else "mask")
     else:
         relevancy_method = conf.active.relevancy.method
         relevancy_thresh = str(conf.active.relevancy.threshold)
 
-        mask_in_dir = (
+        mask_dir = (
             mid_dir
             / ("REPP/mask" if use_REPP else "mask")
             / relevancy_method
             / relevancy_thresh
         )
 
-    with open(mask_in_dir / "ratio.json", "r") as file:
+    assert_that(method).is_in("allcutmix", "actorcutmix", "intercutmix")
+
+    print("Mask:", mask_dir.relative_to(root))
+
+    with open(mask_dir / "ratio.json", "r") as file:
         data = json.load(file)
 
     n_rejected = sum(1 for k, v in data.items() if v < mask_ratio)
