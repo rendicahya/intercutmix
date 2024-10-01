@@ -19,7 +19,6 @@ from python_video import frames_to_video
 root = Path.cwd()
 dataset = conf.active.dataset
 detector = conf.active.detector
-object_selection = conf.active.object_selection
 object_conf = str(conf.unidet.detect.confidence)
 method = conf.active.mode
 use_REPP = conf.active.use_REPP
@@ -32,14 +31,13 @@ n_videos = conf[dataset].n_videos
 random_seed = conf.active.random_seed
 out_ext = conf.cutmix.output_ext
 
-mode = "select" if object_selection else "detect"
 mid_dir = root / "data" / dataset / detector / object_conf / method
 mix_dir = "mix" if random_seed is None else f"mix-{random_seed}"
 
 if method in ("allcutmix", "actorcutmix"):
     mask_in_dir = mid_dir / ("REPP/mask" if use_REPP else "mask")
     video_out_dir = mid_dir / (f"REPP/{mix_dir}" if use_REPP else mix_dir)
-elif method == "intercutmix":
+else:
     relevancy_method = conf.active.relevancy.method
     relevancy_thresh = str(conf.active.relevancy.threshold)
 
