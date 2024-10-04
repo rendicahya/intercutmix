@@ -7,52 +7,52 @@ from pathlib import Path
 
 import click
 import numpy as np
-from assertpy.assertpy import assert_that
-from config import settings as conf
 from tqdm import tqdm
 
-dataset = conf.active.dataset
-detector = conf.active.detector
-object_selection = conf.active.object_selection
-mode = conf.active.mode
-use_REPP = conf.active.use_REPP
-relevancy_model = conf.active.relevancy.method
-relevancy_thresh = str(conf.active.relevancy.threshold)
-n_files = conf[dataset].n_videos
+from assertpy.assertpy import assert_that
 
-method = "select" if object_selection else "detect"
-method_dir = Path("data") / dataset / detector / method
 
-if method == "detect":
-    mask_in_dir = method_dir / ("REPP/mask" if use_REPP else "mask")
-elif method == "select":
-    mask_in_dir = method_dir / mode / ("REPP/mask" if use_REPP else "mask")
+@click.command()
+@click.argument(
+    "mask-dir",
+    nargs=1,
+    required=False,
+    type=click.Path(
+        exists=True,
+        readable=True,
+        file_okay=False,
+        dir_okay=True,
+        path_type=Path,
+    ),
+)
+def main(mask_dir):
+    n_videos = sum(1 for f in mask_dir.glob("**/*.*"))
+    json_out_path = mask_dir / "ratio.json"
 
-    if mode == "intercutmix":
-        mask_in_dir = mask_in_dir / relevancy_model / relevancy_thresh
+    print("Input:", mask_dir)
+    print("Output:", json_out_path)
+    print("Σ videos:", n_videos)
 
-json_out_path = mask_in_dir / "ratio.json"
+    if not click.confirm("\nDo you want to continue?", show_default=True):
+        exit("Aborted.")
 
-print("Input:", mask_in_dir)
-print("Output:", json_out_path)
-print("Σ videos:", n_files)
+    assert_that(mask_dir).is_directory().is_readable()
 
-if not click.confirm("\nDo you want to continue?", show_default=True):
-    exit("Aborted.")
+    data = {}
+    bar = tqdm(total=n_videos, dynamic_ncols=True)
 
-assert_that(mask_in_dir).is_directory().is_readable()
+    for mask_path in mask_dir.glob("**/*.npz"):
+        mask_bundle = np.load(mask_path)["arr_0"]
+        mask_ratio = np.count_nonzero(mask_bundle) / mask_bundle.size
+        data[mask_path.stem] = mask_ratio
 
-data = {}
-bar = tqdm(total=n_files, dynamic_ncols=True)
+        bar.update(1)
 
-for mask_path in mask_in_dir.glob("**/*.npz"):
-    mask_bundle = np.load(mask_path)["arr_0"]
-    mask_ratio = np.count_nonzero(mask_bundle) / mask_bundle.size
-    data[mask_path.stem] = mask_ratio
+    bar.close()
 
-    bar.update(1)
+    with open(json_out_path, "w") as f:
+        json.dump(data, f)
 
-bar.close()
 
-with open(json_out_path, "w") as f:
-    json.dump(data, f)
+if __name__ == "__main__":
+    main()
