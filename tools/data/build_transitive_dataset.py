@@ -48,13 +48,13 @@ def main(actorcutmix_mask_dir, intercutmix_mask_dir):
     dataset_dir = Path(conf[dataset].path)
     dataset_T_dir = Path(conf[f"{dataset}-T"].path)
     ext = conf[dataset].ext
-    file_index = {}
+    action_index = {}
     count = 0
 
     for file in dataset_dir.glob(f"**/*{ext}"):
         action = file.parent.name
 
-        file_index.update({file.stem: action})
+        action_index.update({file.stem: action})
 
     for file in tqdm(acm_ratio_json.keys(), dynamic_ncols=True):
         acm_ratio = acm_ratio_json[file]
@@ -63,7 +63,7 @@ def main(actorcutmix_mask_dir, intercutmix_mask_dir):
         if icm_ratio <= acm_ratio:
             continue
 
-        action = file_index[file]
+        action = action_index[file]
         src = dataset_dir / action / (file + ext)
         dst = dataset_T_dir / action / (file + ext)
         count += 1
