@@ -19,7 +19,7 @@ from python_video import frames_to_video
 root = Path.cwd()
 dataset = conf.active.dataset
 detector = conf.active.detector
-object_conf = str(conf.unidet.detect.confidence)
+object_conf = str(conf.unidet.select.confidence)
 method = conf.active.mode
 use_REPP = conf.active.use_REPP
 video_in_dir = root / conf[dataset].path
