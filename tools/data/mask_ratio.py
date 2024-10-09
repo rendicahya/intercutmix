@@ -31,7 +31,7 @@ def main(mask_dir):
 
     print("Input:", mask_dir)
     print("Output:", json_out_path)
-    print("Σ videos:", n_videos)
+    print("n videos:", n_videos)
 
     if not click.confirm("\nDo you want to continue?", show_default=True):
         exit("Aborted.")
