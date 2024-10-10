@@ -44,7 +44,7 @@ def main(mask_dir):
     for mask_path in mask_dir.glob("**/*.npz"):
         mask_bundle = np.load(mask_path)["arr_0"]
         mask_ratio = np.count_nonzero(mask_bundle) / mask_bundle.size
-        data[mask_path.stem] = mask_ratio
+        data[mask_path.stem] = round(mask_ratio, 4)
 
         bar.update(1)
 
