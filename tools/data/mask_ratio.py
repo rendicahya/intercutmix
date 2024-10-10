@@ -3,6 +3,7 @@ import sys
 sys.path.append(".")
 
 import json
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 import click
@@ -10,49 +11,41 @@ import numpy as np
 from tqdm import tqdm
 
 from assertpy.assertpy import assert_that
+from config import settings as conf
 
 
-@click.command()
-@click.argument(
-    "mask-dir",
-    nargs=1,
-    required=False,
-    type=click.Path(
-        exists=True,
-        readable=True,
-        file_okay=False,
-        dir_okay=True,
-        path_type=Path,
-    ),
-)
-def main(mask_dir):
-    n_videos = sum(1 for f in mask_dir.glob("**/*.*"))
-    json_out_path = mask_dir / "ratio.json"
+def calc_ratio(path):
+    mask = np.load(path)["arr_0"]
+    ratio = np.count_nonzero(mask) / mask.size
 
-    print("Input:", mask_dir)
-    print("Output:", json_out_path)
-    print("n videos:", n_videos)
-
-    if not click.confirm("\nDo you want to continue?", show_default=True):
-        exit("Aborted.")
-
-    assert_that(mask_dir).is_directory().is_readable()
-
-    data = {}
-    bar = tqdm(total=n_videos, dynamic_ncols=True)
-
-    for mask_path in mask_dir.glob("**/*.npz"):
-        mask_bundle = np.load(mask_path)["arr_0"]
-        mask_ratio = np.count_nonzero(mask_bundle) / mask_bundle.size
-        data[mask_path.stem] = round(mask_ratio, 4)
-
-        bar.update(1)
-
-    bar.close()
-
-    with open(json_out_path, "w") as f:
-        json.dump(data, f)
+    return path.stem, round(ratio, 4)
 
 
-if __name__ == "__main__":
-    main()
+ROOT = Path.cwd()
+DATASET = conf.active.dataset
+DETECTOR = conf.active.detector
+DET_CONFIDENCE = conf.detect[DETECTOR].confidence
+N_FILES = conf.datasets[DATASET].n_videos
+MASK_DIR = ROOT / "data" / DATASET / DETECTOR / str(DET_CONFIDENCE) / "detect" / "mask"
+MAX_WORKERS = conf.active.max_workers
+OUT_PATH = MASK_DIR / "ratio.json"
+data = {}
+
+print("Input:", MASK_DIR)
+print("Output:", OUT_PATH)
+print("n videos:", N_FILES)
+
+if not click.confirm("\nDo you want to continue?", show_default=True):
+    exit("Aborted.")
+
+assert_that(MASK_DIR).is_directory().is_readable()
+
+with ThreadPoolExecutor(max_workers=MAX_WORKERS) as exec:
+    jobs = {exec.submit(calc_ratio, path): path for path in MASK_DIR.glob("**/*.npz")}
+
+    for future in tqdm(as_completed(jobs), total=N_FILES, dynamic_ncols=True):
+        path_stem, ratio = future.result()
+        data[path_stem] = ratio
+
+with open(OUT_PATH, "w") as f:
+    json.dump(data, f)
