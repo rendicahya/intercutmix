@@ -99,6 +99,8 @@ for file in video_in_dir.glob(f"**/*{video_ext}"):
     scene_class_options = [s for s in scene_dict.keys() if s != action]
 
     for i in range(multiplication):
+        bar.set_description(f"{file.stem[:40]} ({i+1}/{multiplication})")
+
         scene_class_pick = random.choice(scene_class_options)
         scene_options = scene_dict[scene_class_pick]
         scene_pick = random.choice(scene_options)
