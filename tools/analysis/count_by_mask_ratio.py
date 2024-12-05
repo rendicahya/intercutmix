@@ -23,38 +23,38 @@ from config import settings as conf
     type=float,
 )
 def main(mask_ratio):
-    root = Path.cwd()
-    dataset = conf.active.dataset
-    detector = conf.active.detector
-    object_conf = str(conf.unidet.detect.confidence)
-    method = conf.active.mode
-    use_REPP = conf.active.use_REPP
-    mid_dir = root / "data" / dataset / detector / object_conf / method
+    ROOT = Path.cwd()
+    DATASET = conf.active.dataset
+    DETECTOR = conf.active.detector
+    DET_CONF = str(conf.unidet.detect.confidence)
+    METHOD = conf.active.mode
+    USE_REPP = conf.active.USE_REPP
+    mid_dir = ROOT / "data" / DATASET / DETECTOR / DET_CONF / METHOD
 
-    if method in ("allcutmix", "actorcutmix"):
-        mask_dir = mid_dir / ("REPP/mask" if use_REPP else "mask")
+    if METHOD in ("allcutmix", "actorcutmix"):
+        METHOD_DIR = mid_dir / ("REPP/mask" if USE_REPP else "mask")
     else:
         relevancy_method = conf.active.relevancy.method
         relevancy_thresh = str(conf.active.relevancy.threshold)
 
-        mask_dir = (
+        METHOD_DIR = (
             mid_dir
-            / ("REPP/mask" if use_REPP else "mask")
+            / ("REPP/mask" if USE_REPP else "mask")
             / relevancy_method
             / relevancy_thresh
         )
 
-    assert_that(method).is_in("allcutmix", "actorcutmix", "intercutmix")
+    assert_that(METHOD).is_in("allcutmix", "actorcutmix", "intercutmix")
 
-    print("Mask:", mask_dir.relative_to(root))
+    print("Mask:", METHOD_DIR.relative_to(ROOT))
 
-    with open(mask_dir / "ratio.json", "r") as file:
+    with open(METHOD_DIR / "ratio.json", "r") as file:
         data = json.load(file)
 
-    n_rejected = sum(1 for k, v in data.items() if v < mask_ratio)
-    percentage = round(n_rejected / len(data) * 100, 2)
+    n_excluded = sum(1 for k, v in data.items() if v < mask_ratio)
+    percentage = round(n_excluded / len(data) * 100, 2)
 
-    print("Rejected videos:", n_rejected, f"({percentage}%)")
+    print("Excluded videos:", n_excluded, f"({percentage}%)")
 
 
 if __name__ == "__main__":
