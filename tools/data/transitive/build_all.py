@@ -3,20 +3,22 @@ import sys
 sys.path.append(".")
 
 import json
+import re
+from collections import defaultdict
 from os import symlink
 from pathlib import Path
-from shutil import copy2
-
-from tqdm import tqdm
 
 from config import settings as conf
 
 ROOT = Path.cwd()
 DETECTOR = conf.active.detector
-OUT_DIR = ROOT / "data/transitive"
+OUT_DIR = ROOT / "data/transitive/videos"
 RELEVANCY = conf.active.relevancy
+THRESHOLD = 0.005
+
 datasets = "ucf101", "hmdb51", "kinetics100"
-count = 0
+camel_to_snake = re.compile(r"(?<=[a-z])([A-Z])")
+greater = defaultdict(list)
 
 for dataset in datasets:
     ext = conf[dataset].ext
@@ -36,14 +38,12 @@ for dataset in datasets:
     with open(icm_mask_dir / "ratio.json") as f:
         icm_json = json.load(f)
 
-    stem2label = {}
-    count = 0
     stem2label = {
-        file.stem: file.parent.name
+        file.stem: camel_to_snake.sub(r"_\1", file.parent.name).lower()
         for file in (dataset_dir / "videos").glob(f"**/*{ext}")
     }
 
-    for stem in tqdm(acm_json.keys(), dynamic_ncols=True):
+    for stem in acm_json.keys():
         acm_ratio = acm_json[stem]
         icm_ratio = icm_json[stem]
 
@@ -51,13 +51,27 @@ for dataset in datasets:
             continue
 
         label = stem2label[stem]
-        src = dataset_dir / "videos" / label / (stem + ext)
-        dst = OUT_DIR / label.lower() / (stem + ext)
-        count += 1
+        path = dataset_dir / "videos" / label / (stem + ext)
+        greater[label].append(path)
+
+greater_count = sum(len(videos) for videos in greater.values())
+eligible = {
+    label: videos
+    for label, videos in greater.items()
+    if len(videos) >= greater_count * THRESHOLD
+}
+
+for label, paths in eligible.items():
+    for path in paths:
+        dst = OUT_DIR / label / path.name
 
         dst.parent.mkdir(parents=True, exist_ok=True)
-        # copy2(src, dst)
-        symlink(src, dst)
-    break
+        symlink(path, dst)
 
-print(f"Built {count} files.")
+eligible_count = sum(len(videos) for videos in eligible.values())
+print(eligible_count, "files built.")
+
+# for label in OUT_DIR.iterdir():
+#     count = sum(1 for file in label.iterdir() if file.is_file())
+
+#     print(label.name, count)
