@@ -16,54 +16,53 @@ from assertpy.assertpy import assert_that
 from config import settings as conf
 from python_video import frames_to_video
 
-root = Path.cwd()
-dataset = conf.active.dataset
-detector = conf.active.detector
-object_conf = str(conf.unidet.select.confidence)
-method = conf.active.mode
-use_REPP = conf.active.use_REPP
-video_in_dir = root / conf[dataset].path
-scene_dir = root / conf[dataset].scene.path
-scene_options = scene_dir / "list.txt"
-multiplication = conf.cutmix.multiplication
-video_ext = conf[dataset].ext
-n_videos = conf[dataset].n_videos
-random_seed = conf.active.random_seed
-out_ext = conf.cutmix.output_ext
+ROOT = Path.cwd()
+DATASET = conf.active.DATASET
+DETECTOR = conf.active.DETECTOR
+DET_CONFIDENCE = str(conf.unidet.select.confidence)
+AUG_METHOD = conf.active.mode
+USE_REPP = conf.active.USE_REPP
+VIDEO_IN_DIR = ROOT / conf[DATASET].path
+SCENE_DIR = ROOT / conf[DATASET].scene.path
+scene_options = SCENE_DIR / "list.txt"
+MULTIPLICATION = conf.cutmix.MULTIPLICATION
+IN_EXT = conf[DATASET].ext
+N_VIDEOS = conf[DATASET].N_VIDEOS
+SEED = conf.active.random_seed
+OUT_EXT = conf.cutmix.output_ext
 
-mid_dir = root / "data" / dataset / detector / object_conf / method
-mix_dir = "mix" if random_seed is None else f"mix-{random_seed}"
+mid_dir = ROOT / "data" / DATASET / DETECTOR / DET_CONFIDENCE / AUG_METHOD
+mix_dir = "mix" if SEED is None else f"mix-{SEED}"
 
-if method in ("allcutmix", "actorcutmix"):
-    mask_in_dir = mid_dir / ("REPP/mask" if use_REPP else "mask")
-    video_out_dir = mid_dir / (f"REPP/{mix_dir}" if use_REPP else mix_dir)
+if AUG_METHOD in ("allcutmix", "actorcutmix"):
+    mask_in_dir = mid_dir / ("REPP/mask" if USE_REPP else "mask")
+    video_out_dir = mid_dir / (f"REPP/{mix_dir}" if USE_REPP else mix_dir)
 else:
     relevancy_method = conf.active.relevancy.method
     relevancy_thresh = str(conf.active.relevancy.threshold)
 
     mask_in_dir = (
         mid_dir
-        / ("REPP/mask" if use_REPP else "mask")
+        / ("REPP/mask" if USE_REPP else "mask")
         / relevancy_method
         / relevancy_thresh
     )
     video_out_dir = (
         mid_dir
-        / (f"REPP/{mix_dir}" if use_REPP else mix_dir)
+        / (f"REPP/{mix_dir}" if USE_REPP else mix_dir)
         / relevancy_method
         / relevancy_thresh
     )
 
-print("n videos:", n_videos)
-print("Multiplication:", multiplication)
-print("Random seed:", random_seed)
-print("Mask:", mask_in_dir.relative_to(root))
-print("Scene:", scene_dir.relative_to(root))
-print("Output:", video_out_dir.relative_to(root))
+print("n videos:", N_VIDEOS)
+print("MULTIPLICATION:", MULTIPLICATION)
+print("Mask:", mask_in_dir.relative_to(ROOT))
+print("Scene:", SCENE_DIR.relative_to(ROOT))
+print("Output:", video_out_dir.relative_to(ROOT))
 
-assert_that(video_in_dir).is_directory().is_readable()
+assert_that(VIDEO_IN_DIR).is_directory().is_readable()
 assert_that(mask_in_dir).is_directory().is_readable()
-assert_that(scene_dir).is_directory().is_readable()
+assert_that(SCENE_DIR).is_directory().is_readable()
 assert_that(scene_options).is_file().is_readable()
 
 if not click.confirm("\nDo you want to continue?", show_default=True):
@@ -78,15 +77,15 @@ with open(scene_options) as file:
         action, filename = line.split()[0].split("/")
 
         scene_dict[action].append(filename)
-        assert_that(scene_dir / action / filename).is_file().is_readable()
+        assert_that(SCENE_DIR / action / filename).is_file().is_readable()
 
-random.seed(random_seed)
+random.seed(SEED)
 
-bar = tqdm(total=n_videos * multiplication, dynamic_ncols=True)
+bar = tqdm(total=N_VIDEOS * MULTIPLICATION, dynamic_ncols=True)
 n_skipped = 0
 n_written = 0
 
-for file in video_in_dir.glob(f"**/*{video_ext}"):
+for file in VIDEO_IN_DIR.glob(f"**/*{IN_EXT}"):
     action = file.parent.name
     output_action_dir = video_out_dir / action
     mask_path = mask_in_dir / action / file.with_suffix(".npz").name
@@ -98,16 +97,16 @@ for file in video_in_dir.glob(f"**/*{video_ext}"):
     fps = mmcv.VideoReader(str(file)).fps
     scene_class_options = [s for s in scene_dict.keys() if s != action]
 
-    for i in range(multiplication):
-        bar.set_description(f"{file.stem[:40]} ({i+1}/{multiplication})")
+    for i in range(MULTIPLICATION):
+        bar.set_description(f"{file.stem[:40]} ({i+1}/{MULTIPLICATION})")
 
         scene_class_pick = random.choice(scene_class_options)
         scene_options = scene_dict[scene_class_pick]
         scene_pick = random.choice(scene_options)
-        scene_path = scene_dir / scene_class_pick / scene_pick
+        scene_path = SCENE_DIR / scene_class_pick / scene_pick
         output_path = (
             video_out_dir / action / f"{file.stem}-{scene_class_pick}"
-        ).with_suffix(out_ext)
+        ).with_suffix(OUT_EXT)
 
         scene_class_options.remove(scene_class_pick)
 
