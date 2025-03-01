@@ -512,7 +512,7 @@ If you find our code useful for your research, please consider citing our paper:
 @inproceedings{wihandika2024intercutmix,
    title={InterCutMix: Interaction-aware Scene Debiasing Method for Action Recognition},
    author={Wihandika, Randy Cahya and Mendonça, Israel and Aritsugi, Masayoshi},
-   booktitle={European Conference on Computer Vision (ECCV)},
-   year={2024}
+   booktitle={},
+   year={2025}
 }
 ``` -->
