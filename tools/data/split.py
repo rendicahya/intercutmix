@@ -19,39 +19,40 @@ def save(file_paths, file, class_ind):
             f.write(f"{action}/{file} {action_no}\n")
 
 
-def main():
-    ROOT = Path.cwd()
-    DATASET = conf.active.dataset
-    DATASET_DIR = ROOT / conf[DATASET].path
-    EXT = conf[DATASET].ext
-    RANDOM_SEED = conf.active.random_seed
-    TRAIN_RATIO = conf[DATASET].train_ratio
-    CLASS_IND_FILE = DATASET_DIR.parent / "annotations/classInd.txt"
-    CLASS_IND = {}
+ROOT = Path.cwd()
+DATASET = conf.active.dataset
+DATASET_DIR = ROOT / conf.datasets[DATASET].path
+EXT = conf.datasets[DATASET].ext
+TRAIN_RATIO = conf.datasets[DATASET].train_ratio
 
-    assert_that(DATASET_DIR).is_directory().exists()
-    assert_that(CLASS_IND_FILE).is_file().exists()
+RANDOM_SEED = conf.active.random_seed
+CLASS_IND_FILE = DATASET_DIR.parent / "annotations/classInd.txt"
+CLASS_IND = {}
 
-    with open(CLASS_IND_FILE, "r") as f:
-        for line in f:
-            number, action = line.strip().split()
-            CLASS_IND[action] = int(number)
+assert_that(DATASET_DIR).is_directory().exists()
+assert_that(CLASS_IND_FILE).is_file().exists()
 
-    file_paths = [path for path in DATASET_DIR.glob(f"**/*{EXT}")]
+with open(CLASS_IND_FILE, "r") as f:
+    for line in f:
+        number, action = line.strip().split()
+        CLASS_IND[action] = int(number)
 
-    random.seed(RANDOM_SEED)
-    random.shuffle(file_paths)
+file_paths = [path for path in DATASET_DIR.glob(f"**/*{EXT}")]
 
-    num_train = int(len(file_paths) * TRAIN_RATIO)
-    train_set = file_paths[:num_train]
-    test_set = file_paths[num_train:]
+random.seed(RANDOM_SEED)
+random.shuffle(file_paths)
 
-    train_file = DATASET_DIR.parent / f"{DATASET}_train_split_1_videos.txt"
-    test_file = DATASET_DIR.parent / f"{DATASET}_val_split_1_videos.txt"
+num_train = int(len(file_paths) * TRAIN_RATIO)
+train_set = file_paths[:num_train]
+test_set = file_paths[num_train:]
 
-    save(train_set, train_file, CLASS_IND)
-    save(test_set, test_file, CLASS_IND)
+train_file = DATASET_DIR.parent / f"{DATASET}_train_split_1_videos.txt"
+test_file = DATASET_DIR.parent / f"{DATASET}_val_split_1_videos.txt"
 
+save(train_set, train_file, CLASS_IND)
+save(test_set, test_file, CLASS_IND)
 
-if __name__ == "__main__":
-    main()
+print(f"Dataset '{DATASET}' split successfully.")
+print(f"Train file: {train_file.relative_to(ROOT)}")
+print(f"Test file: {test_file.relative_to(ROOT)}")
+
