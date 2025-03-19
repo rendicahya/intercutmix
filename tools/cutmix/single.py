@@ -31,37 +31,38 @@ N_VIDEOS = conf[DATASET].N_VIDEOS
 SEED = conf.active.random_seed
 OUT_EXT = conf.cutmix.output_ext
 
-mid_dir = ROOT / "data" / DATASET / DETECTOR / DET_CONFIDENCE / AUG_METHOD
-mix_dir = "mix" if SEED is None else f"mix-{SEED}"
+MID_DIR = ROOT / "data" / DATASET / DETECTOR / DET_CONFIDENCE / AUG_METHOD
+MIX_DIR = "mix" if SEED is None else f"mix-{SEED}"
 
 if AUG_METHOD in ("allcutmix", "actorcutmix"):
-    mask_in_dir = mid_dir / ("REPP/mask" if USE_REPP else "mask")
-    video_out_dir = mid_dir / (f"REPP/{mix_dir}" if USE_REPP else mix_dir)
+    MASK_IN_DIR = MID_DIR / ("REPP/mask" if USE_REPP else "mask")
+    VIDEO_OUT_DIR = MID_DIR / (f"REPP/{MIX_DIR}" if USE_REPP else MIX_DIR)
 else:
-    relevancy_method = conf.active.relevancy.method
-    relevancy_thresh = str(conf.active.relevancy.threshold)
+    RELEV_METHOD = conf.active.relevancy.method
+    RELEV_THRESH = str(conf.active.relevancy.threshold)
 
-    mask_in_dir = (
-        mid_dir
-        / ("REPP/mask" if USE_REPP else "mask")
-        / relevancy_method
-        / relevancy_thresh
+    MASK_IN_DIR = (
+        MID_DIR / ("REPP/mask" if USE_REPP else "mask") / RELEV_METHOD / RELEV_THRESH
     )
-    video_out_dir = (
-        mid_dir
-        / (f"REPP/{mix_dir}" if USE_REPP else mix_dir)
-        / relevancy_method
-        / relevancy_thresh
+    VIDEO_OUT_DIR = (
+        MID_DIR
+        / (f"REPP/{MIX_DIR}" if USE_REPP else MIX_DIR)
+        / RELEV_METHOD
+        / RELEV_THRESH
     )
 
 print("n videos:", N_VIDEOS)
-print("MULTIPLICATION:", MULTIPLICATION)
-print("Mask:", mask_in_dir.relative_to(ROOT))
+print("Multiplication:", MULTIPLICATION)
+print("Mask:", MASK_IN_DIR.relative_to(ROOT))
 print("Scene:", SCENE_DIR.relative_to(ROOT))
-print("Output:", video_out_dir.relative_to(ROOT))
+print(
+    "Output:",
+    VIDEO_OUT_DIR.relative_to(ROOT),
+    "(exists)" if VIDEO_OUT_DIR.exists() else "(not exists)",
+)
 
 assert_that(VIDEO_IN_DIR).is_directory().is_readable()
-assert_that(mask_in_dir).is_directory().is_readable()
+assert_that(MASK_IN_DIR).is_directory().is_readable()
 assert_that(SCENE_DIR).is_directory().is_readable()
 assert_that(scene_options).is_file().is_readable()
 
@@ -82,13 +83,12 @@ with open(scene_options) as file:
 random.seed(SEED)
 
 bar = tqdm(total=N_VIDEOS * MULTIPLICATION, dynamic_ncols=True)
-n_skipped = 0
 n_written = 0
 
 for file in VIDEO_IN_DIR.glob(f"**/*{IN_EXT}"):
     action = file.parent.name
-    output_action_dir = video_out_dir / action
-    mask_path = mask_in_dir / action / file.with_suffix(".npz").name
+    output_action_dir = VIDEO_OUT_DIR / action
+    mask_path = MASK_IN_DIR / action / file.with_suffix(".npz").name
 
     if not mask_path.is_file() or not mask_path.exists():
         continue
@@ -105,7 +105,7 @@ for file in VIDEO_IN_DIR.glob(f"**/*{IN_EXT}"):
         scene_pick = random.choice(scene_options)
         scene_path = SCENE_DIR / scene_class_pick / scene_pick
         output_path = (
-            video_out_dir / action / f"{file.stem}-{scene_class_pick}"
+            VIDEO_OUT_DIR / action / f"{file.stem}-{scene_class_pick}"
         ).with_suffix(OUT_EXT)
 
         scene_class_options.remove(scene_class_pick)
@@ -134,4 +134,3 @@ for file in VIDEO_IN_DIR.glob(f"**/*{IN_EXT}"):
 
 bar.close()
 print("Written videos:", n_written)
-print("Skipped videos:", n_skipped)
