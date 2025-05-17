@@ -10,6 +10,26 @@ def parse_timestamp(line):
         return None
 
 
+def get_start_time(lines, search):
+    for line in lines:
+        if search in line:
+            timestamp = parse_timestamp(line)
+            if timestamp:
+                return timestamp
+    return None
+
+
+def get_end_time(lines):
+    for line in reversed(lines):
+        line = line.strip()
+        if not line:
+            continue
+        timestamp = parse_timestamp(line)
+        if timestamp:
+            return timestamp
+    return None
+
+
 @click.command()
 def calculate_duration():
     log_file = click.prompt(
@@ -19,32 +39,14 @@ def calculate_duration():
     with open(log_file, "r", encoding="utf-8") as f:
         lines = f.readlines()
 
-    start_time = None
     search = "mmengine - INFO"
-
-    for line in lines:
-        if search in line:
-            start_time = parse_timestamp(line)
-
-            if start_time:
-                break
+    start_time = get_start_time(lines, search)
 
     if not start_time:
         click.echo(f"Could not find a line with '{search}'.")
         return
 
-    end_time = None
-
-    for line in reversed(lines):
-        line = line.strip()
-
-        if not line:
-            continue
-
-        end_time = parse_timestamp(line)
-
-        if end_time:
-            break
+    end_time = get_end_time(lines)
 
     if not end_time:
         click.echo("Could not find a valid timestamp in the last non-empty line.")
